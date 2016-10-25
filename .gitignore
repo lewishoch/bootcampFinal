@@ -1,0 +1,45 @@
+#ignore thumbnails created by windows
+Thumbs.db
+
+#temp file for editor
+*.bak
+*.swp
+
+#Ignore backup files after merge in git
+*.orig
+*.diff
+
+#Ignore Eclipse files
+.settings
+.classpath
+.project
+
+#Ignore files built by Maven
+Project/*/target/*
+Project/*/bin/*
+Project/*/target
+Project/target/*
+Project/target
+
+./target/*
+target/*
+
+*.class
+
+pom.xml.releaseBackup
+release.properties
+
+#Faces files
+.*
+
+!.gitignore
+
+*.emptyFolder
+
+*.LOCAL
+*.BASE
+*.REMOTE
+*/target/*
+
+
+*.jar
