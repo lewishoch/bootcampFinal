@@ -43,6 +43,7 @@ public class Order {
 	@Column(nullable=false)
 	private Integer status;
 	
+	private Integer rating;
 
 	private String comments;
 	
@@ -103,6 +104,16 @@ public class Order {
 	public void setReply(String reply) {
 		this.reply = reply;
 	}
+	
+	
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
+	}
+	
 	
 	
 }
