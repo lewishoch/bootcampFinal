@@ -16,13 +16,17 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 	private AdvertisementDao ad;
 	
 	@Override
+	@Transactional
 	public List<Advertisement> findAllAds() {
-		return null;
+		List<Advertisement> as = ad.loadAllAds();
+		return as;
 	}
 
 	@Override
+	@Transactional
 	public Advertisement findAd(String aid) {
-		return null;
+		Advertisement a = ad.loadAd(aid);
+		return a;
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 	@Override
 	@Transactional
 	public void updateAd(Advertisement a) {
-
+		ad.updateAd(a);
 	}
 
 }
