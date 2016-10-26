@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import po.Advertisement;
 import po.Customer;
+import po.Dish;
 import po.Merchant;
 import po.Order;
 import service.AdvertisementManager;
 import service.CustomerManager;
 import service.MerchantManager;
 import service.OrderManager;
+import service.ShopInfoManager;
 
 @Controller
 @RequestMapping(value="/customer")
