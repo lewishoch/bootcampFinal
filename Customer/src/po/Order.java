@@ -3,7 +3,7 @@ package po;
 public class Order {
 
 	private Customer customer;
-	private Merchant merchant;
+	private MerchantAccount merchant;
 	private String comment;
 	private String status;
 }
