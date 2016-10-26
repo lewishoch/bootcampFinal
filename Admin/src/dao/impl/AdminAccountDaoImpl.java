@@ -1,7 +1,5 @@
 package dao.impl;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -10,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dao.AdminAccountDao;
 import po.AdminAccount;
+
 @Repository
 public class AdminAccountDaoImpl implements AdminAccountDao {
 	@PersistenceContext(name="em")
@@ -17,8 +16,6 @@ public class AdminAccountDaoImpl implements AdminAccountDao {
 	
 	@Override
 	public AdminAccount loadAdmin(String uname) {
-//		System.out.println(id);
-//		AdminAccount aa = em.find(AdminAccount.class, id);
 		String jpql="select aa from AdminAccount aa where aa.uname=:a_uname";
 		AdminAccount aa = (AdminAccount) em
 				.createQuery(jpql)
