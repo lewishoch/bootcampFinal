@@ -18,9 +18,9 @@ public class CustomerDaoImpl implements CustomerDao{
 	
 	@Override
 	@Transactional
-	public Customer addUser(Customer c) {
-		em.persist(c);
-		return c;
+	public Customer addUser(Customer customer) {
+		em.persist(customer);
+		return customer;
 	}
 
 	@Override
@@ -29,11 +29,14 @@ public class CustomerDaoImpl implements CustomerDao{
 		return em.find(Customer.class, id);
 	}
 
-
 	@Override
 	@Transactional
-	public Customer updateUser(Customer c) {
-		Customer customer = em.getReference(Customer.class, c.getcId());
+	public Customer updateUser(Customer customer) {
+		Customer c = em.getReference(Customer.class, customer.getcId());
+		c.setName(customer.getName());
+		c.setPsd(customer.getPsd());
+		c.setAddress(customer.getAddress());
+		c.setLastModDt(customer.getLastModDt());
 		return c;
 	}
 
