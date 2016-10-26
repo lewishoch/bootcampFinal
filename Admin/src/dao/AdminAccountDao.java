@@ -1,5 +1,8 @@
 package dao;
 
+import po.AdminAccount;
+
 public interface AdminAccountDao {
-	public void loadAdmin(String id);
+	public AdminAccount loadAdmin(String uname);
+	public void insertAdmin(AdminAccount aa);
 }

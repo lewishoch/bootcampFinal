@@ -1,23 +1,31 @@
 package test;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Date;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import dao.AdminAccountDao;
-import dao.impl.AdminAccountDaoImpl;
+import po.AdminAccount;
 
 public class Test {
-
-	private AdminAccountDao aad = new AdminAccountDaoImpl();
+	ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+	private AdminAccountDao aad = (AdminAccountDao)context.getBean(AdminAccountDao.class);
 	
-	@org.junit.Test
-	public void testConfig(){
-		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-	}
 	
 	@org.junit.Test
 	public void testLoadAdmin(){
-		aad.loadAdmin("test");
+		AdminAccount aa = aad.loadAdmin("admin");
+		System.out.println(aa.getUname());
+	}
+	
+	@org.junit.Test
+	public void testInsertAdmin(){
+		AdminAccount aa = new AdminAccount();
+		aa.setUname("admin");
+		aa.setPsd("admin");
+		aa.setCreDt(new Date());
+		aa.setLastModDt(new Date());
+		aad.insertAdmin(aa);
 	}
 }
