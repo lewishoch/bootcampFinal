@@ -107,7 +107,7 @@ public class Test1 {
 	
 	@Test
 	public void TestViewAllOrder(){
-		List<Order> o = om.viewAllOrder();
+		List<Order> o = om.viewAllOrder("1");
 		for (Order a: o){
 			System.out.println(a);
 		}
@@ -144,7 +144,7 @@ public class Test1 {
 	
 	@Test
 	public void TestFindAllDishes(){
-		List<Dish> d = sm.findAllDishes();
+		Set<Dish> d = sm.findAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
 		for (Dish a: d){
 			System.out.println(d);
 		}
