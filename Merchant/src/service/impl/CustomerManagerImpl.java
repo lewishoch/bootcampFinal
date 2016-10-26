@@ -16,7 +16,9 @@ public class CustomerManagerImpl implements CustomerManager {
 	
 	@Transactional
 	public Customer loadCustomer(String cid) {
-		return cd.loadCustomer(cid);
+		Customer c = cd.loadCustomer(cid);
+		c.getAddress().size();
+		return c;
 	}
 
 }
