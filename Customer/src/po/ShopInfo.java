@@ -19,6 +19,9 @@ public class ShopInfo {
 	
 	@Column(nullable=false)
 	private String sLogoPath;
+	
+	@Column(nullable=false)
+	private String category;
 
 	public String getsName() {
 		return sName;
@@ -58,6 +61,14 @@ public class ShopInfo {
 
 	public void setsLogoPath(String sLogoPath) {
 		this.sLogoPath = sLogoPath;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	
 	

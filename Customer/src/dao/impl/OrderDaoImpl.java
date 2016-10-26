@@ -20,7 +20,7 @@ public class OrderDaoImpl implements OrderDao {
 	
 	@Override
 	public List<Order> viewAllOrders() {
-		String jpql = "select o from Orders o";
+		String jpql = "select o from orders o";
 		Query q = em.createQuery(jpql);
 		List<Order> orders = q.getResultList();
 		return orders;

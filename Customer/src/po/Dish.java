@@ -16,7 +16,14 @@ public class Dish {
 	private String dishName;
 	private Integer dishPrice;
 	private String dishPhoto;
+	private String category;
 	
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	public String getDid() {
 		return did;
 	}
