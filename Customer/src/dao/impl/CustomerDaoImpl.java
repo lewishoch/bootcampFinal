@@ -54,30 +54,9 @@ public class CustomerDaoImpl implements CustomerDao{
 		Query q = em.createQuery(jpql);
 		q.setParameter("name", uname);
 		
-		List<Customer> customers = q.getResultList();
+		Customer customer = (Customer) q.getSingleResult();
 		
-		try {
-			Customer c = new Customer();
-			if(!customers.isEmpty() && customers.get(0) != null)
-			{
-				BeanUtils.getProperty(c, "address");
-				BeanUtils.copyProperties(c, customers.get(0));
-				
-				return c;
-			}
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-		return null;
-		
-
+		return customer;
 	}
 
 
