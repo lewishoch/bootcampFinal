@@ -1,10 +1,8 @@
-package dao;
-
+package service;
 
 import po.Customer;
 
-
-public interface CustomerDao {
+public interface CustomerManager {
 
 	public Customer addUser(Customer c);
 	public Customer loadUser(String id);
