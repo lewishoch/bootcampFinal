@@ -1,8 +1,12 @@
 package po;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -17,6 +21,9 @@ public class Dish {
 	private Integer dishPrice;
 	private String dishPhoto;
 	private String category;
+	@ManyToOne(targetEntity=Merchant.class,cascade={CascadeType.PERSIST,CascadeType.REMOVE},fetch=FetchType.EAGER)
+	@JoinColumn(name="mid")
+	private Merchant merchant;
 	
 	public String getCategory() {
 		return category;
