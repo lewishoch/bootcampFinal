@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import po.Customer;
 import po.Merchant;
+import po.Order;
 import service.AdvertisementManager;
 import service.CustomerManager;
 import service.MerchantManager;
+import service.OrderManager;
 
 @Controller
 @RequestMapping(value="/customer")
@@ -27,6 +29,8 @@ public class CustomerController {
 	private CustomerManager cm;
 	@Autowired
 	private MerchantManager mm;
+	@Autowired
+	private OrderManager om;
 	
 	@RequestMapping(value="/login", method={RequestMethod.POST})
 	@ResponseBody
@@ -55,36 +59,50 @@ public class CustomerController {
 	@RequestMapping(value="addCustomer", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Customer addCustomer(Customer c){
-	System.out.println("adding customer!!!!!");
-	return cm.addCustomer(c);
+		System.out.println("adding customer...");
+		return cm.addCustomer(c);
 	}
-
+	
 	@RequestMapping(value="loadCustomer", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Customer loadCustomer(String id){
-	System.out.println("loading customer!!!!!!!");
-	return cm.loadCustomer(id);
+		System.out.println("loading customer...");
+		return cm.loadCustomer(id);
 	}
-
+	
 	@RequestMapping(value="updateCustomer", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Customer updatCustomer(Customer c){
-	System.out.println("updating customer!!!!!!!");
-	return cm.updateCustomer(c);
+		System.out.println("updating customer...");
+		return cm.updateCustomer(c);
 	}
 	
 	@RequestMapping(value="findMerchant", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Merchant findMerchant(String id){
-	System.out.println("finding a merchant...");
-	return mm.findMerchant(id);
+		System.out.println("finding a merchant...");
+		return mm.findMerchant(id);
 	}
 
 	@RequestMapping(value="findAllMerchant", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public List<Merchant> findAllMerchant(){
-	System.out.println("finding all merchants...");
-	return mm.findAllMerchant();
+		System.out.println("finding all merchants...");
+		return mm.findAllMerchant();
+	}
+	
+	@RequestMapping(value="viewAllOrders", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public List<Order> viewAllOrders(){
+		System.out.println("displaying all orders...");
+		return om.viewAllOrder();
+	}
+	
+	@RequestMapping(value="updateOrder", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Order updateOrder(Order order){
+		System.out.println("updating an order...status/comment/rating");
+		return om.updateOrder(order);
 	}
 
 }
