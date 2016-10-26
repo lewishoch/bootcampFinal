@@ -27,8 +27,8 @@ public class DishManagerImpl implements DishManager {
 	}
 
 	@Transactional
-	public Dish loadDish(String did, String dname) {
-		return dd.loadDish(did, dname);
+	public Dish loadDish(String mid, String dname) {
+		return dd.loadDish(mid, dname);
 	}
 
 	@Transactional
@@ -37,7 +37,7 @@ public class DishManagerImpl implements DishManager {
 	}
 
 	@Transactional
-	public void deleteDish(int did) {
+	public void deleteDish(String did) {
 		dd.deleteDish(did);
 	}
 

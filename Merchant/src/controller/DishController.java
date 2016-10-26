@@ -32,8 +32,8 @@ public class DishController {
 	
 	@RequestMapping(value="loadDishByIdAndName")
 	@ResponseBody
-	public Dish loadDish(String did, String dname) {
-		return dm.loadDish(did, dname);
+	public Dish loadDish(String mid, String dname) {
+		return dm.loadDish(mid, dname);
 	}
 	
 	@RequestMapping(value="addDish",method={RequestMethod.POST})
@@ -50,7 +50,7 @@ public class DishController {
 	
 	@RequestMapping(value="deleteDish",method={RequestMethod.POST})
 	@ResponseBody
-	public String deleteDish(int did) {
+	public String deleteDish(String did) {
 		try {
 			dm.deleteDish(did);
 			return "{\"status\":1}";

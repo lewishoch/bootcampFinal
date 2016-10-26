@@ -29,21 +29,25 @@ public class DishDaoImpl implements DishDao {
 		return em.find(Dish.class, did);
 	}
 
-	public Dish loadDish(String did, String dname) {
-		String jpql = "select d from Dish d where d.did=:did and d.dishName=:dname";
-		Dish d = (Dish) em
-				.createQuery(jpql)
-				.setParameter("did", did)
-				.setParameter("dname", dname)
-				.getSingleResult();
-		return d;
+	public Dish loadDish(String mid, String dname) {
+		String jpql = "select d from Dish d where d.merchant.mid=:mid and d.dishName=:dname";
+		try {
+			Dish d = (Dish) em
+					.createQuery(jpql)
+					.setParameter("mid", mid)
+					.setParameter("dname", dname)
+					.getSingleResult();
+			return d;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public void addDish(Dish d) {
-		em.persist(d);
+		em.merge(d);
 	}
 
-	public void deleteDish(int did) {
+	public void deleteDish(String did) {
 		Dish d = em.find(Dish.class, did);
 		
 		em.remove(d);
