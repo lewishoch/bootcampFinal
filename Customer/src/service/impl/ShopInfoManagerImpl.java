@@ -1,6 +1,7 @@
 package service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,13 @@ public class ShopInfoManagerImpl implements ShopInfoManager {
 	private ShopInfoDao sd;
 	
 	@Override
-	public List<Dish> findAllDishes() {
-		return sd.findAllDishes();
+	public Set<Dish> findAllDishes(String mid) {
+		return sd.findAllDishes(mid);
 	}
 
 	@Override
-	public List<Order> findAllComments() {
-		return sd.findAllComments();
+	public List<Order> findAllComments(String mid) {
+		return sd.findAllComments(mid);
 	}
 
 	@Override

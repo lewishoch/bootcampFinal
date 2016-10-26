@@ -2,6 +2,7 @@ package controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -58,7 +59,6 @@ public class CustomerController {
 			System.out.println("Login success");
 			return c;
 		}
-		
 		return c;
 	}
 	
@@ -184,16 +184,16 @@ public class CustomerController {
 
 	@RequestMapping(value="loadAllDish", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public List<Dish> findAllDishes(){
+	public Set<Dish> findAllDishes(String mid){
 	System.out.println("finding all dishes....");
-	return sm.findAllDishes();
+	return sm.findAllDishes(mid);
 	}
 
 	@RequestMapping(value="findAllComments", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public List<Order> findAllComments(){
+	public List<Order> findAllComments(String mid){
 	System.out.println("finding all comments....");
-	return sm.findAllComments();
+	return sm.findAllComments(mid);
 	}
 
 	@RequestMapping(value="findDishesByCategory", method={RequestMethod.GET, RequestMethod.POST})

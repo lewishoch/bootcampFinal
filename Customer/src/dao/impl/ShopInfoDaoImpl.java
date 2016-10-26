@@ -1,6 +1,7 @@
 package dao.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,18 +21,19 @@ public class ShopInfoDaoImpl implements ShopInfoDao {
 	private EntityManager em;
 	
 	@Override
-	public List<Dish> findAllDishes() {
-		String jpql = "select d from dish d, merchant m where m.mid = d.mid";
-		Query q = em.createQuery(jpql);
-		List<Dish> dishes = q.getResultList();
-		return dishes;
+	public Set<Dish> findAllDishes(String mid) {
+		Merchant m = em.find(Merchant.class, mid);
+		if(m != null && m.getDishes() != null)
+			return m.getDishes();
+		else
+			return null;
 	}
 
 	@Override
-	public List<Order> findAllComments() {
-		String jpql = "select o.comments from orders o, merchant m where m.mid = o.mid";
-		Query q = em.createQuery(jpql);
-		List<Order> comments = q.getResultList();
+	public List<Order> findAllComments(String mid) {
+		
+		String jpql = "select o from Order o, Merchant m where m.mid = o.merchant.mid and m.id = :mid";
+		List<Order> comments = em.createQuery(jpql).setParameter("mid", mid).getResultList();
 		return comments;
 	}
 
