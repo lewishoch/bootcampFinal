@@ -11,7 +11,6 @@ import dao.MerchantDao;
 import po.Merchant;
 import po.ShopInfo;
 import service.MerchantManager;
-import service.impl.MerchantManagerImpl;
 
 public class TestMerchantDao {
 	ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -21,7 +20,6 @@ public class TestMerchantDao {
 	
 	@Test
 	public void testListAllMerchantsByStatus(){
-//		List<Merchant> ms = md.listAllMerchantsBySatus(1);
 		List<Merchant> ms = mm.findMerchantsByStatus(3);
 		for(Merchant m:ms){
 			System.out.println(m.getmName());
@@ -46,7 +44,6 @@ public class TestMerchantDao {
 		m.setCreDt(new Date());
 		m.setLastModDt(new Date());
 		m.setShop(s);
-//		md.insertMerchant(m);
 		
 		mm.insertMerchant(m);
 	}
