@@ -4,7 +4,7 @@ import po.Customer;
 
 public interface CustomerManager {
 
-	public Customer addUser(Customer c);
-	public Customer loadUser(String id);
-	public Customer updateUser(Customer c);
+	public Customer addCustomer(Customer c);
+	public Customer loadCustomer(String id);
+	public Customer updateCustomer(Customer c);
 }
