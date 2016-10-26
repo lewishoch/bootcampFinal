@@ -21,18 +21,11 @@
     
     <context:component-scan base-package="service,dao"></context:component-scan>
 	
-	<!-- 
-	<context:component-scan base-package="service"></context:component-scan>
-	<context:component-scan base-package="dao"></context:component-scan>
-	<context:component-scan base-package="aspect"></context:component-scan>
-	 -->
-	
-	
 	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@ITA-031-W7.corp.oocl.com:1521:xe"></property>
-		<property name="password" value="7718"></property>
-		<property name="username" value="claralo7718"></property>
+		<property name="url" value="jdbc:oracle:thin:@hkln456p.oocl.com:1521/testdb.oocl"></property>
+		<property name="password" value="oocl123"></property>
+		<property name="username" value="oocl_user14"></property>
 	</bean>
 
 		<!--
@@ -59,7 +52,7 @@
 			<props>
 				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 	</bean>
