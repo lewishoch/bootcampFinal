@@ -19,15 +19,21 @@
         
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
     <context:component-scan base-package="service,dao"></context:component-scan>
-
 	
-	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
-		<property name="url" value="jdbc:oracle:thin:@hkln456p.oocl.com:1521/testdb.oocl"></property>
-		<property name="password" value="oocl123"></property>
-		<property name="username" value="oocl_user14"></property>
-	</bean>
+<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
+<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
+<property name="url" value="jdbc:oracle:thin:@hkln456p:1521:testdb.oocl"></property>
+<property name="username" value="oocl_user14"></property>
+<property name="password" value="oocl123"></property>
+</bean>
 
+<bean id="ds1" class="org.apache.commons.dbcp.BasicDataSource">
+<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
+<property name="url" value="jdbc:oracle:thin:@ITA-031-W7.corp.oocl.com:1521:xe"></property>
+<property name="username" value="hong"></property>
+<property name="password" value="123"></property>
+</bean>
+	
 		<!--
 		指定实现JPA的适配器，主要作用如下：
 		1、取代persistence.xml中的<provider>
@@ -45,17 +51,18 @@
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="ds" />
-		<property name="persistenceUnitName" value="un"></property>
+		<property name="persistenceUnitName" value="em"></property>
 		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
 		<property name="packagesToScan" value="po" /><!--待扫描的实体类包，不再需要persistence.xml了 -->
 		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
 			</props>
 		</property>
 	</bean>
+	
 
 
 	<!-- Jpa 事务配置 -->
