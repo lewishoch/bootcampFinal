@@ -9,79 +9,260 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		<style>
+            #dishes{
+                background: green;
+            }
+            #shopList{
+                background: yellow;
+            }
+            .hiddenDish{
+                display: none;
+            }
+            .showDish{
+                display: block;
+            }
+        </style>
 </head>
 <body>
    <div id="ads">
        
    </div>
     <div id="content">
-        <div id="merchants">
-           <div class="merchantsAction">
-               <div class="merchantCat">
+        <div id="shops">
+           <div class="shopsAction">
+               <div class="shopCat">
                    
                </div>
-               <div class="merchantSearch">
+               <div class="shopSearch">
                    
                </div>
            </div>
-           <div class="merchantList">
-                <div class="row">
-                    <div></div>
+           <div id="shopList">
+                <div class="shop">
+                    <div class="shopImage">
+                    </div>
+                    <div clss="shopName">
+                    </div>
+                    <div class="shopTel">
+                        
+                    </div>
+                    <div class="shopAddr">
+                        
+                    </div>
+                    <div class="shopRating">
+                        
+                    </div>
                 </div>
             </div>
         </div>
         
         <div id="dishes">
-            <div id="m_id">
-                <div class="dishImage">image</div>
-                <div class="dishInfo">
-                    <div class="dishName">
-                        name
+            <div id="001">
+               <div class="dish" id='001_001'>
+                    <div class="dishImage">image</div>
+                    <div class="dishInfo">
+                        <div class="dishName">
+                            name
+                        </div>
+                        <div class="dishPrice">
+                            10.00
+                        </div>
                     </div>
-                    <div class="dishPrice">
-                        $10.00 HKD
+                    <div class="control">
+                       <div class="dishNum">
+                           <input type="number" value="0"/>
+                       </div>
+                        <button class="orderBtn" onclick="updateOrder('001_001')">Order</button>
+                        <button class="cancelBtn" onclick="updateOrder('001_001')">Cancel</button>
+                    </div>
+                    <div class="orderInfo">
+                        <div class="orderPrice">
+                            10.00
+                        </div>
+                    </div>
+                    <div class="confirm">
+                        Confirm order and back
                     </div>
                 </div>
-                <div class="control">
-                   <div class="dishNum">
-                       <input type="number" value="0"/>
-                   </div>
-                    <button class="orderBtn">Order</button>
-                    <button class="cancelBtn">Cancel</button>
-                </div>
-                <div class="orderInfo">
-                    <div class="orderPrice">
-                        $10.0 0HKD
-                    </div>
-                    <div class="orderNumber">
-                        1
-                    </div>
-                </div>
-            </div>
-            <div class="confirm">
-                Confirm order and back
             </div>
         </div>
     </div>
 </body>
 <script>
     // config
-    const merchantPerRow = 5;
-
-    $(function(){
-        // get all merchant data
-        
-        // get all dish data
-    });
-    
-    var allMerchant = [];
+    const shopPerRow = 5;
+    // data store
+    var allShop = [];
     var allDish = [];
     
-    var getAllMerchant = function(){
+    $(function(){
+        // get all shop data
+        var getAllShop = function(){
+            var aUrl = "";
+
+            $.ajax({
+                type:'GET',
+                url:aUrl,
+                data:{}
+            }).done(function(data){
+                // store
+                allShop = JSON.parse(data);
+                displayAllShop();
+            });
+        }
+    });
+    
+    var displayAllShop = function(filterFun,sortField){
+        var data;
+        (typeof filterFun === 'function')?
+            data = allShop.filter(filterFun):
+            data = allShop;
+        
+        // sort 
+        var sortType = sortField || 'rating';
+        data.sort(function(a,b){
+            return a[sortType] - b[sortType];
+        });
+        
+        var shopList = $('#shopList');
+        var shop,shopImage,shopTel,shopAddr,shopRating,btn;
+        var d;
+        for(var i=0; i<data.length; ++i){
+            d = data[i];
+            shop = $('<div class="shop"></div>');
+            shopImage = $('<div class="shopImage"><img src="'+d.picPath+'"/></div>');
+            shopTel = $('<div class="shopTel">'+d.tel+'</div>');
+            shopAddr = $('<div class="shopAddr">'+d.addr+'</div>');
+            shopRating = $('<div class="shopRating">'+d.rating+'</div>');
+            btn = $('<div class="btn"><button type="button"   onclick=displayDish("'+d.mid+'")>Order</button></div>');
+            
+            shopImage.appendTo(shop);
+            shopTel.appendTo(shop);
+            shopAddr.appendTo(shop);
+            shopRating.appendTo(shop);
+            btn.appendTo(shop);
+            shop.appendTo(shopList);
+            console.log(shop);
+        }
+    }
+
+     // get all dish data
+    var getAllDish = function(id){
+        var aUrl = "";
+
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{'mid':id}
+        }).done(function(data){
+            // cache
+            if(!data) return;
+            var dishes = JSON.parse(data);
+            if(dishes instanceof Array && dishes.length>0){
+                var mid = dishes[0].mid;
+                allDish[mid] = dishes;
+                
+                console.log(allDish);
+                
+                // display content
+                if(allDish[mid])
+                    displayDish(mid);
+            }
+            
+        });
+    }
+    
+    var displayDish = function(mid){
+        if(mid===undefined) return false;
+        
+        // check if exist data and no dom
+        console.log($('#'+mid)[0])
+        
+        if(allDish[mid] && $('#'+mid)[0]){
+            var data = allDish[mid];
+            
+            console.log(mid)
+            // display framework
+            var dishes = $('#dishes');
+            var m_id = $('<div id="'+mid+'" class="hiddenDish"></div>');
+            var mdid = ""+d.mid+'_'+d.did;
+            var dish, image,dishInfo,dishName,dishPrice,control,dishNum,number,orderBtn,cancelBtn;
+            
+            var d;
+            for(var i=0; i<data.length; ++i){
+                dish = $('<div class="dish" id="'+mdid+'"></div>');
+                image = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
+                dishInfo = $('<div class="dishInfo"></div>');
+                    dishName = $('<div class="dishName">'+d.dname+'</div>');
+                    dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
+                control = $('<div class="control"></div>');
+                    dishNum = $('<div class="dishNum"></div>');
+                        number = $('<input type="number" value="0"/>');
+                    orderBtn = $('<button class="orderBtn" onclick="updateOrder('+mdid+')">Order</button>');
+                    cancelBtn = $('<button class="cancelBtn" onclick="updateOrder('+mdid+')">Cancel</button>');
+
+                var orderInfo = $('<div class="orderInfo"></div>');
+                    var orderPrice = $('<div class="orderPrice">0</div>');
+                var confirm = $('<div class="confirm">Confirm order and back</div>');
+
+                dishName.appendTo(dishInfo);
+                dishPrice.appendTo(dishInfo);
+
+                number.appendTo(dishNum);
+                dishNum.appendTo(control);
+                orderBtn.appendTo(control);
+                cancelBtn.appendTo(control);
+
+                orderPrice.appendTo(orderInfo);
+                orderNumber.appendTo(orderInfo);
+
+                image.appendTo(dish);
+                dishInfo.appendTo(dish);
+                control.appendTo(dish);
+
+                orderInfo.appendTo(dish);
+                confirm.appendTo(dish);
+
+                console.log(m_id);
+                dish.appendTo(m_id);
+                m_id.appendTo(dishes);
+            }
+        }
+        else{
+            // get data
+            getAllDish(mid);
+        }
+    }
+    
+    var updateOrder = function(mdid){
+        var mid = mdid.split('_')[0];
+        var did = mdid.split('_')[1];
+        
+        var price = +($('#'+did+' .dishPrice').text());
+        var number = $('#'+did+' .dishNum input').val();
+        
+        var totalPrice = price*number;
+        $('#'+mid+' .orderPrice').text(totalPrice);
+    }
+    
+    var showDish = function(mid){
+        var m_id = $('#'+mid);
+        console.log(m_id)
+        if(m_id){
+            if(m_id.attr('class')==='hiddenDish')
+                m_id[0].setAttribute('class','showDish');
+            else
+                m_id[0].setAttribute('class','hiddenDish');
+        }
+    }
+    
+    var confirmCart = function(mid){
         
     }
     
-    var getAllDish = function(){
+    var writeCookieCart = function(mid, did, num){
         
     }
     
