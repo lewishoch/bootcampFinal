@@ -26,9 +26,7 @@ public class Order {
 	
 	@OneToOne(mappedBy="cId",cascade =CascadeType.PERSIST)
 	private Customer customer;
-<<<<<<< HEAD
-	private MerchantAccount merchant;
-=======
+
 	
 	@OneToOne(mappedBy="mId",cascade =CascadeType.PERSIST)
 	private Merchant merchant;
@@ -39,7 +37,7 @@ public class Order {
 	@Column(nullable=false)
 	private Integer status;
 	
->>>>>>> origin/po_creation
+
 	private String comment;
 	
 	private String reply;
