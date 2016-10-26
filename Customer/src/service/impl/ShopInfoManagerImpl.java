@@ -3,6 +3,7 @@ package service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import dao.ShopInfoDao;
 import po.Dish;
@@ -10,6 +11,7 @@ import po.Merchant;
 import po.Order;
 import service.ShopInfoManager;
 
+@Service
 public class ShopInfoManagerImpl implements ShopInfoManager {
 
 	@Autowired
