@@ -69,4 +69,11 @@ public class CustomerCotroller {
 		System.out.println("displaying all orders...");
 		return om.viewAllOrder();
 	}
+	
+	@RequestMapping(value="updateOrder", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Order updateOrder(Order order){
+		System.out.println("updating an order...status/comment/rating");
+		return om.updateOrder(order);
+	}
 }
