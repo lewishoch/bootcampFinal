@@ -27,7 +27,6 @@ public class Order {
 
 	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="cid")
-	@JoinColumn(name="cid")
 	private Customer customer;
 
 	
@@ -44,6 +43,7 @@ public class Order {
 	@Column(nullable=false)
 	private Integer status;
 	
+	private Integer rating;
 
 	private String comments;
 	
