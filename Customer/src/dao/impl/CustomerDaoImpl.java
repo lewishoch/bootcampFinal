@@ -32,7 +32,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	@Transactional
 	public Customer updateUser(Customer customer) {
-		Customer c = em.getReference(Customer.class, customer.getcId());
+		Customer c = em.getReference(Customer.class, customer.getCid());
 		c.setName(customer.getName());
 		c.setPsd(customer.getPsd());
 		c.setAddress(customer.getAddress());
