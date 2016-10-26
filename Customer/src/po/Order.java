@@ -47,7 +47,7 @@ public class Order {
 
 	private String comments;
 	
-	private String reply;
+//	private String reply;
 
 	public String getOid() {
 		return oid;
@@ -97,13 +97,13 @@ public class Order {
 		this.comments = comments;
 	}
 
-	public String getReply() {
-		return reply;
-	}
-
-	public void setReply(String reply) {
-		this.reply = reply;
-	}
+//	public String getReply() {
+//		return reply;
+//	}
+//
+//	public void setReply(String reply) {
+//		this.reply = reply;
+//	}
 	
 	
 	public Integer getRating() {
