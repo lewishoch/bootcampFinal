@@ -92,14 +92,15 @@ public class CustomerController {
 		}
 	}
 	
-	@RequestMapping(value="/logout", method={RequestMethod.POST})
+	@RequestMapping(value="/logout", method={RequestMethod.GET})
 	@ResponseBody
 	public void logout(HttpServletRequest request)
 	{
+		
+		System.out.println("logout controller");
 		HttpSession session = request.getSession(false);
 		if (session != null)
 		    session.invalidate();
-		
 	}
 	
 	
@@ -181,7 +182,7 @@ public class CustomerController {
 	return sm.loadShopInfo(mid, category);
 	}
 
-	@RequestMapping(value="loadShopInfo", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="loadAllDish", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public List<Dish> findAllDishes(){
 	System.out.println("finding all dishes....");
