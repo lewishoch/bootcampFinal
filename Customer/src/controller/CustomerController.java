@@ -33,6 +33,8 @@ public class CustomerController {
 	private MerchantManager mm;
 	@Autowired
 	private OrderManager om;
+	@Autowired
+	private ShopInfoManager sm;
 	
 	@RequestMapping(value="/login", method={RequestMethod.POST})
 	@ResponseBody
@@ -168,6 +170,34 @@ public class CustomerController {
 		
 		return advs;
 		
+	}
+	
+	@RequestMapping(value="loadShopInfo", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public List<Merchant> loadShopInfo(String mid, String category){
+	System.out.println("loading shop information....");
+	return sm.loadShopInfo(mid, category);
+	}
+
+	@RequestMapping(value="loadShopInfo", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public List<Dish> findAllDishes(){
+	System.out.println("finding all dishes....");
+	return sm.findAllDishes();
+	}
+
+	@RequestMapping(value="findAllComments", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public List<Order> findAllComments(){
+	System.out.println("finding all comments....");
+	return sm.findAllComments();
+	}
+
+	@RequestMapping(value="findDishesByCategory", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public List<Dish> findDishesByCategory(String category){
+	System.out.println("finding all dishes by category....");
+	return sm.findDishesByCategory(category);
 	}
 	
 
