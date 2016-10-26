@@ -2,6 +2,6 @@ package service;
 
 import po.AdminAccount;
 
-public interface AdminManagerService {
+public interface AdminManager {
 	public boolean isValidate(AdminAccount aa);
 }
