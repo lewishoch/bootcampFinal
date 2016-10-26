@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +15,7 @@ import po.Customer;
 import po.Merchant;
 import service.AdvertisementManager;
 import service.CustomerManager;
+import service.MerchantManager;
 
 @Controller
 @RequestMapping(value="/customer")
@@ -22,6 +25,8 @@ public class CustomerController {
 	private AdvertisementManager am;
 	@Autowired
 	private CustomerManager cm;
+	@Autowired
+	private MerchantManager mm;
 	
 	@RequestMapping(value="/login", method={RequestMethod.POST})
 	@ResponseBody
