@@ -144,9 +144,34 @@ public class Test1 {
 	
 	@Test
 	public void TestFindAllDishes(){
-		List<Dish> d = sm.findAllDishes();
+		Set<Dish> d = sm.findAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
 		for (Dish a: d){
 			System.out.println(d);
 		}
 	}
+	
+	@Test
+	public void TestFindAllComments(){
+		List<Order> o = sm.findAllComments("8a5e72cb57ffe8b00157ffe8b8900000");
+		for (Order a: o){
+			System.out.println(o);
+		}
+	}
+	
+	@Test
+	public void TestFindDishesByCategory(){
+		List<Dish> d = sm.findDishesByCategory("normal");
+		for (Dish a: d){
+			System.out.println(d);
+		}
+	}
+	
+	@Test
+	public void TestLoadShopInfo(){
+		List<Merchant> m = sm.loadShopInfo("8a5e72cb57ffe8b00157ffe8b8900000", "22221111");
+		for (Merchant a:m){
+			System.out.println(a);
+		}
+	}
+	
 }
