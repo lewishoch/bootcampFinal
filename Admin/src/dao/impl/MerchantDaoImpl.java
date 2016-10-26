@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,6 +37,14 @@ public class MerchantDaoImpl implements MerchantDao {
 	public Merchant loadMerchant(String mid) {
 		Merchant m = em.find(Merchant.class, mid);
 		return m;
+	}
+
+	@Override
+	@Transactional
+	public void updateMerchant(Merchant m) {
+		Merchant mer = em.find(Merchant.class, m.getMid());
+		mer.setStatus(m.getStatus());
+		mer.setLastModDt(new Date());
 	}
 
 }

@@ -34,8 +34,8 @@ public class TestMerchantDao {
 		s.setsCat("111");
 		Merchant m = new Merchant();
 		m.setUname("test");
-		m.setStatus(1);
-		m.setmName("laozi222");
+		m.setStatus(3);
+		m.setmName("laozi333");
 		m.setPsd("123");
 		m.setmGender("F");
 		m.setmAge(100);
@@ -51,5 +51,14 @@ public class TestMerchantDao {
 		Merchant m = md.loadMerchant(mid);
 		System.out.println(m.getmName());
 		System.out.println(m.getShop().getsName());
+	}
+	
+	@Test
+	public void testUpdateMerchant(){
+		String mid = "8a5e9d3557ffde0c0157ffde0ee60000";
+		Merchant m = new Merchant();
+		m.setMid(mid);
+		m.setStatus(1);
+		md.updateMerchant(m);
 	}
 }
