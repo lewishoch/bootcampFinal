@@ -19,8 +19,8 @@ public class OrderManagerImpl implements OrderManager {
 	private OrderDao od;
 	
 	@Override
-	public List<Order> viewAllOrder() {
-		return od.viewAllOrders();
+	public List<Order> viewAllOrder(String cid) {
+		return od.viewAllOrders(cid);
 	}
 
 	@Override

@@ -19,9 +19,9 @@ public class OrderDaoImpl implements OrderDao {
 	private EntityManager em;
 	
 	@Override
-	public List<Order> viewAllOrders() {
-		String jpql = "select o from orders o";
-		Query q = em.createQuery(jpql);
+	public List<Order> viewAllOrders(String cid) {
+		String jpql = "select o from Order o, Customer c where o.customer.cid = c.cid and c.cid = :cid";
+		Query q = em.createQuery(jpql).setParameter("cid", cid);
 		List<Order> orders = q.getResultList();
 		return orders;
 	}

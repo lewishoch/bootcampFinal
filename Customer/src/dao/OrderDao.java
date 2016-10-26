@@ -8,6 +8,6 @@ import po.Order;
 
 public interface OrderDao {
 
-	public List<Order> viewAllOrders();
+	public List<Order> viewAllOrders(String cid);
 	public Order updateOrder(Order order);
 }

@@ -141,9 +141,9 @@ public class CustomerController {
 	
 	@RequestMapping(value="viewAllOrders", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public List<Order> viewAllOrders(){
+	public List<Order> viewAllOrders(String cid){
 		System.out.println("displaying all orders...");
-		return om.viewAllOrder();
+		return om.viewAllOrder(cid);
 	}
 	
 	@RequestMapping(value="updateOrder", method={RequestMethod.GET, RequestMethod.POST})
