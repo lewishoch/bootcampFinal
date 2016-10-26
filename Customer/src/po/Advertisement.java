@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,27 +22,28 @@ public class Advertisement {
 	@Id
 	@GenericGenerator(name="aid",strategy="uuid")
 	@GeneratedValue(generator="aid")
-	private String aId;
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="m_id")
-	private MerchantAccount merchantAccount;
+	private String aid;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="mid")
+	private Merchant merchant;
+	
 	private String status;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creDt;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModDt;
-	
-	public String getaId() {
-		return aId;
+	public String getAid() {
+		return aid;
 	}
-	public void setaId(String aId) {
-		this.aId = aId;
+	public void setAid(String aid) {
+		this.aid = aid;
 	}
-	public MerchantAccount getMerchantAccount() {
-		return merchantAccount;
+	public Merchant getMerchant() {
+		return merchant;
 	}
-	public void setMerchantAccount(MerchantAccount merchantAccount) {
-		this.merchantAccount = merchantAccount;
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
 	}
 	public String getStatus() {
 		return status;
@@ -61,6 +63,7 @@ public class Advertisement {
 	public void setLastModDt(Date lastModDt) {
 		this.lastModDt = lastModDt;
 	}
+	
 	
 	
 	

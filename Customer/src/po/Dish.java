@@ -12,16 +12,16 @@ public class Dish {
 	@Id
 	@GenericGenerator(name="did",strategy="uuid")
 	@GeneratedValue(generator="did")
-	private String dishId;
+	private String did;
 	private String dishName;
 	private Integer dishPrice;
 	private String dishPhoto;
 	
-	public String getDishId() {
-		return dishId;
+	public String getDid() {
+		return did;
 	}
-	public void setDishId(String dishId) {
-		this.dishId = dishId;
+	public void setDid(String did) {
+		this.did = did;
 	}
 	public String getDishName() {
 		return dishName;
@@ -29,10 +29,10 @@ public class Dish {
 	public void setDishName(String dishName) {
 		this.dishName = dishName;
 	}
-	public int getDishPrice() {
+	public Integer getDishPrice() {
 		return dishPrice;
 	}
-	public void setDishPrice(int dishPrice) {
+	public void setDishPrice(Integer dishPrice) {
 		this.dishPrice = dishPrice;
 	}
 	public String getDishPhoto() {
@@ -41,6 +41,7 @@ public class Dish {
 	public void setDishPhoto(String dishPhoto) {
 		this.dishPhoto = dishPhoto;
 	}
+	
 	
 	
 }

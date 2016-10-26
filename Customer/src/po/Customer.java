@@ -23,23 +23,22 @@ public class Customer {
 	@Id
 	@GenericGenerator(name="cid",strategy="uuid")
 	@GeneratedValue(generator="cid")
-	private String cId;
+	private String cid;
 	private String name;
 	private String psd;
 	@ElementCollection(fetch=FetchType.LAZY)
-	@JoinColumn(name = "address", referencedColumnName = "cId") 
+	@JoinColumn(name = "address", referencedColumnName = "cid") 
 	@Column(name="address")
 	private List<String> address;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creDt;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModDt;
-	
-	public String getcId() {
-		return cId;
+	public String getCid() {
+		return cid;
 	}
-	public void setcId(String cId) {
-		this.cId = cId;
+	public void setCid(String cid) {
+		this.cid = cid;
 	}
 	public String getName() {
 		return name;

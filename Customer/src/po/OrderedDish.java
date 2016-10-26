@@ -3,8 +3,10 @@ package po;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -16,11 +18,38 @@ public class OrderedDish {
 	@Id
 	@GenericGenerator(name="odid",strategy="uuid")
 	@GeneratedValue(generator="odid")
-	private String odId;
+	private String odid;
 	
-	@OneToOne(mappedBy="dishId",cascade =CascadeType.PERSIST)
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="did")
 	private Dish dish;
 	
 	@Column(nullable=false)
 	private Integer quantity;
+
+	public String getOdid() {
+		return odid;
+	}
+
+	public void setOdid(String odid) {
+		this.odid = odid;
+	}
+
+	public Dish getDish() {
+		return dish;
+	}
+
+	public void setDish(Dish dish) {
+		this.dish = dish;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+	
+	
 }
