@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import dao.AdminAccountDao;
 import po.AdminAccount;
 
-public class Test {
+public class TestAdminDao {
 	ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 	private AdminAccountDao aad = (AdminAccountDao)context.getBean(AdminAccountDao.class);
 	

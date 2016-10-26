@@ -27,5 +27,15 @@
 		<property name="prefix" value="/"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/customer/**"/>
+			<mvc:exclude-mapping path="/customer/login"/>
+			<mvc:exclude-mapping path="/customer/signup"/>
+			<mvc:exclude-mapping path="/customer/logout"/>
+			<bean class="interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>
