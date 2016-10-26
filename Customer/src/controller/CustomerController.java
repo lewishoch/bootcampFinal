@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,13 +36,13 @@ public class CustomerController {
 	
 	@RequestMapping(value="/login", method={RequestMethod.POST})
 	@ResponseBody
-	public Customer getAllUsers(String uname, String psd, HttpServletRequest request){
+	public Customer login(String uname, String psd, HttpServletRequest request){
 		System.out.println("hello" + uname + ":" + psd );
 		HttpSession sen = request.getSession(true);
 		
 		Customer c = cm.loadCustomerByName(uname);
 		
-		if(c== null)
+		if(c == null)
 		{
 			return null;
 		}
@@ -56,6 +57,47 @@ public class CustomerController {
 		
 		return c;
 	}
+	
+	@RequestMapping(value="/signup", method={RequestMethod.POST})
+	@ResponseBody
+	public Customer login(String uname, String psd, String tel, List<String> address)
+	{
+		System.out.println("hello" + uname + ":" + psd + ":" + tel + ":" + address);
+		
+		
+		Customer c = cm.loadCustomerByName(uname);
+		
+		if(c == null)
+		{
+			// no existing user
+			Customer newC = new Customer();
+			newC.setAddress(address);
+			newC.setCreDt(new Date());
+			newC.setLastModDt(new Date());
+			newC.setName(uname);
+			newC.setPsd(psd);
+			
+			cm.addCustomer(newC);
+			
+			return newC;
+		}
+		else
+		{
+			// have existing user
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="/logout", method={RequestMethod.POST})
+	@ResponseBody
+	public void logout(HttpServletRequest request)
+	{
+		HttpSession session = request.getSession(false);
+		if (session != null)
+		    session.invalidate();
+		
+	}
+	
 	
 	@RequestMapping(value="addCustomer", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
