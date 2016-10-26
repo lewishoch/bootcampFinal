@@ -4,6 +4,7 @@ package test;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,8 +15,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import po.Customer;
+import po.Dish;
+import po.Order;
+import po.ShopInfo;
 import service.CustomerManager;
 import service.MerchantManager;
+import service.ShopInfoManager;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -36,9 +41,13 @@ public class Test1 {
 	@Test
 	public void asdf()
 	{
-		MerchantManager m = context.getBean(MerchantManager.class);
+		ShopInfoManager s = context.getBean(ShopInfoManager.class);
+		List<Order> dd = s.findAllComments("8a5e72cb57ffe8b00157ffe8b8900000");
 		
-		m.findAllMerchant();
+		for(Order g: dd)
+		{
+			System.out.println(g.getComments());
+		}
 		
 		
 		
