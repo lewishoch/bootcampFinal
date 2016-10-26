@@ -12,7 +12,7 @@ import po.Merchant;
 import dao.MerchantDao;
 
 @Repository
-public class MerchantImpl implements MerchantDao {
+public class MerchantDaoImpl implements MerchantDao {
 	@PersistenceContext(name="ds")
 	private EntityManager em;
 	

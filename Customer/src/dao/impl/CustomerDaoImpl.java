@@ -32,7 +32,9 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	@Transactional
 	public Customer loadCustomer(String id) {
-		return em.find(Customer.class, id);
+		Customer c = em.find(Customer.class, id);
+		c.getAddress().size();
+		return c;
 	}
 
 	@Override
