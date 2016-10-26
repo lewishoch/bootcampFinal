@@ -28,7 +28,6 @@ public class MerchantDaoImpl implements MerchantDao {
 	}
 
 	@Override
-	@Transactional
 	public void insertMerchant(Merchant m) {
 		em.persist(m);
 	}
@@ -40,7 +39,6 @@ public class MerchantDaoImpl implements MerchantDao {
 	}
 
 	@Override
-	@Transactional
 	public void updateMerchant(Merchant m) {
 		Merchant mer = em.find(Merchant.class, m.getMid());
 		mer.setStatus(m.getStatus());

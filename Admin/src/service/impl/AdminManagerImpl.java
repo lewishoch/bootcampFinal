@@ -2,6 +2,7 @@ package service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dao.AdminAccountDao;
 import po.AdminAccount;
@@ -13,6 +14,7 @@ public class AdminManagerImpl implements AdminManager {
 	private AdminAccountDao aad;
 	
 	@Override
+	@Transactional
 	public boolean isValidate(AdminAccount aa) {
 		AdminAccount aa1 = aad.loadAdmin(aa.getUname());
 		if(aa1.getUname().equals(aa.getUname()) && aa1.getPsd().equals(aa.getPsd()))
