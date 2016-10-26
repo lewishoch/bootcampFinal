@@ -6,7 +6,7 @@ import po.Customer;
 
 public interface CustomerDao {
 
-	public Customer addUser(Customer customer);
-	public Customer loadUser(String id);
-	public Customer updateUser(Customer customer);
+	public Customer addCustomer(Customer customer);
+	public Customer loadCustomer(String id);
+	public Customer updateCustomer(Customer customer);
 }

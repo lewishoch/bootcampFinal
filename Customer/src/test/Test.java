@@ -25,6 +25,6 @@ public class Test {
 			addr.add("address_2");
 			addr.add("address_3");
 		c.setAddress(addr);
-		um.addUser(c);
+		um.addCustomer(c);
 	}
 }

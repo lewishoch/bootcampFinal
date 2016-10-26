@@ -18,20 +18,20 @@ public class CustomerDaoImpl implements CustomerDao{
 	
 	@Override
 	@Transactional
-	public Customer addUser(Customer customer) {
+	public Customer addCustomer(Customer customer) {
 		em.persist(customer);
 		return customer;
 	}
 
 	@Override
 	@Transactional
-	public Customer loadUser(String id) {
+	public Customer loadCustomer(String id) {
 		return em.find(Customer.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Customer updateUser(Customer customer) {
+	public Customer updateCustomer(Customer customer) {
 		Customer c = em.getReference(Customer.class, customer.getCid());
 		c.setName(customer.getName());
 		c.setPsd(customer.getPsd());

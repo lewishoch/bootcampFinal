@@ -14,19 +14,19 @@ public class CustomerManagerImpl implements CustomerManager{
 	private CustomerDao cd;
 	
 	@Override
-	public Customer addUser(Customer c) {
-		return cd.addUser(c);
+	public Customer addCustomer(Customer c) {
+		return cd.addCustomer(c);
 	}
 
 	@Override
-	public Customer loadUser(String id) {
-		return cd.loadUser(id);
+	public Customer loadCustomer(String id) {
+		return cd.loadCustomer(id);
 		
 	}
 
 	@Override
-	public Customer updateUser(Customer c) {
-		return cd.updateUser(c);
+	public Customer updateCustomer(Customer c) {
+		return cd.updateCustomer(c);
 	}
 
 }
