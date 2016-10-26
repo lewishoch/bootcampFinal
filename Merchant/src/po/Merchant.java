@@ -2,6 +2,8 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,28 +15,46 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="merch_account")
-public class MerchantAccount {
+public class Merchant {
 	@Id
 	@GenericGenerator(name="mid",strategy="uuid")
 	@GeneratedValue(generator="mid")
-	private String m_id;
+	private String mId;
+	
+	@Column(nullable=false)
 	private String uname;
+	
+	@Column(nullable=false)
 	private String psd;
-	private int status;
+	
+	@Column(nullable=false)
+	private Integer status;
+	
+	@Column(nullable=false)
 	private String mName;
-	private int mAge;
+	
+	@Column(nullable=false)
+	private Integer mAge;
+	
+	@Column(nullable=false)
 	private String mGender;
+	
+	@Embedded
 	private ShopInfo shop;
+	
+	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creDt;
+	
+	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModDt;
 	
-	public String getM_id() {
-		return m_id;
+	public String getmId() {
+		return mId;
 	}
-	public void setM_id(String m_id) {
-		this.m_id = m_id;
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
 	public String getUname() {
 		return uname;

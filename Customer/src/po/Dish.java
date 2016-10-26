@@ -1,10 +1,13 @@
 package po;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-
+@Entity
+@Table(name="dish")
 public class Dish {
 	@Id
 	@GenericGenerator(name="did",strategy="uuid")

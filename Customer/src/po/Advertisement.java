@@ -2,9 +2,13 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,6 +22,8 @@ public class Advertisement {
 	@GenericGenerator(name="aid",strategy="uuid")
 	@GeneratedValue(generator="aid")
 	private String aId;
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="m_id")
 	private MerchantAccount merchantAccount;
 	private String status;
 	@Temporal(TemporalType.TIMESTAMP)

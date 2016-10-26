@@ -3,6 +3,7 @@ package po;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,19 +19,27 @@ public class AdminAccount {
 	@Id
 	@GenericGenerator(name="aid",strategy="uuid")
 	@GeneratedValue(generator="aid")
-	private String a_id;
+	private String aId;
+	
+	@Column(nullable=false)
 	String uname;
+	
+	@Column(nullable=false)
 	String psd;
+	
+	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creDt;
+	
+	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModDt;
 	
-	public String getA_id() {
-		return a_id;
+	public String getaId() {
+		return aId;
 	}
-	public void setA_id(String a_id) {
-		this.a_id = a_id;
+	public void setaId(String aId) {
+		this.aId = aId;
 	}
 	public String getUname() {
 		return uname;
