@@ -22,10 +22,10 @@ public class OrderDaoImpl implements OrderDao {
 	public List<Order> viewAllOrders(String cid) {
 		String jpql = "select o from Order o, Customer c where o.customer.cid = c.cid and c.cid = :cid";
 		Query q = em.createQuery(jpql).setParameter("cid", cid);
-		List<Order> orders = q.getResultList();
-		return orders;
-	}
+		List<Order> o = q.getResultList();
+		return o;
 
+	}
 	@Override
 	public Order updateOrder(Order order) {
 		Order o = em.find(Order.class, order.getOid());
@@ -33,6 +33,19 @@ public class OrderDaoImpl implements OrderDao {
 		o.setComments(order.getComments());
 		o.setRating(order.getRating());
 		return o;
+	}
+
+	@Override
+	public Order findOrder(String id) {
+		String jpql="select o from Order o where oid =:oid ";
+		Query q = em.createQuery(jpql);
+		q.setParameter("oid", id);
+		List<Order> orders = q.getResultList();
+		if(orders.get(0)!=null){
+			return orders.get(0);
+		} else{
+		return null;
+		}
 	}
 
 	

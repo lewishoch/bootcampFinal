@@ -24,7 +24,7 @@ public class DishDaoImpl implements DishDao {
 	
 	
 	@Override
-	public Set<Dish> getAllDishes(int mid) {
+	public Set<Dish> getAllDishes(String mid) {
 		
 		Merchant m = em.find(Merchant.class, mid);
 		

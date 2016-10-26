@@ -9,4 +9,5 @@ public interface OrderManager {
 
 	public List<Order> viewAllOrder(String cid);
 	public Order updateOrder(Order order);
+	public Order findOrder(String id);
 }

@@ -1,12 +1,21 @@
 package po;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,12 +23,12 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="merch_account")
+@Table(name="merchant")
 public class Merchant {
 	@Id
 	@GenericGenerator(name="mid",strategy="uuid")
 	@GeneratedValue(generator="mid")
-	private String mId;
+	private String mid;
 	
 	@Column(nullable=false)
 	private String uname;
@@ -39,6 +48,18 @@ public class Merchant {
 	@Column(nullable=false)
 	private String mGender;
 	
+	/*
+	@ElementCollection
+	@JoinTable(name="dishes", joinColumns=@JoinColumn(name="mId"))
+	*/
+	@OneToMany(mappedBy="merchant",fetch=FetchType.EAGER)
+	//@JoinColumn(name="mid")
+	private Set<Dish> dishes = new HashSet<Dish>();
+	
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="mid")
+	private Set<Advertisement> advertisements = new HashSet<Advertisement>();
+
 	@Embedded
 	private ShopInfo shop;
 	
@@ -49,65 +70,102 @@ public class Merchant {
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModDt;
-	
-	public String getmId() {
-		return mId;
+
+	public String getMid() {
+		return mid;
 	}
-	public void setmId(String mId) {
-		this.mId = mId;
+
+	public void setMid(String mid) {
+		this.mid = mid;
 	}
+
 	public String getUname() {
 		return uname;
 	}
+
 	public void setUname(String uname) {
 		this.uname = uname;
 	}
+
 	public String getPsd() {
 		return psd;
 	}
+
 	public void setPsd(String psd) {
 		this.psd = psd;
 	}
-	public ShopInfo getShop() {
-		return shop;
-	}
-	public void setShop(ShopInfo shop) {
-		this.shop = shop;
-	}
-	public int getStatus() {
+
+	public Integer getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	public Date getCreDt() {
-		return creDt;
-	}
-	public void setCreDt(Date creDt) {
-		this.creDt = creDt;
-	}
-	public Date getLastModDt() {
-		return lastModDt;
-	}
-	public void setLastModDt(Date lastModDt) {
-		this.lastModDt = lastModDt;
-	}
+
 	public String getmName() {
 		return mName;
 	}
+
 	public void setmName(String mName) {
 		this.mName = mName;
 	}
-	public int getmAge() {
+
+	public Integer getmAge() {
 		return mAge;
 	}
-	public void setmAge(int mAge) {
+
+	public void setmAge(Integer mAge) {
 		this.mAge = mAge;
 	}
+
 	public String getmGender() {
 		return mGender;
 	}
+
 	public void setmGender(String mGender) {
 		this.mGender = mGender;
 	}
+
+	public Set<Dish> getDishes() {
+		return dishes;
+	}
+
+	public void setDishes(Set<Dish> dishes) {
+		this.dishes = dishes;
+	}
+
+	public Set<Advertisement> getAdvertisements() {
+		return advertisements;
+	}
+
+	public void setAdvertisements(Set<Advertisement> advertisements) {
+		this.advertisements = advertisements;
+	}
+
+	public ShopInfo getShop() {
+		return shop;
+	}
+
+	public void setShop(ShopInfo shop) {
+		this.shop = shop;
+	}
+
+	public Date getCreDt() {
+		return creDt;
+	}
+
+	public void setCreDt(Date creDt) {
+		this.creDt = creDt;
+	}
+
+	public Date getLastModDt() {
+		return lastModDt;
+	}
+
+	public void setLastModDt(Date lastModDt) {
+		this.lastModDt = lastModDt;
+	}
+	
+	
 }

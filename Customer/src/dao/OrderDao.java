@@ -10,4 +10,5 @@ public interface OrderDao {
 
 	public List<Order> viewAllOrders(String cid);
 	public Order updateOrder(Order order);
+	public Order findOrder(String id);
 }
