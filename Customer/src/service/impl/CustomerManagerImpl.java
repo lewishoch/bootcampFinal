@@ -29,4 +29,9 @@ public class CustomerManagerImpl implements CustomerManager{
 		return cd.updateCustomer(c);
 	}
 
+	@Override
+	public Customer loadCustomerByName(String uname) {
+		return cd.loadCustomerByName(uname);
+	}
+
 }

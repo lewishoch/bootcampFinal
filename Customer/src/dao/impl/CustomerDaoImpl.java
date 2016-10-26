@@ -1,12 +1,18 @@
 package dao.impl;
 
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import po.Advertisement;
 import po.Customer;
 import dao.CustomerDao;
 
@@ -38,6 +44,40 @@ public class CustomerDaoImpl implements CustomerDao{
 		c.setAddress(customer.getAddress());
 		c.setLastModDt(customer.getLastModDt());
 		return c;
+	}
+
+	@Override
+	public Customer loadCustomerByName(String uname) {
+
+		String jpql = "select c from Customer c where c.name =:name";
+		
+		Query q = em.createQuery(jpql);
+		q.setParameter("name", uname);
+		
+		List<Customer> customers = q.getResultList();
+		
+		try {
+			Customer c = new Customer();
+			if(!customers.isEmpty() && customers.get(0) != null)
+			{
+				BeanUtils.getProperty(c, "address");
+				BeanUtils.copyProperties(c, customers.get(0));
+				
+				return c;
+			}
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return null;
+		
+
 	}
 
 
