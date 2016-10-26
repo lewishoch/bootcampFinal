@@ -11,8 +11,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import po.Merchant;
 import po.ShopInfo;
 import protocol.AccountStatusProtocol;
+import protocol.GenderProtocol;
+import protocol.ShopStatusProtocol;
 import service.MerchantManager;
-import util.Constant;
 
 public class MerchantManagerImplTest {
 	@PersistenceContext(name="em")
@@ -29,12 +30,13 @@ public class MerchantManagerImplTest {
 		m.setStatus(AccountStatusProtocol.PENDING);
 		m.setmName("clara");
 		m.setmAge(50);
-		m.setmGender(Constant.FEMALE);
+		m.setmGender(GenderProtocol.FEMALE);
 		
 		ShopInfo shop = new ShopInfo();
 		shop.setsName("group02 shop");
 		shop.setsAddr("zhuhai");
 		shop.setsCat("no style");
+		shop.setsStat(ShopStatusProtocol.CLOSED);
 		shop.setsTel("22222222");
 		shop.setsLogoPath("/group02");
 		
@@ -75,6 +77,7 @@ public class MerchantManagerImplTest {
 		shop.setsName("group02 shop updated");
 		shop.setsAddr("zhuhai updated");
 		shop.setsCat("no style updated");
+		shop.setsStat(ShopStatusProtocol.OPENED);
 		shop.setsTel("22221111");
 		shop.setsLogoPath("/group02/new_updated");
 		

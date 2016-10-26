@@ -10,9 +10,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import po.Advertisement;
+import protocol.AdvertisementStatusProtocol;
 import service.AdvertisementManager;
 import service.MerchantManager;
-import util.Constant;
 
 public class AdvertisementManagerImplTest {
 	@PersistenceContext(name="em")
@@ -26,7 +26,7 @@ public class AdvertisementManagerImplTest {
 	public void testAdvertisementAdd() {
 		Advertisement a = new Advertisement();
 		a.setMerchant(mm.loadMerchantById("8a5e72cb57ffe8b00157ffe8b8900000"));
-		a.setStatus(Constant.PENDING);
+		a.setStatus(AdvertisementStatusProtocol.PENDING);
 		a.setCreDt(new Date());
 		a.setLastModDt(new Date());
 		am.addAdvertisement(a);

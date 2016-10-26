@@ -15,7 +15,6 @@ import po.Merchant;
 import po.ShopInfo;
 import service.DishManager;
 import service.MerchantManager;
-import util.Constant;
 
 public class DishManagerImplTest {
 	@PersistenceContext(name="em")
@@ -35,7 +34,7 @@ public class DishManagerImplTest {
 		Merchant m = mm.loadMerchantByUname("clara");
 		d.setMerchant(m);
 		
-		d.setCategory(Constant.OTHERS);
+		d.setCategory("Others");
 		
 		dm.addDish(d);
 	}
