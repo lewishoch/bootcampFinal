@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html>
 <head>
 <meta charset="ISO-8859-1">
@@ -11,4 +12,123 @@
 		<input type="submit" value="Login"/>
 	</form>
 </body>
+=======
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="content">
+        <div id="register">
+            <form action="" method="" >
+                 <div id="unameField">
+                     <span>User Name</span>
+                      <input type="text" name="uname" placeholder="User name"/>
+                      <span id="err_uname" class="err_msg"></span>
+                  </div>
+                  <div id="psdField">
+                      <span>Password</span>
+                      <input type="password" name="psd" placeholder="Password"/>
+                      <span id="err_psd" class="err_msg"></span>
+                  </div>
+                  <div id="telField">
+                      <span>Contact</span>
+                      <input type="text" name="tel" placeholder=""/>
+                      <span id="err_tel" class="err_msg"></span>
+                  </div>
+                  <div>
+                      <span>Address</span>
+                      <button type="button" id="addressBtn">Add</button>
+                      <div id="address">
+                         <div id="addrField">
+                             <div>
+                              <input type="text" name="addr" placeholder="Address..."/>
+                              <span id="err_adr" class="err_msg"></span>
+                              </div>
+                          </div>
+                      </div>
+                      
+                  </div>
+                  <div>
+                      <button type="button" onclick="submitForm(form)">Submit</button>
+                      <button type="button"  onclick="form.reset()">Reset</button>
+                  </div>
+              </form>
+            </div>
+        </div>
+        <div id="login">
+            <form action="" method="">
+                 <div>
+                      <span>User Name</span>
+                      <input type="text" name="uname" placeholder="User name"/>
+                  </div>
+                  <div>
+                      <span>Password</span>
+                      <input type="password" name="psd" placeholder="Password"/>
+                  </div>
+                  <div>
+                      <button type="button" onclick="submitForm(form)">Submit</button>
+                      <button type="button"  onclick="form.reset()">Reset</button>
+                  </div>
+              </form>
+        </div>
+</body>
+<script>
+    $(function(){
+        $('#addressBtn').on('click',function(){
+           var addressDiv = $('#addrField');
+            var div = $('<div></div>');
+            div.append('<input type="text" name="addr" placeholder="Address..."/>');
+            $('<div></div>').append('<span id="err_adr" class="err_msg"></span>');
+            addressDiv.append(div);
+        }); 
+    });
+    
+    var submitForm = function(form){
+        if(validForm(form))
+            form.submit();
+    }
+    
+    var resetForm = function(form){
+        form.reset();
+    }
+    
+    var clearError = function(form){
+        var errMsgs = $('.err_msg');
+        console.log(errMsgs)
+        for(var i=errMsgs.length-1; i>=0; --i)
+            errMsgs[i].innerHTML = "";
+    }
+    
+    var validForm = function(form){
+        clearError(form);
+        var isValid = true;
+        // uname
+        // psd
+        // tel
+        var tel = $(form).children('#telField');
+        var telVal = tel.children('input').val();
+        if(telVal==="" || false === /[0-9]+/.test(telVal)){
+            console.log(123);
+            console.log($(tel))
+            console.log($(tel).children('span.err_msg'))
+            $(tel).children('span.err_msg')
+                .text("Error");
+            isValid = false;
+        }
+        // address
+        
+        return isValid;
+    }
+    
+    
+</script>
+>>>>>>> origin/Steve
 </html>
