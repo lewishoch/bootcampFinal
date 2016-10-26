@@ -30,6 +30,12 @@ public class OrderController {
 		return om.findAllOwnOrdersByStatus(mid, status);
 	}
 	
+	@RequestMapping(value="loadOrder")
+	@ResponseBody
+	public Order loadOrder(String oid) {
+		return om.loadOrder(oid);
+	}
+	
 	@RequestMapping(value="updateOrder",method={RequestMethod.POST})
 	@ResponseBody
 	public String updateOrder(Order o) {

@@ -17,7 +17,7 @@ public class OrderDaoImpl implements OrderDao {
 	private EntityManager em;
 	
 	public List<Order> findAllOwnOrders(String mid) {
-		String jpql = "select o from Order o where o.mid=:mid";
+		String jpql = "select o from Order o where o.merchant.mid=:mid";
 		
 		List<Order> os = em
 				.createQuery(jpql)
@@ -28,7 +28,7 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	public List<Order> findAllOwnOrdersByStatus(String mid, Integer status) {
-		String jpql = "select o from Order o where o.mid=:mid and o.status=:status";
+		String jpql = "select o from Order o where o.merchant.mid=:mid and o.status=:status";
 		
 		List<Order> os = em
 				.createQuery(jpql)
@@ -37,6 +37,10 @@ public class OrderDaoImpl implements OrderDao {
 				.getResultList();
 		
 		return os;
+	}
+	
+	public Order loadOrder(String oid) {
+		return em.find(Order.class, oid);
 	}
 
 	public void updateOrder(Order o) {

@@ -17,7 +17,7 @@ public class DishDaoImpl implements DishDao {
 	private EntityManager em;
 	
 	public List<Dish> findAllOwnDishes(String mid) {
-		String jpql = "select d from Dish d where d.mid=:mid";
+		String jpql = "select d from Dish d where d.merchant.mid=:mid";
 		List<Dish> ds = em
 				.createQuery(jpql)
 				.setParameter("mid", mid)

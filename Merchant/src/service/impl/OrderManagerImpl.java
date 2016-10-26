@@ -25,6 +25,11 @@ public class OrderManagerImpl implements OrderManager {
 	public List<Order> findAllOwnOrdersByStatus(String mid, Integer status) {
 		return od.findAllOwnOrdersByStatus(mid, status);
 	}
+	
+	@Transactional
+	public Order loadOrder(String oid) {
+		return od.loadOrder(oid);
+	}
 
 	@Transactional
 	public void updateOrder(Order o) {

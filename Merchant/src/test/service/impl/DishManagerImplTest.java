@@ -1,6 +1,7 @@
 package test.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +15,7 @@ import po.Merchant;
 import po.ShopInfo;
 import service.DishManager;
 import service.MerchantManager;
+import util.Constant;
 
 public class DishManagerImplTest {
 	@PersistenceContext(name="em")
@@ -33,7 +35,17 @@ public class DishManagerImplTest {
 		Merchant m = mm.loadMerchantByUname("clara");
 		d.setMerchant(m);
 		
+		d.setCategory(Constant.OTHERS);
+		
 		dm.addDish(d);
+	}
+	
+	@org.junit.Test
+	public void testDishFindAllByMid() {
+		List<Dish> ds = dm.findAllOwnDishes("8a5e72cb57ffe8b00157ffe8b8900000");
+		for (Dish d :ds) {
+			System.out.println(d.getDid()+"..."+d.getMerchant().getUname()+"..."+d.getDishName()+"..."+d.getDishPrice()+"..."+d.getDishPhoto()+"..."+d.getCategory());
+		}
 	}
 	
 	@org.junit.Test

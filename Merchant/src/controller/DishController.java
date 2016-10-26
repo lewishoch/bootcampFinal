@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import po.Dish;
 import service.DishManager;
+import service.MerchantManager;
 
 @Controller
 @RequestMapping(value="dish")
@@ -17,6 +18,9 @@ public class DishController {
 	
 	@Autowired
 	private DishManager dm;
+	
+	@Autowired
+	private MerchantManager mm;
 
 	@RequestMapping(value="findAllOwnDishes")
 	@ResponseBody
@@ -38,8 +42,14 @@ public class DishController {
 	
 	@RequestMapping(value="addDish",method={RequestMethod.POST})
 	@ResponseBody
-	public String addDish(Dish d) {
+	public String addDish(String dishName, Integer dishPrice, String dishPhoto, String mid, String category) {
 		try {
+			Dish d = new Dish();
+			d.setDishName(dishName);
+			d.setDishPrice(dishPrice);
+			d.setDishPhoto(dishPhoto);
+			d.setMerchant(mm.loadMerchantById(mid));
+			d.setCategory(category);
 			dm.addDish(d);
 			return "{\"status\":1}";
 		} catch (Exception e) {
