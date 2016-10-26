@@ -1,0 +1,72 @@
+package controller;
+
+import java.util.List;
+
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import po.Customer;
+import po.Merchant;
+import po.Order;
+import service.CustomerManager;
+import service.MerchantManager;
+import service.OrderManager;
+
+@Controller
+public class CustomerCotroller {
+
+	@Autowired
+	private CustomerManager cm;
+	@Autowired
+	private MerchantManager mm;
+	@Autowired
+	private OrderManager om;
+	
+	@RequestMapping(value="addCustomer", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Customer addCustomer(Customer c){
+		System.out.println("adding customer...");
+		return cm.addCustomer(c);
+	}
+	
+	@RequestMapping(value="loadCustomer", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Customer loadCustomer(String id){
+		System.out.println("loading customer...");
+		return cm.loadCustomer(id);
+	}
+	
+	@RequestMapping(value="updateCustomer", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Customer updatCustomer(Customer c){
+		System.out.println("updating customer...");
+		return cm.updateCustomer(c);
+	}
+	
+	@RequestMapping(value="findMerchant", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Merchant findMerchant(String id){
+		System.out.println("finding a merchant...");
+		return mm.findMerchant(id);
+	}
+
+	@RequestMapping(value="findAllMerchant", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public List<Merchant> findAllMerchant(){
+		System.out.println("finding all merchants...");
+		return mm.findAllMerchant();
+	}
+	
+	@RequestMapping(value="viewAllOrders", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public List<Order> viewAllOrders(){
+		System.out.println("displaying all orders...");
+		return om.viewAllOrder();
+	}
+}
