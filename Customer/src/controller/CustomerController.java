@@ -104,5 +104,18 @@ public class CustomerController {
 		System.out.println("updating an order...status/comment/rating");
 		return om.updateOrder(order);
 	}
+	
+	@RequestMapping(value="findAllShop", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public List<Merchant> findAllShop(){
+		//sname, stel, saddr, scat, mid, srating, spicPath
+		System.out.println("findAllShop controller");
+		
+		List<Merchant> m = mm.findAllMerchant();
+		
+		return m;
+		
+	}
+	
 
 }

@@ -18,6 +18,9 @@ public class ShopInfo {
 	private String sTel;
 	
 	@Column(nullable=false)
+	private String cat;
+	
+	@Column(nullable=false)
 	private String sLogoPath;
 
 	public String getsName() {
@@ -59,6 +62,16 @@ public class ShopInfo {
 	public void setsLogoPath(String sLogoPath) {
 		this.sLogoPath = sLogoPath;
 	}
+
+	public String getCat() {
+		return cat;
+	}
+
+	public void setCat(String cat) {
+		this.cat = cat;
+	}
+
+	
 	
 	
 }

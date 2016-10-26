@@ -23,7 +23,14 @@ public class MerchantManagerImpl implements MerchantManager {
 	@Override
 	@Transactional
 	public List<Merchant> findAllMerchant() {
-		return md.findAllMerchant();
+		
+		List<Merchant> ms = md.findAllMerchant();
+		for(Merchant m: ms)
+		{
+			m.getShop();
+		}
+		
+		return ms;
 	}
 
 }

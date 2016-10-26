@@ -48,6 +48,12 @@ public class Merchant {
 	@Column(nullable=false)
 	private String mGender;
 	
+	@Column(nullable=false)
+	private int rating;
+	
+	@Column(nullable=false)
+	private int numOfOrder;
+	
 	/*
 	@ElementCollection
 	@JoinTable(name="dishes", joinColumns=@JoinColumn(name="mId"))
@@ -166,6 +172,23 @@ public class Merchant {
 	public void setLastModDt(Date lastModDt) {
 		this.lastModDt = lastModDt;
 	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public int getNumOfOrder() {
+		return numOfOrder;
+	}
+
+	public void setNumOfOrder(int numOfOrder) {
+		this.numOfOrder = numOfOrder;
+	}
+	
 	
 	
 }
