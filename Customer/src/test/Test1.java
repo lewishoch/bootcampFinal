@@ -15,11 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import po.Customer;
 import service.CustomerManager;
-
-
-
-
-
+import service.MerchantManager;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -40,9 +36,11 @@ public class Test1 {
 	@Test
 	public void asdf()
 	{
-		AdvertisementManager m = context.getBean(AdvertisementManager.class);
+		MerchantManager m = context.getBean(MerchantManager.class);
 		
-		m.findlastestAdv(5);
+		m.findAllMerchant();
+		
+		
 		
 //		ApplicationContext context  = new ClassPathXmlApplicationContext("applicationContext.xml");
 //		AdvertisementManager m = context.getBean(AdvertisementManager.class);

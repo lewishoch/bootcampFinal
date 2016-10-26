@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import po.Advertisement;
 import po.Customer;
 import po.Merchant;
 import po.Order;
@@ -114,6 +115,16 @@ public class CustomerController {
 		List<Merchant> m = mm.findAllMerchant();
 		
 		return m;
+		
+	}
+	
+	@RequestMapping(value="findAdv", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public List<Advertisement> findAdv(){
+		System.out.println("findAdv controller");
+		List<Advertisement> advs = am.findlastestAdv(3);
+		
+		return advs;
 		
 	}
 	
