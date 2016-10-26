@@ -16,12 +16,14 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 	private AdvertisementDao ad;
 	
 	@Override
+	@Transactional
 	public List<Advertisement> findAllAds() {
 		List<Advertisement> as = ad.loadAllAds();
 		return as;
 	}
 
 	@Override
+	@Transactional
 	public Advertisement findAd(String aid) {
 		Advertisement a = ad.loadAd(aid);
 		return a;
