@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ShopList</title>
+    
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		
+		<style>
+            #dishes{
+                background: green;
+            }
+            #shopList{
+                background: yellow;
+            }
+        </style>
+</head>
+<body>
+   <div id="ads">
+       
+   </div>
+    <div id="content">
+        <div id="shops">
+           <div class="shopsAction">
+               <div class="shopCat">
+                   <select onchange="searchCat()">
+                  </select>
+               </div>
+               <div class="shopSearch">
+                   <input type="text" placeholder="Search..."/>
+                   <button type="button" onclick="searchShop()">Search</button>               </div>
+           </div>
+           <div id="shopList">
+                <div class="shop">
+                    <div class="shopImage">
+                    image
+                    </div>
+                    <div clss="shopName">
+                    name
+                    </div>
+                    <div class="shopTel">
+                        232423
+                    </div>
+                    <div class="shopAddr">
+                        addr
+                    </div>
+                    <div class="shopRating">
+                        ****
+                    </div>
+                    <div class="btn">
+                        <button type="button"   onclick="setCookie('001')">Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // config
+    const shopPerRow = 5;
+    // data store
+    var allShop = [];
+    var allDish = [];
+    var cookie = {};
+    var totalPrice = 0;
+    
+    $(function(){
+        // get cookie
+        //getCookie();
+        
+        // get all shop data
+        var getAllShop = function(){
+            var aUrl = "findAllShop";
+
+            $.ajax({
+                type:'GET',
+                url:aUrl,
+                data:{}
+            }).done(function(data){
+                // store
+                
+                console.log(data)
+                allShop = data;
+                if(allShop instanceof Array === false)
+                    allShop = [allShop];
+                createCatMenu();
+                displayAllShop();
+            });
+        }
+        getAllShop();
+    });
+    
+    var createCatMenu = function(){
+        var select = $('.shopCat select');
+        var options = {};
+        // take all cat options from shop
+        for(var i=allShop.length-1; i>=0; --i)
+            options[""+allShop[i].cat] = null;
+    
+        options = Object.getOwnPropertyNames(options);
+        console.log(options);
+        // sorting
+        options.sort();
+             
+        var option = $('<option></option>');
+            option.text('All');
+            option.appendTo(select);
+        for(var i=0; i<options.length; ++i){
+            option = $('<option></option>');
+            option.text(options[i]);
+            option.appendTo(select);
+        }
+    }
+    
+    var displayAllShop = function(filterFun,sortField){
+        var data;
+        (typeof filterFun === 'function')?
+            data = allShop.filter(filterFun):
+            data = allShop;
+        
+        // sort 
+        var sortType = sortField || 'rating';
+        data.sort(function(a,b){
+            return a[sortType] - b[sortType];
+        });
+        
+        var shopList = $('#shopList');
+        shopList.empty();
+        console.log(shopList);
+        var shop,shopImage,shopName,shopTel,shopAddr,shopRating,btn;
+        var d;
+        for(var i=0; i<data.length; ++i){
+            d = data[i];
+            shop = $('<div class="shop"></div>');
+            shopImage = $('<div class="shopImage"><img src="'+d.picPath+'"/></div>');
+            shopName = $('<div clss="shopName">'+d.name+'</div>');
+            shopTel = $('<div class="shopTel">'+d.tel+'</div>');
+            shopAddr = $('<div class="shopAddr">'+d.addr+'</div>');
+            shopRating = $('<div class="shopRating">'+d.rating+'</div>');
+            btn = $('<div class="btn"><button type="button"   onclick="setCookie('+d.mid+')">Order</button></div>');
+            
+            shopImage.appendTo(shop);
+            shopName.appendTo(shop);
+            shopTel.appendTo(shop);
+            shopAddr.appendTo(shop);
+            shopRating.appendTo(shop);
+            btn.appendTo(shop);
+            shop.appendTo(shopList);
+            console.log(shop);
+        }
+    }
+    
+    var searchShop = function(){
+        var keyword = $('.shopSearch input').val();
+        keyword = keyword.replace(/[|&;$%@"<>()+,]/g, "");
+        $('.shopSearch input').val(keyword);
+        
+        console.log(keyword)
+        displayAllShop(function(shop){ 
+            var objString = JSON.stringify(shop);
+            console.log("before: "+objString);
+            objString = objString.match(/[:]([\"|\']?[0-9|a-z]+[\"|\']?)/ig).join();
+            
+            console.log("after: "+objString);
+            
+            return objString.indexOf(keyword)!=-1;
+        });
+    }
+    
+    var searchCat = function(){
+        var select = $('.shopCat select')[0];
+        console.log(select)
+        var index = select.selectedIndex;
+        console.log(index)
+        var keyword = select.options[index].value;
+        console.log('keyword: '+keyword)
+        displayAllShop(function(shop){
+            return keyword=='All'?true:shop.cat==keyword;
+        });
+    }
+
+    var setCookie = function(mid){
+        var now = new Date();
+        var time = now.getTime();
+        var expireTime = time + 1000*36000;
+        now.setTime(expireTime);
+        document.cookie = 'mid='+mid+';expires='+now.toGMTString()+';path=/';
+        console.log(document.cookie)
+        //window.location.hostname+
+        window.location.href = "/dish.html";
+    }
+    
+</script>
+</html>
