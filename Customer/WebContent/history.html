@@ -4,27 +4,29 @@
     <meta charset="UTF-8">
     <title>Order Histroy</title>
         <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+   <link type="text/css" rel="stylesheet" href="../css/rater.css" />
+    <script type="text/javascript" src="../js/jquery.rater.js"></script>
+    
 </head>
 <body>
 <div id="content">
     <div id="orderList">
         <div id="oid">
+           <button type="button" class="status" onclick="changeStatus('oid')">Confirm</button>
             <div class="shop">
-                <div clss="shopName">sname</div>
+                <div class="shopName">sname</div>
             </div>
             <div class="dishList">
-                <div id='001'>
-                    <div class="dishImage">image</div>
-                    <div class="dishInfo">
-                        <div class="dishName">dname</div>
-                        <div class="dishCat">Seafood</div>
-                        <div class="dishPrice">10.00</div>
-                        <div class="dishNumber">0</div>
-                    </div>
+                <div class="dishImage">image</div>
+                <div class="dishInfo">
+                    <div class="dishName">dname</div>
+                    <div class="dishCat">Seafood</div>
+                    <div class="dishPrice">10.00</div>
+                    <div class="dishNumber">0</div>
                 </div>
             </div>
             <div class="totalPrice">
@@ -36,17 +38,15 @@
                 </div>
                 <div class="comment">
                     <input type="text" placeholder="Comment..."/>
-                    <button type="button" onclick="sendComment">Send</button>
+                    <button type="button" onclick="sendComment('oid')">Send</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <script>
-    var curShop = {};
-    var allDish = {};
-    var allComment = {};
-    var cart = {};
+    
+    var orderList = {};
     
     $(function(){
         // ajax get shop, all dish, cart, comment
@@ -55,18 +55,9 @@
         $.ajax({
             type:'GET',
             url:aUrl,
-            data:{'mid':curShop.mid}
+            data:{}
         }).done(function(data){
-            try{
-                data = JSON.parse(data);
-            }
-            catch(e){
-                return;
-             }
-            cart = data.cart;
-            allDish = data.dish;
-            allComment = data.comments;
-            curShop = data.merchant;
+            orderList = data;
             displayAllOrder();
         });
     });
@@ -77,31 +68,45 @@
         for(var i=0; i<orderList.length; ++i){
             o = orderList[i];
             var order = $('<div id="'+o.oid+'"></div>');
+            
+            // display status
+            displayStatus(order, {'status':o.status, 'oid':o.oid});
+            
             // display shop
-            displayShop(order);
+            displayShop(order, o.merchant);
             
             // display order
             displayAllDish(order, o.dishes);
+            
+            // display totalPrice
+            displayTotalPrice(order, o.dishes);
+            
+            // display comment
+            displayFeedback(order, {'comment':o.comment, 'rating':o.rating, 'oid':o.oid});
         }
     }
     
-     var displayShop = function(parent){
+    var displayStatus = function(parent, data){
+        var s = $('<button type="button" class="status" onclick="changeStatus('+data.oid+')">'+data.status+'</button>');
+        s.appendTo(parent);
+    }
+    
+     var displayShop = function(parent, shop){
         var shop = $('<div class="shop"></div>');
-        var shopName = $('<div class="shopName">'+curShop.name+'</div>');
+        var shopName = $('<div class="shopName">'+shop.name+'</div>');
         shopName.appendTo(shop);
         shop.appendTo(parent);
     }
     
     var displayAllDish = function(parent, data){
-        
         var dishList = $('<div class="dishList"></div>');
         var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn;
         var d;
+        var _dish = data || [];
         
         // dish list
-        for(var i=0; i<data.length; ++i){
-            d = data[i];
-            dish = $('<div id='+d.did+'></div>');
+        for(var i=0; i<_dish.length; ++i){
+            d = _dish[i];
             dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
                 dishName = $('<div class="dishName">'+d.dname+'</div>');
@@ -114,35 +119,113 @@
             dishPrice.appendTo(dishInfo);
             dishNumber.appendTo(dishInfo);
             
-            dishImage.appendTo(dish);
-            dishInfo.appendTo(dish);
+            dishImage.appendTo(dishList);
+            dishInfo.appendTo(dishList);
             dish.appendTo(dishList);
             
-            console.log(dish)
+            console.log(dishList)
         }
         dishList.appendTo(parent);
-        
-        // total price
-        var totalPrice = $('<div class="totalPrice">'+getTotalPrice(d.did)+'</div>');
-        
     }
     
-    var displayAllComment = function(){
-        var comment = $('<div></div>');
-        var uname,content,date;
-        
-        var c;
-        for(var i=0; i<allComment.length; ++i){
-            c = allComment[i];
-            uname = $('<div class="commentUname">'+c.uname+'</div>');
-            content = $('<div class="commentContent">'+c.content+'</div>');
-            date = $('<div class="commentDate">'+c.date+'</div>');
-            
-            uname.appendTo(comment);
-            content.appendTo(comment);
-            date.appendTo(comment);
+    var displayTotalPrice = function(parent, dishes){
+        var total = 0;
+        dishes = dishes || [];
+        for(var i=0; i<dishes.length; ++i){
+            console.log('price: '+dishes[i].dish.price);
+            console.log('number: '+dishes[i].quantity)
+            total += dishes[i].dish.price * dishes[i].quantity;
         }
-        comment.appendTo($('#comment'));
+        
+        // total price
+        var totalPrice = $('<div class="totalPrice">'+total+'</div>');
+        totalPrice.appendTo(parent);
+    }
+    
+    var displayFeedback = function(parent, data){
+        var rating = data.rating;
+        var comment = data.comment;
+        var oid = data.oid;
+        
+        var feedbackE = $('<div class="feedback"></div>');
+        
+        var ratingE = $('<div class="rating"></div>');
+        if(rating==null || rating==""){
+            var input = $('<input type="text" />');
+            input.appendTo(ratingE);
+        }
+        else{
+            ratingE.text(rating);
+        }
+        
+        var commentE = $('<div class="comment"></div>');
+        
+        if(comment==null || comment==""){
+            $('<input type="text" placeholder="Comment..."/>').appendTo(commentE);
+            $('<button type="button" onclick="sendComment('+oid+')">Send</button>').appendTo(commentE);
+        }
+        else{
+            $('<div class="commentUname">'+comment.uname+'</div>').appendTo(commentE);
+            $('<div class="commentContent">'+comment.content+'</div>').appendTo(commentE);
+        }
+        commentE.appendTo(parent);
+    }
+    
+    var sendComment = function(oid){
+        var content = $('#'+oid+" .feedback .comment input").val();
+        var rating = $('#'+oid+" .feedback .rating input").val();
+            
+        var aUrl = "";
+
+        $.ajax({
+            type:'POST',
+            url:aUrl,
+            data:{'oid':oid,"content":content,"rating":rating}
+        }).done(function(data){
+            // update comment
+            var parent = $('#'+oid);
+            console.log(parent)
+            $('.feedback', parent).remove();
+            
+            var o;
+            for(var i=0; i<orderList.length; ++i){
+                if(orderList[i].oid==oid){
+                    o = orderList[i];
+                    o.comment = content;
+                    o.rating = rating;
+                    displayFeedback(parent, {'comment':o.comment, 'rating':o.rating, 'oid':o.oid});
+                    break;
+                }
+            }
+        });
+    }
+    
+    var changeStatus = function(oid){
+        var btn = $('#'+oid+" .status button");
+        var status = btn.text();
+            
+        var aUrl = "";
+
+        $.ajax({
+            type:'POST',
+            url:aUrl,
+            data:{'oid':oid,"status":status}
+        }).done(function(data){
+            // update comment
+            var parent = $('#'+oid);
+            console.log(parent)
+            
+            var o;
+            for(var i=0; i<orderList.length; ++i){
+                if(orderList[i].oid==oid){
+                    o = orderList[i];
+                    o.status = data.status;
+                    btn.text(data.status);
+                    break;
+                }
+            }
+            
+        });
     }
     
     var updateOrder = function(did){
@@ -168,46 +251,11 @@
         console.log(cart);
     }
     
-    $(window).on('beforeunload', function() {
-        // write into document cookie
-        // ajax send update section
-        cart.mid = curShop.mid;
-        
-        var aUrl = "";
-        $.ajax({
-            type:'POST',
-            url:aUrl,
-            data:cart
-        });
-        
-    });
-    
-    var getCookie = function(){
-        console.log(document.cookie);
-        var name = "mid=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            c = c.trim();
-            if (c.indexOf(name) === 0) {
-                // cookie found
-                var mid = c.substring(name.length, c.length);
-                curShop = {};
-                curShop.mid = mid;
-                break;
-            }
-        }
-    }
-    
     var getDishNumber = function(did){
         for(var i=0; i<cart.dish.length; ++i)
             if(cart.dish[i].did==did)
                 return cart.dish[i].number;
         return 0;
-    }
-    
-    var getTotalPrice = function(did){
-        
     }
     
 </script>

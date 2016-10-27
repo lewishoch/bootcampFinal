@@ -173,18 +173,16 @@
     
     var displayAllComment = function(){
         var comment = $('<div></div>');
-        var uname,content,date;
+        var uname,content;
         
         var c;
         for(var i=0; i<allComment.length; ++i){
             c = allComment[i];
             uname = $('<div class="commentUname">'+c.uname+'</div>');
             content = $('<div class="commentContent">'+c.content+'</div>');
-            date = $('<div class="commentDate">'+c.date+'</div>');
             
             uname.appendTo(comment);
             content.appendTo(comment);
-            date.appendTo(comment);
         }
         comment.appendTo($('#comment'));
     }
