@@ -10,6 +10,25 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
+<div id="header">
+    <div id="logo"></div>
+    
+     <div id="account"><form action="logout" method="GET"><button>Logout</button></form></div>
+</div>
+<div id="menu">
+     <table>
+         <tr>
+             <td class="menuButton" id="menuMenu">Menu</td>
+             <td class="menuButton" id="menuOrders">Orders</td>
+             <td class="menuButton" id="menuSetting">Setting</td>
+         </tr>
+     </table>
+</div>
+
+    <script>
+        
+    </script>
+
   <div id="content">
    <div class="dishAction">
        <div class="dishCat">
@@ -67,7 +86,7 @@
             url:aUrl,
             data:{'mid':curShop.mid}
         }).done(function(data){
-            cart = data.cart || {'mid':'','CartDish':[]};
+            cart = data.cart || {'mid':'','cartDish':[]};
             console.log(data)
             allDish = data.dish;
             allComment = data.comment;
@@ -158,7 +177,7 @@
             
             control = $('<div class="control"></div>');
             
-            if(cart.CartDish.indexOf(d)==-1)
+            if(cart.cartDish.indexOf(d)==-1)
                 btn = $('<button class="orderBtn" onclick="updateOrder('+d.did+')">add</button>');
             else
                 btn = $('<button class="cancelBtn" onclick="updateOrder('+d.did+')">remove</button>');
@@ -204,24 +223,24 @@
         console.log(element);
         // add to cookie
         console.log(cart);
-        cart.CartDish = (cart.CartDish instanceof Array)? cart.CartDish:[];
+        cart.cartDish = (cart.cartDish instanceof Array)? cart.cartDish:[];
         
         var index = -1;
-        for(var i=0; i<cart.CartDish.length; ++i){
-            if(cart.CartDish[i].did==did){
+        for(var i=0; i<cart.cartDish.length; ++i){
+            if(cart.cartDish[i].did==did){
                 index = i;
                 break;
             }
         }
         
         if(index==-1){
-            cart.CartDish.push({'did':did,'number':number});
+            cart.cartDish.push({'did':did,'number':number});
             element[0].setAttribute('class','cancelBtn');
             element.text("remove");
             $('#'+did+' .dishNumber input').prop('readonly', true);
         }
         else{
-            cart.CartDish.splice(index, 1);
+            cart.cartDish.splice(index, 1);
             element[0].setAttribute('class','orderBtn');
             element.text("add");
             $('#'+did+' .dishNumber input').prop('readonly', false);
@@ -262,9 +281,9 @@
     }
     
     var getDishNumber = function(did){
-        for(var i=0; i<cart.CartDish.length; ++i)
-            if(cart.CartDish[i].did==did)
-                return cart.CartDish[i].number;
+        for(var i=0; i<cart.cartDish.length; ++i)
+            if(cart.cartDish[i].did==did)
+                return cart.cartDish[i].number;
         return 0;
     }
     
