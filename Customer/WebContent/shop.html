@@ -33,7 +33,7 @@
                </div>
                <div class="shopSearch">
                    <input type="text" placeholder="Search..."/>
-                   <button type="button" onclick="searchShop()">Search</button>               </div>
+                   <button type="button" onchange="searchShop()">Search</button>               </div>
            </div>
            <div id="shopList">
                 <div class="shop">
@@ -83,13 +83,15 @@
                 data:{}
             }).done(function(data){
                 // store
-                allShop = JSON.parse(data);
-                if(allShop instanceof array === false)
+                allShop = data;
+                if(allShop instanceof Array === false)
                     allShop = [allShop];
                 createCatMenu();
                 displayAllShop();
             });
         }
+        
+        getAllShop();
     });
     
     var createCatMenu = function(){
