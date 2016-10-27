@@ -67,12 +67,14 @@
             url:aUrl,
             data:{'mid':curShop.mid}
         }).done(function(data){
+            console.log(data)
             try{
                 data = JSON.parse(data);
             }
             catch(e){
                 return;
              }
+             console.log(1); console.log(data)
             cart = data.cart;
             allDish = data.dish;
             allComment = data.comments;

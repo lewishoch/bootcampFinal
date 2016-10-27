@@ -89,6 +89,7 @@
                 if(allShop instanceof Array === false)
                     allShop = [allShop];
                 createCatMenu();
+                console.log('aaaaa')
                 displayAllShop();
             });
         }
@@ -118,6 +119,7 @@
     }
     
     var displayAllShop = function(filterFun,sortField){
+        console.log('bbbb')
         var data;
         (typeof filterFun === 'function')?
             data = allShop.filter(filterFun):
@@ -142,7 +144,7 @@
             shopTel = $('<div class="shopTel">'+d.tel+'</div>');
             shopAddr = $('<div class="shopAddr">'+d.addr+'</div>');
             shopRating = $('<div class="shopRating">'+d.rating+'</div>');
-            btn = $('<div class="btn"><button type="button"   onclick="setCookie('+d.mid+')">Order</button></div>');
+            btn = $('<div class="btn"><button type="button"   onclick="setCookie('+""+d.mid+')">Order</button></div>');
             
             shopImage.appendTo(shop);
             shopName.appendTo(shop);
@@ -185,6 +187,7 @@
     }
 
     var setCookie = function(mid){
+        console.log(1)
         var now = new Date();
         var time = now.getTime();
         var expireTime = time + 1000*36000;
