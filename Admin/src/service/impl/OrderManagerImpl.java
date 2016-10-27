@@ -101,8 +101,10 @@ public class OrderManagerImpl implements OrderManager{
 	@Override
 	@Transactional
 	public void insertAndBlock(Order o) {
-		Order order = od.insertOrder(o);
-		System.out.println(order.getMerchant().getMid());
+//		Order order = od.insertOrder(o);
+//		System.out.println(order.getMerchant().getMid());
+		long count = od.countOrdersByMerchant(o);
+		System.out.println("count: "+count);
 	}
 
 }

@@ -25,7 +25,7 @@ public class Dish {
 	private String category;
 	@ManyToOne(targetEntity=Merchant.class,cascade={CascadeType.PERSIST,CascadeType.REMOVE},fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
-	@JsonBackReference
+	
 	private Merchant merchant;
 	
 	public String getCategory() {
