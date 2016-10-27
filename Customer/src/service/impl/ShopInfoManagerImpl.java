@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dao.ShopInfoDao;
 import po.Dish;
@@ -24,26 +25,31 @@ public class ShopInfoManagerImpl implements ShopInfoManager {
 	private ShopInfoDao sd;
 	
 	@Override
+	@Transactional
 	public List<Dish> findAllDishes(String mid) {
 		return sd.findAllOwnDishes(mid);
 	}
 
 	@Override
+	@Transactional
 	public List<Order> findAllComments(String mid) {
 		return sd.findAllComments(mid);
 	}
 
 	@Override
+	@Transactional
 	public List<Dish> findDishesByCategory(String category) {
 		return sd.findDishesByCategory(category);
 	}
 
 	@Override
+	@Transactional
 	public List<Merchant> loadShopInfo(String mid, String category) {
 		return sd.loadShopInfo(mid, category);
 	}
 	
 	@Override
+	@Transactional
 	public Set<vo.Dish> loadAllDishOfMerchant(String mid) {
 		
 	
@@ -67,6 +73,7 @@ public class ShopInfoManagerImpl implements ShopInfoManager {
 	}
 	
 	@Override
+	@Transactional
 	public List<vo.Comment> loadAllCommmentsOfMerchant(String mid) {
 		
 	

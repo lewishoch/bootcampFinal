@@ -36,6 +36,7 @@ public class Customer {
 	private Date creDt;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastModDt;
+
 	public String getCid() {
 		return cid;
 	}
@@ -72,6 +73,8 @@ public class Customer {
 	public void setLastModDt(Date lastModDt) {
 		this.lastModDt = lastModDt;
 	}
+
+	
 	
 	
 	

@@ -27,7 +27,7 @@ public class TestProducer {
 	@Transactional
 	public void testMerchantQueueProducer() {
 		MerchantQueueProducer mqps = (MerchantQueueProducer) context.getBean("mqps");
-		Queue queue= (Queue)context.getBean("merchantQueue");
+		Queue queue= (Queue)context.getBean("merchantQueue2");
 		
 		MerchantMessage msgObj = new MerchantMessage();
 //		msgObj.setAction(MerchantMessage.REGISTER);

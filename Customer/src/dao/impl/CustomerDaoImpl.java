@@ -12,6 +12,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import po.Advertisement;
 import po.Customer;
 import dao.CustomerDao;
