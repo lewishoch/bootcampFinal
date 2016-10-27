@@ -56,9 +56,14 @@ public class CustomerDaoImpl implements CustomerDao{
 		Query q = em.createQuery(jpql);
 		q.setParameter("name", uname);
 		
-		Customer customer = (Customer) q.getSingleResult();
+		List<Customer> a= q.getResultList();
+		if(a.size()> 0)
+		{
+			return a.get(0);
+		}
+
 		
-		return customer;
+		return null;
 	}
 
 

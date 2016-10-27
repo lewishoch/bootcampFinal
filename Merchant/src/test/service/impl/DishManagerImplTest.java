@@ -36,7 +36,7 @@ public class DishManagerImplTest {
 		
 		d.setCategory("Others");
 		
-		dm.addDish(d);
+		System.out.println(dm.addDish(d));
 	}
 	
 	@org.junit.Test
@@ -73,7 +73,7 @@ public class DishManagerImplTest {
 	public void testDishDelete() {
 		Dish d = dm.loadDish("8a5e72cb580053710158005378440000");
 		
-		dm.deleteDish(d.getDid());
+		System.out.println(dm.deleteDish(d.getDid()));
 		
 		if (dm.loadDish("8a5e72cb580053710158005378440000") == null)
 			System.out.println("Deleted");

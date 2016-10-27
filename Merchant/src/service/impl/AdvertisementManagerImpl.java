@@ -22,8 +22,8 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 	}
 
 	@Transactional
-	public void addAdvertisement(Advertisement a) {
-		ad.addAdvertisement(a);
+	public Advertisement addAdvertisement(Advertisement a) {
+		return ad.addAdvertisement(a);
 	}
 
 }

@@ -43,11 +43,13 @@ public class OrderDaoImpl implements OrderDao {
 		return em.find(Order.class, oid);
 	}
 
-	public void updateOrder(Order o) {
+	public Order updateOrder(Order o) {
 		Order newO = em.find(Order.class, o.getOid());
 		
 		newO.setStatus(o.getStatus());
 		newO.setReply(o.getReply());
+		
+		return newO;
 	}
 
 }

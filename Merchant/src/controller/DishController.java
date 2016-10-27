@@ -22,27 +22,27 @@ public class DishController {
 	@Autowired
 	private MerchantManager mm;
 
-	@RequestMapping(value="findAllOwnDishes")
+	@RequestMapping(value="findAllOwnDishes", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public List<Dish> findAllOwnDishes(String mid) {
 		return dm.findAllOwnDishes(mid);
 	}
 	
-	@RequestMapping(value="loadDishById")
+	@RequestMapping(value="loadDishById", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Dish loadDish(String did) {
 		return dm.loadDish(did);
 	}
 	
-	@RequestMapping(value="loadDishByIdAndName")
+	@RequestMapping(value="loadDishByIdAndName", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Dish loadDish(String mid, String dname) {
 		return dm.loadDish(mid, dname);
 	}
 	
-	@RequestMapping(value="addDish",method={RequestMethod.POST})
+	@RequestMapping(value="addDish", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String addDish(String dishName, Integer dishPrice, String dishPhoto, String mid, String category) {
+	public Dish addDish(String dishName, Integer dishPrice, String dishPhoto, String mid, String category) {
 		try {
 			Dish d = new Dish();
 			d.setDishName(dishName);
@@ -50,23 +50,25 @@ public class DishController {
 			d.setDishPhoto(dishPhoto);
 			d.setMerchant(mm.loadMerchantById(mid));
 			d.setCategory(category);
-			dm.addDish(d);
-			return "{\"status\":1}";
+			return dm.addDish(d);
+			//return "{\"status\":1}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"status\":0}";
+			return null;
+			//return "{\"status\":0}";
 		}
 	}
 	
-	@RequestMapping(value="deleteDish",method={RequestMethod.POST})
+	@RequestMapping(value="deleteDish", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String deleteDish(String did) {
+	public Dish deleteDish(String did) {
 		try {
-			dm.deleteDish(did);
-			return "{\"status\":1}";
+			return dm.deleteDish(did);
+			//return "{\"status\":1}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"status\":0}";
+			return null;
+			//return "{\"status\":0}";
 		}
 	}
 	
