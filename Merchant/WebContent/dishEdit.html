@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dish Setting</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="js/common.js"></script>
+		<link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="header">
+     <div id="account"><form action="logout" method="GET"><button>Logout</button></form></div>
+</div>
+<div id="menu">
+     <table>
+         <tr>
+             <td class="menuButton" id="shopOrder">Order</td>
+             <td class="menuButton" id="shopAdv">Advertisement</td>
+             <td class="menuButton" id="shopSetting">Shop Setting</td>
+             <td class="menuButton" id="dishSetting">Dish Setting</td>
+         </tr>
+     </table>
+</div>
+    <div id="content">
+         <div id="dishList">
+             <div class="dish" id="did">
+                 <div class="dishName">dish name</div>
+                 <div class="dishPrice">10</div>
+                 <div class="dishPhoto"><img src=""></div>
+                 <div class="category">Others</div>
+                 <div class="removeDish"><button type="button" onclick="removeDish('did')">Remove</button></div>
+             </div>     
+         </div>
+         <div id="newDish">
+            <form action="" method="">
+                 <div class="dishName">
+                 <span>Dish Name</span>
+                 <input type="text" placeholder="Dish Name"/>
+                 </div>
+                 <div class="dishPrice">
+                 <span>Dish Price</span>
+                 <input type="number" placeholder="Dish Price"/>
+                 </div>
+                 <div class="dishPhoto">
+                 <!-- upload photo -->
+                 </div>
+                 <div class="category">
+                    <span>Category</span>
+                    <select name="sCat">
+                      <option value="Chinese">Chinese</option>
+                      <option value="French">French</option>
+                      <option value="Italian">Italian</option>
+                      <option value="Japanese">Japanese</option>
+                      <option value="Indian">Indian</option>
+                      <option value="Amercian">Amercian</option>
+                      <option value="Others">Others</option>
+                    </select> 
+                  </div>
+                  <div class="addDish">
+                      <button type="button" onclick="addDish()">Add</button>
+                  </div>
+             </form>
+         </div>
+    </div>
+<script>
+    
+    $(function(){
+        var aUrl = "dish/findAllOwnDishes";
+
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{}
+        }).done(function(data){
+            setInfo(data);
+        });
+    });
+    
+    var setInfo = function(data){    
+        var dishList = $('#dishList');
+        dishList.empty();
+        
+        for(var i=0; i<data.length; ++i){
+            appendDish(dishList, data[i]);
+        }
+    }
+    
+    var addDish = function(){
+        var aUrl = "dish/addDish";
+        var dish = {};
+        
+        dish.dishName = $('#newDish form .dishName input').val();
+        dish.dishPrice = $('#newDish form .dishPrice input').val();
+        dish.dishPhoto = $('#newDish form .dishPhoto input').val();
+        var e = $('#newDish form .category select')[0];
+        dish.category = e.options[e.selectedIndex].value;
+        
+        console.log(dish);
+        
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:dish
+        }).done(function(data){
+            if(data!=null && data!="")
+                appendDish($('#dishList'),data);
+            $('#newDish form').reset();
+        });
+    }
+    
+    var removeDish = function(did){
+        var aUrl = "dish/deleteDish";
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{'did':did}
+        }).done(function(data){
+            $('#'+did).remove();
+        });
+    }
+    
+    var appendDish = function(parent, d){
+        var dish = $('<div class="dish" id="'+d.did+'"></div>');
+        var dishName = $('<div class="dishName">'+d.dishName+'</div>');
+        var dishPrice = $('<div class="dishPrice">'+d.dishPrice+'</div>');
+        var dishPhoto = $('<div class="dishPhoto"><img src="'+d.dishPhoto+'"></div>');
+        var category = $('<div class="category">'+d.category+'</div>');
+        var removeDish = $('<div class="removeDish"><button type="button" onclick="remove("'+d.did+'")">Remove</button></div>');
+
+        dishName.appendTo(dish);
+        dishPrice.appendTo(dish);
+        dishPhoto.appendTo(dish);
+        category.appendTo(dish);
+        removeDish.appendTo(dish);
+        dish.appendTo(parent);
+    }
+    
+</script>
+</body>
+</html>
