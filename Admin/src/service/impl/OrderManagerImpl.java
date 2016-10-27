@@ -17,62 +17,62 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import dao.AdvertisementDao;
-import po.Advertisement;
+import dao.OrderDao;
 import po.Merchant;
-import service.AdvertisementManager;
+import po.Order;
+import service.OrderManager;
 @Service
-public class AdvertisementManagerImpl implements AdvertisementManager {
-
+public class OrderManagerImpl implements OrderManager{
 	@Autowired
-	private AdvertisementDao ad;
+	private OrderDao od;
 	
 	@Override
 	@Transactional
-	public List<Advertisement> findAllAds() {
-		List<Advertisement> as = ad.loadAllAds();
-		return as;
+	public Order getOrder(String oid) {
+		Order order = od.loadOrder(oid);
+		return order;
 	}
 
 	@Override
 	@Transactional
-	public Advertisement findAd(String aid) {
-		Advertisement a = ad.loadAd(aid);
-		return a;
+	public void updateOrder(Order o) {
+		od.updateOrder(o);
 	}
 
 	@Override
 	@Transactional
-	public void insertAd(Advertisement a) {
-		ad.insertAd(a);
+	public List<Order> findAllOrders() {
+		List<Order> os = od.findAllOrders();
+		return os;
 	}
 
 	@Override
 	@Transactional
-	public void updateAd(Advertisement a) {
-		ad.updateAd(a);
+	public void insertOrder(Order o) {
+		od.insertOrder(o);
 	}
 
 	@Override
 	@Transactional
-	public Advertisement getAdvertisementByWebService(String aid) {
-		String adString = "";
-		Advertisement ad = null;
+	public Order getOrderByWebService(String oid) {
+		String orderString = "";
+		Order order = null;
 		Client client = Client.create();
 		MultivaluedMap<String, String> params=new MultivaluedMapImpl();
-		params.add("id", aid);
+		params.add("oid", oid);
 		client.setReadTimeout(1000);
 		WebResource wr = client
-				.resource("http://localhost:8081/Admin/a/getAdvertisement");
-		adString  = wr
+//				.resource("http://localhost:8081/Admin/getOrder");
+				.resource("http://10.222.57.12:8080/Customer/order/getOrder");
+		orderString = wr
 				.queryParams(params)
 				.accept(MediaType.APPLICATION_JSON_TYPE)
 				.get(String.class);
 		
-		System.out.println(adString);	
+		System.out.println(orderString);
 		
 		try {
-			ad = new ObjectMapper().readValue(adString, Advertisement.class);
+			order = new ObjectMapper().readValue(orderString, Order.class);
 		} catch (JsonParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,8 +83,14 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return order;
+	}
+
+	@Override
+	@Transactional
+	public void insertAndBlock(Order o) {
+		Order order = od.insertOrder(o);
 		
-		return ad;
 	}
 
 }

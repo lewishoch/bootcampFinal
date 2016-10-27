@@ -30,9 +30,10 @@ public class TestProducer {
 		Queue queue= (Queue)context.getBean("merchantQueue");
 		
 		MerchantMessage msgObj = new MerchantMessage();
-		msgObj.setAction(MerchantMessage.REGISTER);
-		msgObj.setId("8a5e9d35580072db01580072de4b0000");
-		
+//		msgObj.setAction(MerchantMessage.REGISTER);
+//		msgObj.setId("8a5e9d35580072db01580072de4b0000");
+		msgObj.setAction(MerchantMessage.APPLY_ADS);
+		msgObj.setId("8a5e9d3558007c6b0158007c6e9a0000");
 		mqps.sendMessage(queue, msgObj);
 		
 	}
