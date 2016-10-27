@@ -50,13 +50,14 @@
                  </div>
                  <div class="category">
                     <span>Category</span>
-                    <select name="sCat">
-                      <option value="Chinese">Chinese</option>
-                      <option value="French">French</option>
-                      <option value="Italian">Italian</option>
-                      <option value="Japanese">Japanese</option>
-                      <option value="Indian">Indian</option>
-                      <option value="Amercian">Amercian</option>
+                    <select name="category">
+                      <option value="Dessert">Dessert</option>
+                      <option value="Drink">Drink</option>
+                      <option value="Pasta/Noodles">Pasta/Noodles</option>
+                      <option value="Soup">Soup</option>
+                      <option value="Meat">Meat</option>
+                      <option value="Seafood">Seafood</option>
+                      <option value="Salad/Vegetable">Salad/Vegetable</option>
                       <option value="Others">Others</option>
                     </select> 
                   </div>
@@ -69,7 +70,7 @@
 <script>
     
     $(function(){
-        var aUrl = "dish/findAllOwnDishes";
+        var aUrl = "findAllOwnDishes";
 
         $.ajax({
             type:'GET',
@@ -90,7 +91,7 @@
     }
     
     var addDish = function(){
-        var aUrl = "dish/addDish";
+        var aUrl = "addDish";
         var dish = {};
         
         dish.dishName = $('#newDish form .dishName input').val();
@@ -113,7 +114,7 @@
     }
     
     var removeDish = function(did){
-        var aUrl = "dish/deleteDish";
+        var aUrl = "deleteDish";
         $.ajax({
             type:'GET',
             url:aUrl,

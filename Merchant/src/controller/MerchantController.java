@@ -24,7 +24,6 @@ import queue.protocal.MerchantMessage;
 import service.MerchantManager;
 
 @Controller
-@RequestMapping(value="merchant")
 public class MerchantController {
 	
 	@Autowired
@@ -48,7 +47,7 @@ public class MerchantController {
 			sen.setAttribute("isLogin", true);
 			sen.setAttribute("uuid", m.getMid());
 			System.out.println("Login success");
-			resp.sendRedirect("");
+			resp.sendRedirect("adv.html");
 			return m;
 		}
 		
@@ -58,9 +57,9 @@ public class MerchantController {
 	
 	@RequestMapping(value="/signup", method={RequestMethod.POST})
 	@ResponseBody
-	public Merchant signup(String uname, String psd, String mName, String mGender, String sName, String sAddr, String sCat, String sStat, String sTel, String sLogoPath, HttpServletRequest req, HttpServletResponse resp) throws IOException
+	public Merchant signup(String uname, String psd, String mName, String mGender, String sName, String sAddr, String sCat, String sStat, String sTel, String sLogoPath, HttpServletRequest request, HttpServletResponse resp) throws IOException
 	{
-		HttpSession sen = req.getSession(true);
+		HttpSession sen = request.getSession(true);
 		
 		Merchant m = mm.loadMerchantByUname(uname);
 		
@@ -83,12 +82,12 @@ public class MerchantController {
 			shop.setsName(sName);
 			shop.setsAddr(sAddr);
 			shop.setsCat(sCat);
-			System.out.println(sStat+"..."+req.getParameter("sStat"));
-			if ("O".equals(req.getParameter("sStat")))
+			System.out.println(sStat+"..."+request.getParameter("sStat"));
+			if ("O".equals(request.getParameter("sStat")))
 				shop.setsStat(ShopStatusProtocol.OPENED);
-			else if ("C".equals(req.getParameter("sStat")))
+			else if ("C".equals(request.getParameter("sStat")))
 				shop.setsStat(ShopStatusProtocol.CLOSED);
-			else if ("P".equals(req.getParameter("sStat")))
+			else if ("P".equals(request.getParameter("sStat")))
 				shop.setsStat(ShopStatusProtocol.PREORDERED);
 			else
 				shop.setsStat(ShopStatusProtocol.INVALID);
@@ -104,7 +103,7 @@ public class MerchantController {
 				MerchantQueueProducerUtil.queue(MerchantMessage.REGISTER, mWithId.getMid());
 				sen.setAttribute("isLogin", true);
 				sen.setAttribute("uuid", mWithId.getMid());
-				resp.sendRedirect("");
+				resp.sendRedirect("edit.html");
 			}
 			
 			return mWithId;
@@ -126,16 +125,22 @@ public class MerchantController {
 		    session.invalidate();
 	}
 	
-	@RequestMapping(value="/getMerchant", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/loadMerchantById", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public Merchant loadMerchantById(HttpServletRequest req, HttpServletResponse resp) {
-		HttpSession s = req.getSession();
+	public Merchant loadMerchantById(HttpServletRequest request, HttpServletResponse resp) {
+		HttpSession s = request.getSession();
 		String mid;
 		if(s != null && (mid = (String)s.getAttribute("uuid")) != null)
 		{
 			return mm.loadMerchantById(mid);
 		}
 		return null;
+	}
+	
+	@RequestMapping(value="/getMerchant", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Merchant loadMerchantById(String mid) {
+		return mm.loadMerchantById(mid);
 	}
 	
 	@RequestMapping(value="loadMerchantByUname", method={RequestMethod.GET, RequestMethod.POST})

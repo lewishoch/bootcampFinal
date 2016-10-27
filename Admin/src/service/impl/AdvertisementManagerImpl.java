@@ -63,7 +63,7 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 		params.add("aid", aid);
 		client.setReadTimeout(1000);
 		WebResource wr = client
-				.resource("http://10.222.242.75:8080/Merchant/advertisement/getAdvertisement");
+				.resource("http://10.222.242.75:8080/Merchant/getAdvertisement");
 		adString  = wr
 				.queryParams(params)
 				.accept(MediaType.APPLICATION_JSON_TYPE)

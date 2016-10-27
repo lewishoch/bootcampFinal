@@ -20,10 +20,10 @@ public class WebServicesTest {
 		String merchantString = "";
 		Client client = Client.create();
 		MultivaluedMap<String, String> params=new MultivaluedMapImpl();
-		params.add("mid", "1");
+		params.add("mid", "2");
 		client.setReadTimeout(1000);
 		WebResource wr = client
-				.resource("http://10.222.242.75:8080/Merchant/merchant/getMerchant");
+				.resource("http://10.222.242.75:8080/Merchant/getMerchant");
 		merchantString = wr
 				.queryParams(params)
 				.accept(MediaType.APPLICATION_JSON_TYPE)
@@ -39,7 +39,7 @@ public class WebServicesTest {
 		params.add("aid", "8a5e72cb58054a880158054a8d860000");
 		client.setReadTimeout(1000);
 		WebResource wr = client
-				.resource("http://10.222.242.75:8080/Merchant/advertisement/getAdvertisement");
+				.resource("http://10.222.242.75:8080/Merchant/getAdvertisement");
 		advertisementString = wr
 				.queryParams(params)
 				.accept(MediaType.APPLICATION_JSON_TYPE)

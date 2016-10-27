@@ -26,7 +26,7 @@
      </table>
 </div>
     <div id="update">
-        <form action="merchant/updateMerchant" method="POST" >
+        <form action="updateMerchant" method="POST" >
              <div id="unameField">
                  <span>User Name</span>
                   <input type="text" name="uname" placeholder="User name" readonly/>
@@ -72,7 +72,7 @@
 <script>
     
     $(function(){
-        var aUrl = "merchant/getMerchant";
+        var aUrl = "loadMerchantById";
 
         $.ajax({
             type:'GET',
