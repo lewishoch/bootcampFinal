@@ -18,33 +18,34 @@ public class OrderController {
 	@Autowired
 	private OrderManager om;
 	
-	@RequestMapping(value="findAllOwnOrders")
+	@RequestMapping(value="findAllOwnOrders", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public List<Order> findAllOwnOrders(String mid) {
 		return om.findAllOwnOrders(mid);
 	}
 	
-	@RequestMapping(value="findAllOwnOrdersByStatus")
+	@RequestMapping(value="findAllOwnOrdersByStatus", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public List<Order> findAllOwnOrdersByStatus(String mid, Integer status) {
 		return om.findAllOwnOrdersByStatus(mid, status);
 	}
 	
-	@RequestMapping(value="loadOrder")
+	@RequestMapping(value="loadOrder", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Order loadOrder(String oid) {
 		return om.loadOrder(oid);
 	}
 	
-	@RequestMapping(value="updateOrder",method={RequestMethod.POST})
+	@RequestMapping(value="updateOrder", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String updateOrder(Order o) {
+	public Order updateOrder(Order o) {
 		try {
-			om.updateOrder(o);
-			return "{\"status\":1}";
+			return om.updateOrder(o);
+			//return "{\"status\":1}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"status\":0}";
+			return null;
+			//return "{\"status\":0}";
 		}
 	}
 

@@ -75,7 +75,7 @@
         
         // get all shop data
         var getAllShop = function(){
-            var aUrl = "";
+            var aUrl = "findAllShop";
 
             $.ajax({
                 type:'GET',
@@ -83,13 +83,16 @@
                 data:{}
             }).done(function(data){
                 // store
-                allShop = JSON.parse(data);
-                if(allShop instanceof array === false)
+                
+                console.log(data)
+                allShop = data;
+                if(allShop instanceof Array === false)
                     allShop = [allShop];
                 createCatMenu();
                 displayAllShop();
             });
         }
+        getAllShop();
     });
     
     var createCatMenu = function(){
@@ -129,18 +132,20 @@
         var shopList = $('#shopList');
         shopList.empty();
         console.log(shopList);
-        var shop,shopImage,shopTel,shopAddr,shopRating,btn;
+        var shop,shopImage,shopName,shopTel,shopAddr,shopRating,btn;
         var d;
         for(var i=0; i<data.length; ++i){
             d = data[i];
             shop = $('<div class="shop"></div>');
             shopImage = $('<div class="shopImage"><img src="'+d.picPath+'"/></div>');
+            shopName = $('<div clss="shopName">'+d.name+'</div>');
             shopTel = $('<div class="shopTel">'+d.tel+'</div>');
             shopAddr = $('<div class="shopAddr">'+d.addr+'</div>');
             shopRating = $('<div class="shopRating">'+d.rating+'</div>');
             btn = $('<div class="btn"><button type="button"   onclick="setCookie('+d.mid+')">Order</button></div>');
             
             shopImage.appendTo(shop);
+            shopName.appendTo(shop);
             shopTel.appendTo(shop);
             shopAddr.appendTo(shop);
             shopRating.appendTo(shop);

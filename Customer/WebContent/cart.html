@@ -11,12 +11,6 @@
 </head>
 <body>
   <div id="content">
-   <div class="dishAction">
-       <div class="dishCat">
-           <select onchange="searchCat()">
-          </select>
-       </div>
-   </div>
     <div id="shop">
         <div clss="shopName">
         sname
@@ -35,29 +29,26 @@
                 <div class="dishPrice">
                     10.00
                 </div>
+                <div class="dishNumber">
+                    0
+                </div>
             </div>
-            <div class="control">
-                <button class="orderBtn" onclick="updateOrder('001')">add</button>
+            <div class="totalPrice">
+                10.00
             </div>
         </div>
     </div>
     <div class="check">
-        <a herf="../cart.html">Check</a>
-    </div>
-    <div id="comment">
+        <button type="button" onclick="confirm()">Confirm</button>
     </div>
     </div>
 <script>
     var curShop = {};
     var allDish = {};
-    var allComment = {};
     var cart = {};
-    var section = {};
     
     $(function(){
-        getCookie();
-        
-        // ajax get shop, all dish, cart, comment
+        // ajax get shop, all dish, cart
         var aUrl = "";
 
         $.ajax({
@@ -71,39 +62,13 @@
             catch(e){
                 return;
              }
-            section = data;
-            cart = section.cart;
-            allDish = section.dish;
-            allComment = section.comment;
-            curShop.name = section.shop.name;
+            cart = data.cart;
+            allDish = data.dish;
+            curShop = data.merchant;
             displayShop();
             displayAllDish();
-            displayAllComment();
-            createCatMenu();
         });
     });
-    
-     var createCatMenu = function(){
-        var select = $('.dishCat select');
-        var options = {};
-        // take all cat options from shop
-        for(var i=allDish.length-1; i>=0; --i){
-            options[""+allDish[i].cat] = null;
-        }
-        
-        options = Object.getOwnPropertyNames(options);
-        // sorting
-        options.sort();
-             
-        var option = $('<option></option>');
-            option.text('All');
-            option.appendTo(select);
-        for(var i=0; i<options.length; ++i){
-            option = $('<option></option>');
-            option.text(options[i]);
-            option.appendTo(select);
-        }
-    }
      
      var displayShop = function(){
         var shop = $('#shop');
@@ -112,166 +77,65 @@
         shopName.appendTo(shop);
     }
     
-    var searchCat = function(){
-        var select = $('.dishCat select')[0];
-        console.log(select)
-        var index = select.selectedIndex;
-        console.log(index)
-        var keyword = select.options[index].value;
-        console.log('keyword: '+keyword)
-        displayAllDish(function(dish){
-            return keyword=='All'?true:dish.cat==keyword;
-        });
-    }
-    
-    var displayAllDish = function(filterFun,sortField){
-        
-        var data;
-        (typeof filterFun === 'function')?
-            data = allDish.filter(filterFun):
-            data = allDish;
-        
-        // sort 
-        var sortType = sortField || 'rating';
-        data.sort(function(a,b){
-            return a[sortType] - b[sortType];
-        });
-        
+    var displayAllDish = function(){
         var dishList = $('#dishList');
         dishList.empty();
         console.log(dishList);
-        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,control,btn;
+        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber;
         var d;
+        var data = cart.dish;
         
         for(var i=0; i<data.length; ++i){
-            d = data[i];
+            d = getDishInfo(data[i].did);
             dish = $('<div id='+d.did+'></div>');
             dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
-                dishName = $('<div class="dishName">'+d.dname+'</div>');
+                dishName = $('<div class="dishName">'+d.name+'</div>');
                 dishCat = $('<div class="dishCat">'+d.cat+'</div>');
                 dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
-            control = $('<div class="control"></div>');
-            
-            if(cart.dish.indexOf(d)==-1)
-                btn = $('<button class="orderBtn" onclick="updateOrder('+d.did+')">add</button>');
-            else
-                btn = $('<button class="cancelBtn" onclick="updateOrder('+d.did+')">remove</button>');
+                dishNumber = $('<div class="dishNumber">'+data[i]..number+'</div>');
             
             dishName.appendTo(dishInfo);
             dishCat.appendTo(dishInfo);
             dishPrice.appendTo(dishInfo);
-            btn.appendTo(control);
+            dishNumber.appendTo(dishInfo);
             
             dishImage.appendTo(dish);
             dishInfo.appendTo(dish);
-            control.appendTo(dish);
             dish.appendTo(dishList);
             
             console.log(dish)
         }
+        updatePrice();
     }
     
-    var displayAllComment = function(){
-        var comment = $('<div></div>');
-        var uname,content,date;
+    var updatePrice = function(){
+        var totalPrice = 0;
+        for(var i=0; i<cart.length; ++i)
+            totalPrice += cart.dish[i].price + cart.dish[i].number;
+        $('.totalPrice').text(totalPrice);
         
-        var c;
-        for(var i=0; i<allComment.length; ++i){
-            c = allComment[i];
-            uname = $('<div class="commentUname">'+c.uname+'</div>');
-            content = $('<div class="commentContent">'+c.content+'</div>');
-            date = $('<div class="commentDate">'+c.date+'</div>');
-            
-            uname.appendTo(comment);
-            content.appendTo(comment);
-            date.appendTo(comment);
-        }
-        comment.appendTo($('#comment'));
     }
     
-    var updateOrder = function(did){
-        var element = $('#'+did+' .control button');
-        console.log(element);
-        // add to cookie
-        console.log(cart);
-        console.log((cart.dish instanceof Array));
-        cart.dish = (cart.dish instanceof Array)? cart.dish:[];
-        
-        var index = cart.dish.indexOf(did);
-        if(index==-1){
-            cart.dish.push(did);
-            element[0].setAttribute('class','cancelBtn');
-            element.text("remove");
-        }
-        else{
-            cart.dish.splice(index, 1);
-            element[0].setAttribute('class','orderBtn');
-            element.text("add");
-        }
-            
-        console.log(cart);
-        
-//        // write cookie & use cookie to get total price
-//        if(mid !== cookie.mid){ 
-//            cookie = {};
-//            cookie.mid = mid;
-//            cookie.dish = [];
-//            cookie.dish.push({'did':did,'number':number});
-//            totalPrice = number*price;
-//            console.log(cookie.dish);
-//        }
-//        else{
-//            
-//            var orgPrice;
-//            var dish = cookie.dish;
-//            for(var i=0; i<dish.length; ++i)
-//                if(did===dish[i].did){
-//                    orgPrice = price*dish[i].number;
-//                    dish[i].number = number;
-//                }
-//            
-//            if(orgPrice==null){
-//                cookie.dish.push({'did':did,'number':number});
-//                orgPrice = 0;
-//            }
-//                
-//            var diffPrice = number*price - orgPrice;
-//            totalPrice += diffPrice;
-//        }
-    
-//        $('#'+mid+' .orderPrice').text(totalPrice);
-    }
-    
-    $(window).on('beforeunload', function() {
-        // write into document cookie
-        // ajax send update section
-        cart.mid = curShop.mid;
-        
+    var confirm = function(){
         var aUrl = "";
+        console.log('curShop.mid: '+curShop.mid);
+        
         $.ajax({
             type:'POST',
             url:aUrl,
-            data:cart
+            data:{'mid':curShop.mid}
         });
         
-    });
+        //window.location.hostname+
+        window.location.href = "/shop.html";
+    }
     
-    var getCookie = function(){
-        console.log(document.cookie);
-        var name = "mid=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            c = c.trim();
-            if (c.indexOf(name) === 0) {
-                // cookie found
-                var mid = c.substring(name.length, c.length);
-                curShop = {};
-                curShop.mid = mid;
-                break;
-            }
-        }
+    var getDishInfo = function(did){
+        for(var i=0; i<allDish.length; ++i)
+            if(allDish[i].did==did)
+                return allDish[i];
+        console.log('error, dish info not included');
     }
     
 </script>

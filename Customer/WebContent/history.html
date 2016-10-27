@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HistoryOrder</title>
+        <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="content">
+    <div id="shop">
+        <div clss="shopName">
+        sname
+        </div>
+    </div>
+    <div id="dishList">
+       <div id='001'>
+            <div class="dishImage">image</div>
+            <div class="dishInfo">
+                <div class="dishName">
+                    dname
+                </div>
+                <div class="dishCat">
+                    Seafood
+                </div>
+                <div class="dishPrice">
+                    10.00
+                </div>
+                <div class="dishNumber">
+                    0
+                </div>
+            </div>
+            <div class="totalPrice">
+                10.00
+            </div>
+        </div>
+    </div>
+    <div class="check">
+        <button type="button" onclick="confirm()">Confirm</button>
+    </div>
+    </div>
+<script>
+    var curShop = {};
+    var allDish = {};
+    var cart = {};
+    
+    $(function(){
+        // ajax get shop, all dish, cart
+        var aUrl = "";
+
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{'mid':curShop.mid}
+        }).done(function(data){
+            try{
+                data = JSON.parse(data);
+            }
+            catch(e){
+                return;
+             }
+            cart = data.cart;
+            allDish = data.dish;
+            curShop = data.merchant;
+            displayShop();
+            displayAllDish();
+        });
+    });
+     
+     var displayShop = function(){
+        var shop = $('#shop');
+        shop.empty();
+        var shopName = $('<div class="shopName">'+curShop.name+'</div>');
+        shopName.appendTo(shop);
+    }
+    
+    var displayAllDish = function(){
+        var dishList = $('#dishList');
+        dishList.empty();
+        console.log(dishList);
+        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber;
+        var d;
+        var data = cart.dish;
+        
+        for(var i=0; i<data.length; ++i){
+            d = getDishInfo(data[i].did);
+            dish = $('<div id='+d.did+'></div>');
+            dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
+            dishInfo = $('<div class="dishInfo"></div>');
+                dishName = $('<div class="dishName">'+d.name+'</div>');
+                dishCat = $('<div class="dishCat">'+d.cat+'</div>');
+                dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
+                dishNumber = $('<div class="dishNumber">'+data[i]..number+'</div>');
+            
+            dishName.appendTo(dishInfo);
+            dishCat.appendTo(dishInfo);
+            dishPrice.appendTo(dishInfo);
+            dishNumber.appendTo(dishInfo);
+            
+            dishImage.appendTo(dish);
+            dishInfo.appendTo(dish);
+            dish.appendTo(dishList);
+            
+            console.log(dish)
+        }
+        updatePrice();
+    }
+    
+    var updatePrice = function(){
+        var totalPrice = 0;
+        for(var i=0; i<cart.length; ++i)
+            totalPrice += cart.dish[i].price + cart.dish[i].number;
+        $('.totalPrice').text(totalPrice);
+        
+    }
+    
+    var confirm = function(){
+        var aUrl = "";
+        console.log('curShop.mid: '+curShop.mid);
+        
+        $.ajax({
+            type:'POST',
+            url:aUrl,
+            data:{'mid':curShop.mid}
+        });
+        
+        //window.location.hostname+
+        window.location.href = "/shop.html";
+    }
+    
+    var getDishInfo = function(did){
+        for(var i=0; i<allDish.length; ++i)
+            if(allDish[i].did==did)
+                return allDish[i];
+        console.log('error, dish info not included');
+    }
+    
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-package protocal;
+package queue.protocal;
 
 public class CustomerMessage {
 	private String id;

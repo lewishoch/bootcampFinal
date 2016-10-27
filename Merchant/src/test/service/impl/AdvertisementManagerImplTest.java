@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import po.Advertisement;
+import producer.util.MerchantQueueProducerUtil;
+import protocal.MerchantMessage;
 import protocol.AdvertisementStatusProtocol;
 import service.AdvertisementManager;
 import service.MerchantManager;
@@ -24,12 +26,18 @@ public class AdvertisementManagerImplTest {
 	
 	@org.junit.Test
 	public void testAdvertisementAdd() {
-		Advertisement a = new Advertisement();
-		a.setMerchant(mm.loadMerchantById("8a5e72cb57ffe8b00157ffe8b8900000"));
-		a.setStatus(AdvertisementStatusProtocol.PENDING);
-		a.setCreDt(new Date());
-		a.setLastModDt(new Date());
-		am.addAdvertisement(a);
+		Advertisement newA = new Advertisement();
+		newA.setMerchant(mm.loadMerchantById("1"));
+		newA.setStatus(AdvertisementStatusProtocol.PENDING);
+		newA.setCreDt(new Date());
+		newA.setLastModDt(new Date());
+		
+		Advertisement aWithId = null;
+		//Send Apply Ads message to Admin by Queue
+		if ((aWithId = am.addAdvertisement(newA)) != null) {
+			System.out.println(aWithId.getAid());
+			MerchantQueueProducerUtil.queue(MerchantMessage.APPLY_ADS, aWithId.getAid());
+		}
 	}
 	
 	@org.junit.Test
