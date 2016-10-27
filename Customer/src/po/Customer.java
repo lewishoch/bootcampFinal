@@ -30,7 +30,6 @@ public class Customer {
 	private String psd;
 	@ElementCollection(fetch=FetchType.EAGER)
 	@JoinColumn(name = "address", referencedColumnName = "cid")
-	@JsonManagedReference
 	@Column(name="address")
 	private List<String> address;
 	@Temporal(TemporalType.TIMESTAMP)

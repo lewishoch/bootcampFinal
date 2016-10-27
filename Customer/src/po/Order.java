@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="orders")
@@ -40,6 +41,7 @@ public class Order {
 	
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="oid")
+	@JsonManagedReference
 	private Set<OrderedDish> dishes = new HashSet<OrderedDish>();
 	
 	
@@ -57,19 +59,19 @@ public class Order {
 	
 //	private String reply;
 
-	public Date getCreDt() {
+	public Date getCreDatet() {
 		return creDt;
 	}
 
-	public void setCreDt(Date creDt) {
+	public void setCreDt1(Date creDt) {
 		this.creDt = creDt;
 	}
 
-	public Date getLastModDt() {
+	public Date getDateLastModDt() {
 		return lastModDt;
 	}
 
-	public void setLastModDt(Date lastModDt) {
+	public void setLastModDt1(Date lastModDt) {
 		this.lastModDt = lastModDt;
 	}
 

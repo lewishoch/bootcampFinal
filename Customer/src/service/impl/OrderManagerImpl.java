@@ -39,6 +39,7 @@ public class OrderManagerImpl implements OrderManager {
 		order.setComments(o.getComments());
 		order.setOid(o.getOid());
 		order.setRating(o.getRating());
+	
 		return order;
 	}
 

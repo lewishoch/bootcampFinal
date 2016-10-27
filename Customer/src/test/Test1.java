@@ -111,6 +111,13 @@ public class Test1 {
 		for (Order a: o){
 			System.out.println(a);
 		}
+		ObjectMapper oj = new ObjectMapper();
+		try {
+			System.out.println(oj.writeValueAsString(o));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
