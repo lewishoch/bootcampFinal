@@ -273,17 +273,17 @@
         console.log(element);
         // add to cookie
         console.log(cart);
-        cart.dish = (cart.dish instanceof Array)? cart.dish:[];
+        cart.cartDish = (cart.cartDish instanceof Array)? cart.cartDish:[];
         
-        var index = cart.dish.indexOf(did);
+        var index = cart.cartDish.indexOf(did);
         if(index==-1){
-            cart.dish.push({'did':did,'number':number});
-            cart.dish.push(did);
+            cart.cartDish.push({'did':did,'number':number});
+            cart.cartDish.push(did);
             element[0].setAttribute('class','cancelBtn');
             element.text("remove");
         }
         else{
-            cart.dish.splice(index, 1);
+            cart.cartDish.splice(index, 1);
             element[0].setAttribute('class','orderBtn');
             element.text("add");
         }
@@ -292,9 +292,9 @@
     }
     
     var getDishNumber = function(did){
-        for(var i=0; i<cart.dish.length; ++i)
-            if(cart.dish[i].did==did)
-                return cart.dish[i].number;
+        for(var i=0; i<cart.cartDish.length; ++i)
+            if(cart.cartDish[i].did==did)
+                return cart.cartDish[i].number;
         return 0;
     }
     
