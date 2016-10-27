@@ -60,13 +60,14 @@
         getCookie();
         
         // ajax get shop, all dish, cart, comment
-        var aUrl = "";
+        var aUrl = "loadAllDish";
 
         $.ajax({
             type:'GET',
             url:aUrl,
             data:{'mid':curShop.mid}
         }).done(function(data){
+<<<<<<< HEAD
             console.log(data)
             try{
                 data = JSON.parse(data);
@@ -76,8 +77,11 @@
              }
              console.log(1); console.log(data)
             cart = data.cart;
+=======
+            cart = data.cart || {'mid':'','dish':[]};
+>>>>>>> origin/Steve
             allDish = data.dish;
-            allComment = data.comments;
+            allComment = data.comment;
             curShop = data.merchant;
             displayShop();
             displayAllDish();
@@ -151,7 +155,7 @@
             dish = $('<div id='+d.did+'></div>');
             dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
-                dishName = $('<div class="dishName">'+d.dname+'</div>');
+                dishName = $('<div class="dishName">'+d.name+'</div>');
                 dishCat = $('<div class="dishCat">'+d.cat+'</div>');
                 dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
                 dishNumber = $('<div class="dishNumber"><input type="number" value="'+getDishNumber(d.did)+'"/></div>');
@@ -204,10 +208,16 @@
         console.log(cart);
         cart.dish = (cart.dish instanceof Array)? cart.dish:[];
         
-        var index = cart.dish.indexOf(did);
+        var index = -1;
+        for(var i=0; i<cart.dish.length; ++i){
+            if(cart.dish[i].did==did){
+                index = i;
+                break;
+            }
+        }
+        
         if(index==-1){
             cart.dish.push({'did':did,'number':number});
-            cart.dish.push(did);
             element[0].setAttribute('class','cancelBtn');
             element.text("remove");
         }

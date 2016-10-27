@@ -33,7 +33,7 @@
                </div>
                <div class="shopSearch">
                    <input type="text" placeholder="Search..."/>
-                   <button type="button" onclick="searchShop()">Search</button>               </div>
+                   <button type="button" onchange="searchShop()">Search</button>               </div>
            </div>
            <div id="shopList">
                 <div class="shop">
@@ -83,8 +83,6 @@
                 data:{}
             }).done(function(data){
                 // store
-                
-                console.log(data)
                 allShop = data;
                 if(allShop instanceof Array === false)
                     allShop = [allShop];
