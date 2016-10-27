@@ -14,7 +14,7 @@
 <body>
     <div id="content">
         <div id="register">
-            <form action="signup" method="POST" >
+            <form action="merchant/signup" method="POST" >
                  <div id="unameField">
                      <span>User Name</span>
                       <input type="text" name="uname" placeholder="User name" required/>
@@ -59,6 +59,10 @@
                           </div>
                       </div>
                       
+                  </div>
+                  <div id="statusField">
+                      <span>Status</span>
+                      <input type="radio" value="O" checked="checked" name="sStat"/><label>Opened </label><input type="radio" value="C" name="sStat"/><label>Closed </label><input type="radio" value="P" name="sStat"/><label>Pre-ordered </label>
                   </div>
                   <div>
                       <button type="button" onclick="form.submit()">Submit</button>

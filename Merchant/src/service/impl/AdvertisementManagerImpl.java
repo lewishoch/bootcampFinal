@@ -27,21 +27,25 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 	@Autowired
 	private AdvertisementDao ad;
 	
+	@Override
 	@Transactional
 	public List<Advertisement> findAllOwnAdvertisements(String mid) {
 		return ad.findAllOwnAdvertisements(mid);
 	}
 
+	@Override
 	@Transactional
 	public Advertisement addAdvertisement(Advertisement a) {
 		return ad.addAdvertisement(a);
 	}
 	
+	@Override
 	@Transactional
 	public Advertisement loadAdvertisement(String aid) {
 		return ad.loadAdvertisement(aid);
 	}
 	
+	@Override
 	@Transactional
 	public Advertisement getAdvertisementByWebService(String aid) {
 		String advertisementString = "";
@@ -74,8 +78,9 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 	}
 
 	@Override
+	@Transactional
 	public void updateAdvertisement(Advertisement a) {
-		ad.addAdvertisement(a);
+		ad.updateAdvertisement(a);
 	}
 
 }

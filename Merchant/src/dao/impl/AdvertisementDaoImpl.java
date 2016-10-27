@@ -42,8 +42,11 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 
 	@Override
 	public void updateAdvertisement(Advertisement a) {
+		System.out.println(a.getAid()+"..."+a.getStatus());
 		Advertisement ad = em.find(Advertisement.class, a.getAid());
+		System.out.println(ad.getAid()+"..."+ad.getStatus());
 		ad.setStatus(a.getStatus());
 		ad.setLastModDt(new Date());
+		System.out.println(ad.getAid()+"..."+ad.getStatus());
 	}
 }

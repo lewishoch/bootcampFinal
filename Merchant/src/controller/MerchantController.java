@@ -17,7 +17,9 @@ import po.Merchant;
 import po.ShopInfo;
 import producer.util.MerchantQueueProducerUtil;
 import protocol.AccountStatusProtocol;
+import protocol.GenderProtocol;
 import protocol.ShopCategoryProtocol;
+import protocol.ShopStatusProtocol;
 import queue.protocal.MerchantMessage;
 import service.MerchantManager;
 
@@ -56,7 +58,7 @@ public class MerchantController {
 	
 	@RequestMapping(value="/signup", method={RequestMethod.POST})
 	@ResponseBody
-	public Merchant signup(String uname, String psd, String mName, Integer mAge, String sName, String sAddr, String sTel, String sLogoPath, HttpServletRequest req, HttpServletResponse resp) throws IOException
+	public Merchant signup(String uname, String psd, String mName, String mGender, String sName, String sAddr, String sCat, String sStat, String sTel, String sLogoPath, HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
 		HttpSession sen = req.getSession(true);
 		
@@ -69,18 +71,29 @@ public class MerchantController {
 			newM.setUname(uname);
 			newM.setPsd(psd);
 			newM.setStatus(AccountStatusProtocol.PENDING);
-			newM.setmName(mName);
-			newM.setmAge(mAge);
-			//newM.setmGender(GenderProtocol.);
+			newM.setmName("Merchant Name");
+			newM.setmAge(35);
+			if (mGender.equals("M"))
+				newM.setmGender(GenderProtocol.MALE);
+			else if (mGender.equals("F"))
+				newM.setmGender(GenderProtocol.FEMALE);
 			newM.setRating(0);
 			newM.setNumOfOrder(0);
 			ShopInfo shop = new ShopInfo();
 			shop.setsName(sName);
 			shop.setsAddr(sAddr);
-			shop.setsCat(ShopCategoryProtocol.OTHERS);
-			//shop.setsStat(ShopStatusProtocol);
+			shop.setsCat(sCat);
+			System.out.println(sStat+"..."+req.getParameter("sStat"));
+			if ("O".equals(req.getParameter("sStat")))
+				shop.setsStat(ShopStatusProtocol.OPENED);
+			else if ("C".equals(req.getParameter("sStat")))
+				shop.setsStat(ShopStatusProtocol.CLOSED);
+			else if ("P".equals(req.getParameter("sStat")))
+				shop.setsStat(ShopStatusProtocol.PREORDERED);
+			else
+				shop.setsStat(ShopStatusProtocol.INVALID);
 			shop.setsTel(sTel);
-			shop.setsLogoPath(sLogoPath);
+			shop.setsLogoPath("need change");
 			newM.setShop(shop);
 			newM.setCreDt(new Date());
 			newM.setLastModDt(new Date());
