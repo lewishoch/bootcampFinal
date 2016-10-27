@@ -106,6 +106,12 @@
 		</constructor-arg>
 	</bean>
 	
+	<bean id="merchantQueue2" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg>
+			<value>Merchant_Q002</value>
+		</constructor-arg>
+	</bean>
+	
 	<bean id="customerQueue" class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg>
 			<value>Customer_Q001</value>
