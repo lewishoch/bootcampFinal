@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import po.Advertisement;
-import po.Dish;
 import dao.AdvertisementDao;
 
 @Repository
@@ -31,4 +30,12 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		return a;
 	}
 
+	public Advertisement loadAdvertisement(String aid) {
+		String jpql = "select a from Advertisement a where a.aid=:aid";
+		Advertisement a = (Advertisement)em
+				.createQuery(jpql)
+				.setParameter("aid", aid)
+				.getSingleResult();
+		return a;
+	}
 }

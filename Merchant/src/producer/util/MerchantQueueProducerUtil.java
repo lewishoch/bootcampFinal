@@ -2,13 +2,12 @@ package producer.util;
 
 import javax.jms.Queue;
 
-import org.junit.BeforeClass;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import producer.MerchantQueueProducer;
-import protocal.MerchantMessage;
+import queue.producer.MerchantQueueProducer;
+import queue.protocal.MerchantMessage;
 
 public class MerchantQueueProducerUtil {
 private static ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");

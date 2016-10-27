@@ -11,11 +11,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import po.Merchant;
 import po.ShopInfo;
 import producer.util.MerchantQueueProducerUtil;
-import protocal.MerchantMessage;
 import protocol.AccountStatusProtocol;
 import protocol.GenderProtocol;
 import protocol.ShopCategoryProtocol;
 import protocol.ShopStatusProtocol;
+import queue.protocal.MerchantMessage;
 import service.MerchantManager;
 
 public class MerchantManagerImplTest {
