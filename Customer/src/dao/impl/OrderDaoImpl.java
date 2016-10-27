@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -32,15 +33,17 @@ public class OrderDaoImpl implements OrderDao {
 		o.setStatus(order.getStatus());
 		o.setComments(order.getComments());
 		o.setRating(order.getRating());
+		o.setLastModDt(new Date());
 		return o;
 	}
 
 	@Override
 	public Order findOrder(String id) {
-		String jpql="select o from Order o where oid =:oid ";
+		String jpql="select o from Order o where oid =:oid";
 		Query q = em.createQuery(jpql);
 		q.setParameter("oid", id);
 		List<Order> orders = q.getResultList();
+		System.out.println(orders.size());
 		if(orders.get(0)!=null){
 			return orders.get(0);
 		} else{

@@ -164,6 +164,13 @@ public class CustomerController {
 		return mm.findAllMerchant();
 	}
 	
+	@RequestMapping(value="findOrder", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Order findOrder(String id){
+		System.out.println("finding an order...");
+		return om.findOrder(id);
+	}
+	
 	@RequestMapping(value="viewAllOrders", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody	
 	public List<Order> viewAllOrders(String cid){

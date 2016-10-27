@@ -19,18 +19,17 @@ import po.Customer;
 import po.Dish;
 import po.Merchant;
 import po.Order;
+import service.AdvertisementManager;
 import service.CustomerManager;
 import service.DishManager;
 import service.MerchantManager;
 import service.OrderManager;
 import service.ShopInfoManager;
-import vo.AllShop;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.CustomerDao;
-import service.AdvertisementManager;
 
 
 public class Test1 {
@@ -117,6 +116,15 @@ public class Test1 {
 	@Test
 	public void TestFindOrder(){
 		Order o = om.findOrder("2");
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			System.out.println(mapper.writeValueAsString(o));
+			
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
 		System.out.println(o.getRating()+"..."+o.getComments());
 	}
 	@Test

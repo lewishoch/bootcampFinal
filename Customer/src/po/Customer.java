@@ -17,6 +17,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="customer")
 public class Customer {
@@ -26,8 +28,9 @@ public class Customer {
 	private String cid;
 	private String name;
 	private String psd;
-	@ElementCollection(fetch=FetchType.LAZY)
-	@JoinColumn(name = "address", referencedColumnName = "cid") 
+	@ElementCollection(fetch=FetchType.EAGER)
+	@JoinColumn(name = "address", referencedColumnName = "cid")
+	@JsonManagedReference
 	@Column(name="address")
 	private List<String> address;
 	@Temporal(TemporalType.TIMESTAMP)
