@@ -1,18 +1,7 @@
 package controller;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import javax.jms.Queue;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -22,18 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import po.Advertisement;
-import po.Customer;
-import po.Dish;
 import po.Merchant;
 import po.ShopInfo;
-import producer.MerchantQueueProducer;
 import producer.util.MerchantQueueProducerUtil;
-import protocal.MerchantMessage;
 import protocol.AccountStatusProtocol;
-import protocol.GenderProtocol;
 import protocol.ShopCategoryProtocol;
-import protocol.ShopStatusProtocol;
+import queue.protocal.MerchantMessage;
 import service.MerchantManager;
 
 @Controller
@@ -118,7 +101,7 @@ public class MerchantController {
 		    session.invalidate();
 	}
 	
-	@RequestMapping(value="loadMerchantById", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/getMerchant", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Merchant loadMerchantById(String mid) {
 		return mm.loadMerchantById(mid);

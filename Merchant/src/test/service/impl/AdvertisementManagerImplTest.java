@@ -11,8 +11,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import po.Advertisement;
 import producer.util.MerchantQueueProducerUtil;
-import protocal.MerchantMessage;
 import protocol.AdvertisementStatusProtocol;
+import queue.protocal.MerchantMessage;
 import service.AdvertisementManager;
 import service.MerchantManager;
 

@@ -2,9 +2,16 @@ package service.impl;
 
 import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import dao.AdvertisementDao;
 import po.Advertisement;
@@ -24,6 +31,27 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 	@Transactional
 	public Advertisement addAdvertisement(Advertisement a) {
 		return ad.addAdvertisement(a);
+	}
+	
+	@Transactional
+	public Advertisement loadAdvertisement(String aid) {
+		return ad.loadAdvertisement(aid);
+	}
+	
+	@Transactional
+	public void getAdvertisementByWebService(String aid) {
+		String advertisementString = "";
+		Client client = Client.create();
+		MultivaluedMap<String, String> params=new MultivaluedMapImpl();
+		params.add("id", aid);
+		client.setReadTimeout(1000);
+		WebResource wr = client
+				.resource("http://10.222.29.181:8081/Admin/a/getAdvertisement");
+		advertisementString = wr
+				.queryParams(params)
+				.accept(MediaType.APPLICATION_JSON_TYPE)
+				.get(String.class);
+		System.out.println(advertisementString);	
 	}
 
 }
