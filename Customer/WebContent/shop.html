@@ -168,6 +168,14 @@
             shopAddr = $('<div class="shopAddr">'+d.addr+'</div>');
             shopRating = $('<div class="shopRating"></div>');
             
+            var whiteStarString = '<span>'+whiteStar+'</span>';
+            var blackStarString = '<span>'+blackStar+'</span>';
+            var star;
+            for(var j=1; j<6; ++j){
+                star = $((j<=d.rating)? blackStarString:whiteStarString);
+                console.log(star)
+                star.appendTo(shopRating);
+            }
             
             btn = $('<div class="btn"><button type="button"   onclick="setCookie('+""+d.mid+')">Order</button></div>');
             

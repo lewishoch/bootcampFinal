@@ -220,7 +220,10 @@
         $.ajax({
             type:'POST',
             url:aUrl,
-            data:{'oid':oid,"content":content,"rating":rating}
+            data:JSON.stringify({'oid':oid,"content":content,"rating":rating}),
+            contentType:"application/json;charset=UTF-8",
+            processData: false
+            
         }).done(function(data){
             // update comment
             var parent = $('#'+oid);
