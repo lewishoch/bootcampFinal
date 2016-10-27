@@ -47,4 +47,5 @@ public class AdvertisementManagerImplTest {
 			System.out.println(a.getAid()+"..."+a.getMerchant().getUname()+"..."+a.getStatus()+"..."+a.getCreDt()+"..."+a.getLastModDt());
 		}
 	}
+	
 }

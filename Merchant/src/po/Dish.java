@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name="dish")
 public class Dish {
@@ -22,6 +24,7 @@ public class Dish {
 	private String dishPhoto;
 	@ManyToOne(targetEntity=Merchant.class,cascade={CascadeType.PERSIST,CascadeType.REMOVE},fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
+	@JsonBackReference
 	private Merchant merchant;
 	private String category;
 	

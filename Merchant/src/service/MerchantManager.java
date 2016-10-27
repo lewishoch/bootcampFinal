@@ -8,4 +8,5 @@ public interface MerchantManager {
 	public Merchant addMerchant(Merchant m);
 	public Merchant updateMerchant(Merchant m);
 	public Merchant deleteMerchant(int mid);
+	public void getMerchantByWebService(String mid);
 }

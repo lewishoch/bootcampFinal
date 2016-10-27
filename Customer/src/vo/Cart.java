@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Cart {
 	private String mid;
-	private List<CartDish> cartDish = new ArrayList<CartDish>();
+	private List<CartDish> cartDish;
 	
 	public String getMid() {
 		return mid;

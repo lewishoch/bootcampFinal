@@ -22,6 +22,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="merchant")
 public class Merchant {
@@ -60,10 +62,12 @@ public class Merchant {
 	*/
 	@OneToMany(mappedBy="merchant",fetch=FetchType.EAGER)
 	//@JoinColumn(name="mid")
+	@JsonManagedReference
 	private Set<Dish> dishes = new HashSet<Dish>();
 	
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
+	@JsonManagedReference
 	private Set<Advertisement> advertisements = new HashSet<Advertisement>();
 
 	@Embedded

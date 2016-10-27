@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +29,7 @@ import service.ShopInfoManager;
 import vo.AllDishOfMerchant;
 import vo.AllShop;
 import vo.Cart;
+import vo.CartDish;
 
 @Controller
 public class CustomerController {
@@ -130,8 +131,9 @@ public class CustomerController {
 		{
 		    session.invalidate();
 		    System.out.println("lougout success");
-		    resp.sendRedirect("index.html");
+		    
 		}
+		resp.sendRedirect("index.html");
 	}
 	
 	
@@ -242,8 +244,17 @@ public class CustomerController {
 		HttpSession s = request.getSession();
 		if(s != null && s.getAttribute(mid) != null)
 		{
-			System.out.println("session has cart obj");
+			System.out.println("!!!!!!!!!!!!!!!!!session has cart obj");
 			obj.setCart((Cart)s.getAttribute(mid));
+		}
+		else
+		{
+			System.out.println("session no cart obj");
+			
+			Cart cc = new Cart();
+			List<CartDish> cd = new ArrayList<CartDish>();
+			cc.setCartDish(cd);
+			obj.setCart(cc);
 		}
 		return obj;
 	}
@@ -264,12 +275,15 @@ public class CustomerController {
 	
 	@RequestMapping(value="addToCart", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public void addToCart(vo.Cart cart, HttpServletRequest request,HttpServletResponse resp){
-		HttpSession s = request.getSession(false);
+	public void addToCart(Cart cart, HttpServletRequest request,HttpServletResponse resp){
+		
+		HttpSession s = request.getSession();
+		System.out.println(s+cart.getMid());
 		if(s != null)
 		{
-			s.setAttribute(cart.getMid(), cart);
-			System.out.println("set cart session for "+cart.getMid()+"success");
+//			System.out.println("addToCart controller");
+//			s.setAttribute(cart.getMid(), cart);
+//			System.out.println("set cart session for "+cart.getMid()+"success");
 		}
 	}
 	

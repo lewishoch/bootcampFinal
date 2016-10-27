@@ -43,6 +43,7 @@ public class MerchantManagerImpl implements MerchantManager {
 	@Override
 	@Transactional
 	public void insertMerchant(Merchant m) {
+//		System.out.println("test");
 		md.insertMerchant(m);
 	}
 
@@ -64,7 +65,7 @@ public class MerchantManagerImpl implements MerchantManager {
 		WebResource wr = client
 //				.resource("http://localhost:8081/Admin/m/getMerchant");
 //				.resource("http://10.222.242.9:8080/Merchant/getMerchant");
-				.resource("http://10.222.242.9:8080/Merchant/merchant/getMerchant");
+				.resource("http://10.222.242.75:8080/Merchant/merchant/getMerchant");
 		
 		merchantString = wr
 				.queryParams(params)
