@@ -29,19 +29,19 @@ public class OrderWebServiceController {
 	
 	@Autowired
 	private OrderManager om;
-//	
-//	public void getOrder(){
-//		Client client = Client.create();
-//		WebResource wr = client
-//				.resource("");
-//		ClientResponse resp=wr
-//				.type(MediaType.APPLICATION_FORM_URLENCODED_TYPE)//Content-Type request header
-//				.accept(MediaType.APPLICATION_JSON_TYPE)
-//				.get(ClientResponse.class);
-//		String result=resp.getEntity(String.class);
-//		
-//		
-//	}
+	
+	public void getOrder(){
+		Client client = Client.create();
+		WebResource wr = client
+				.resource("");
+		ClientResponse resp=wr
+				.type(MediaType.APPLICATION_FORM_URLENCODED_TYPE)//Content-Type request header
+				.accept(MediaType.APPLICATION_JSON_TYPE)
+				.get(ClientResponse.class);
+		String result=resp.getEntity(String.class);
+		
+		
+	}
 	
 	@RequestMapping("/writeComment")
 	@ResponseBody
