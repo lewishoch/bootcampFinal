@@ -58,8 +58,8 @@ public class Merchant {
 	@ElementCollection
 	@JoinTable(name="dishes", joinColumns=@JoinColumn(name="mId"))
 	*/
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="mid")
+	@OneToMany(mappedBy="merchant",fetch=FetchType.EAGER)
+	//@JoinColumn(name="mid")
 	private Set<Dish> dishes = new HashSet<Dish>();
 	
 	@OneToMany(fetch=FetchType.EAGER)

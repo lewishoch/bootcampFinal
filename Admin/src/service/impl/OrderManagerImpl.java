@@ -90,7 +90,7 @@ public class OrderManagerImpl implements OrderManager{
 	@Transactional
 	public void insertAndBlock(Order o) {
 		Order order = od.insertOrder(o);
-		
+		System.out.println(order.getMerchant().getMid());
 	}
 
 }

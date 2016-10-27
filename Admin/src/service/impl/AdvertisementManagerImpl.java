@@ -60,10 +60,10 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 		Advertisement ad = null;
 		Client client = Client.create();
 		MultivaluedMap<String, String> params=new MultivaluedMapImpl();
-		params.add("id", aid);
+		params.add("aid", aid);
 		client.setReadTimeout(1000);
 		WebResource wr = client
-				.resource("http://localhost:8081/Admin/a/getAdvertisement");
+				.resource("http://10.222.242.75:8080/Merchant/advertisement/getAdvertisement");
 		adString  = wr
 				.queryParams(params)
 				.accept(MediaType.APPLICATION_JSON_TYPE)

@@ -23,7 +23,7 @@ public class MerchantMessageConsumer {
 		MerchantMessage msg = MerchantMessageProcessor.process(message);
 		System.out.println(msg.getId()+"..."+msg.getAction());
 		if(msg.getAction() == MerchantMessage.REGISTER){
-			System.out.println("test1");
+//			System.out.println("test1");
 			Merchant merchant = mm.getMerchantByWebService(msg.getId());
 			System.out.println(merchant.getmName());
 			if(merchant != null)
