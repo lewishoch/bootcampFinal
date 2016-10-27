@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -37,5 +38,12 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 				.setParameter("aid", aid)
 				.getSingleResult();
 		return a;
+	}
+
+	@Override
+	public void updateAdvertisement(Advertisement a) {
+		Advertisement ad = em.find(Advertisement.class, a.getAid());
+		ad.setStatus(a.getStatus());
+		ad.setLastModDt(new Date());
 	}
 }
