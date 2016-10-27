@@ -35,7 +35,6 @@
                 <div class="shopName">sname</div>
             </div>
             <div class="dishList">
-                <div class="dishImage">image</div>
                 <div class="dishInfo">
                     <div class="dishName">dname</div>
                     <div class="dishCat">Seafood</div>
@@ -119,14 +118,13 @@
     
     var displayAllDish = function(parent, data){
         var dishList = $('<div class="dishList"></div>');
-        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn, preTime;
+        var dish,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn, preTime;
         var d;
         var _dish = data || [];
         
         // dish list
         for(var i=0; i<_dish.length; ++i){
             d = _dish[i];
-            dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
                 dishName = $('<div class="dishName">'+d.dname+'</div>');
                 dishCat = $('<div class="dishCat">'+d.cat+'</div>');
@@ -140,7 +138,6 @@
             dishNumber.appendTo(dishInfo);
             parTime.appendTo(dishInfo);
             
-            dishImage.appendTo(dishList);
             dishInfo.appendTo(dishList);
             dish.appendTo(dishList);
             
