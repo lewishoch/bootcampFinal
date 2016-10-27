@@ -104,7 +104,7 @@
     
     var displayAllDish = function(parent, data){
         var dishList = $('<div class="dishList"></div>');
-        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn;
+        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn, preTime;
         var d;
         var _dish = data || [];
         
@@ -117,11 +117,13 @@
                 dishCat = $('<div class="dishCat">'+d.cat+'</div>');
                 dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
                 dishNumber = $('<div class="dishNumber">'+getDishNumber(d.did)+'</div>');
-            
+                var timeDiff = getTimeDiff(d.creDt, d.lastModDt);
+                parTime = $('<div class="dishPreTime">'+timeDiff+'</div>');
             dishName.appendTo(dishInfo);
             dishCat.appendTo(dishInfo);
             dishPrice.appendTo(dishInfo);
             dishNumber.appendTo(dishInfo);
+            parTime.appendTo(dishInfo);
             
             dishImage.appendTo(dishList);
             dishInfo.appendTo(dishList);
@@ -295,6 +297,42 @@
         
         $(star.parentNode.parentNode).children('input').val(prevs.length+1);
 
+    }
+    
+    var getTimeDiff = function(t1,t2){
+        var t = (t2-t1)/1000;
+        var sec = ~~t%60; t/=60;
+        var min = ~~t%60; t/=60;
+        var hour = ~~t%24; t/=24;
+        var day = ~~t;
+        
+        var str = "";
+        
+        if(day>0){
+            str += day+" day(s) ";
+            str += hour+" hour(s) ";
+            str += min+" min(s) ";
+            str += sec+" sec(s)";
+        }
+        else{
+            if(hour>0){
+                str += hour+" hour(s) ";
+                str += min+" min(s) ";
+                str += sec+" sec(s)";
+            }
+            else{
+                if(min>0){
+                    str += min+" min(s) ";
+                    str += sec+" sec(s)";
+                }
+                else{
+                    str += sec+" sec(s)";
+                }
+            }
+        }
+        
+        return str;
+        
     }
     
 </script>
