@@ -83,13 +83,16 @@
                 data:{}
             }).done(function(data){
                 // store
-                allShop = JSON.parse(data);
-                if(allShop instanceof array === false)
+                
+                console.log(data)
+                allShop = data;
+                if(allShop instanceof Array === false)
                     allShop = [allShop];
                 createCatMenu();
                 displayAllShop();
             });
         }
+        getAllShop();
     });
     
     var createCatMenu = function(){

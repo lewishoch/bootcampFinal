@@ -69,7 +69,8 @@ public class CustomerController {
 			resp.sendRedirect("shop.html");
 			return c;
 		}
-		return c;
+		resp.sendRedirect("index.html");
+		return null;
 	}
 	
 	@RequestMapping(value="/signup", method={RequestMethod.POST})
