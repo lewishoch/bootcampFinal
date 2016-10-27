@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DishList</title>
+        <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="content">
+   <div class="dishAction">
+       <div class="dishCat">
+           <select onchange="searchCat()">
+          </select>
+       </div>
+   </div>
+    <div id="shop">
+        <div clss="shopName">
+        sname
+        </div>
+    </div>
+    <div id="dishList">
+       <div id='001'>
+            <div class="dishImage">image</div>
+            <div class="dishInfo">
+                <div class="dishName">
+                    dname
+                </div>
+                <div class="dishCat">
+                    Seafood
+                </div>
+                <div class="dishPrice">
+                    10.00
+                </div>
+            </div>
+            <div class="control">
+                <button class="orderBtn" onclick="updateOrder('001')">add</button>
+            </div>
+        </div>
+    </div>
+    <div class="check">
+        <a herf="../cart.html">Check</a>
+    </div>
+    <div id="comment">
+    </div>
+    </div>
+<script>
+    var curShop = {};
+    var allDish = {};
+    var allComment = {};
+    var cart = {};
+    var section = {};
+    
+    $(function(){
+        getCookie();
+        
+        // ajax get shop, all dish, cart, comment
+        var aUrl = "";
+
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{'mid':curShop.mid}
+        }).done(function(data){
+            try{
+                data = JSON.parse(data);
+            }
+            catch(e){
+                return;
+             }
+            section = data;
+            cart = section.cart;
+            allDish = section.dish;
+            allComment = section.comment;
+            curShop.name = section.shop.name;
+            displayShop();
+            displayAllDish();
+            displayAllComment();
+            createCatMenu();
+        });
+    });
+    
+     var createCatMenu = function(){
+        var select = $('.dishCat select');
+        var options = {};
+        // take all cat options from shop
+        for(var i=allDish.length-1; i>=0; --i){
+            options[""+allDish[i].cat] = null;
+        }
+        
+        options = Object.getOwnPropertyNames(options);
+        // sorting
+        options.sort();
+             
+        var option = $('<option></option>');
+            option.text('All');
+            option.appendTo(select);
+        for(var i=0; i<options.length; ++i){
+            option = $('<option></option>');
+            option.text(options[i]);
+            option.appendTo(select);
+        }
+    }
+     
+     var displayShop = function(){
+        var shop = $('#shop');
+        shop.empty();
+        var shopName = $('<div class="shopName">'+curShop.name+'</div>');
+        shopName.appendTo(shop);
+    }
+    
+    var searchCat = function(){
+        var select = $('.dishCat select')[0];
+        console.log(select)
+        var index = select.selectedIndex;
+        console.log(index)
+        var keyword = select.options[index].value;
+        console.log('keyword: '+keyword)
+        displayAllDish(function(dish){
+            return keyword=='All'?true:dish.cat==keyword;
+        });
+    }
+    
+    var displayAllDish = function(filterFun,sortField){
+        
+        var data;
+        (typeof filterFun === 'function')?
+            data = allDish.filter(filterFun):
+            data = allDish;
+        
+        // sort 
+        var sortType = sortField || 'rating';
+        data.sort(function(a,b){
+            return a[sortType] - b[sortType];
+        });
+        
+        var dishList = $('#dishList');
+        dishList.empty();
+        console.log(dishList);
+        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,control,btn;
+        var d;
+        
+        for(var i=0; i<data.length; ++i){
+            d = data[i];
+            dish = $('<div id='+d.did+'></div>');
+            dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
+            dishInfo = $('<div class="dishInfo"></div>');
+                dishName = $('<div class="dishName">'+d.dname+'</div>');
+                dishCat = $('<div class="dishCat">'+d.cat+'</div>');
+                dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
+            control = $('<div class="control"></div>');
+            
+            if(cart.dish.indexOf(d)==-1)
+                btn = $('<button class="orderBtn" onclick="updateOrder('+d.did+')">add</button>');
+            else
+                btn = $('<button class="cancelBtn" onclick="updateOrder('+d.did+')">remove</button>');
+            
+            dishName.appendTo(dishInfo);
+            dishCat.appendTo(dishInfo);
+            dishPrice.appendTo(dishInfo);
+            btn.appendTo(control);
+            
+            dishImage.appendTo(dish);
+            dishInfo.appendTo(dish);
+            control.appendTo(dish);
+            dish.appendTo(dishList);
+            
+            console.log(dish)
+        }
+    }
+    
+    var displayAllComment = function(){
+        var comment = $('<div></div>');
+        var uname,content,date;
+        
+        var c;
+        for(var i=0; i<allComment.length; ++i){
+            c = allComment[i];
+            uname = $('<div class="commentUname">'+c.uname+'</div>');
+            content = $('<div class="commentContent">'+c.content+'</div>');
+            date = $('<div class="commentDate">'+c.date+'</div>');
+            
+            uname.appendTo(comment);
+            content.appendTo(comment);
+            date.appendTo(comment);
+        }
+        comment.appendTo($('#comment'));
+    }
+    
+    var updateOrder = function(did){
+        var element = $('#'+did+' .control button');
+        console.log(element);
+        // add to cookie
+        console.log(cart);
+        console.log((cart.dish instanceof Array));
+        cart.dish = (cart.dish instanceof Array)? cart.dish:[];
+        
+        var index = cart.dish.indexOf(did);
+        if(index==-1){
+            cart.dish.push(did);
+            element[0].setAttribute('class','cancelBtn');
+            element.text("remove");
+        }
+        else{
+            cart.dish.splice(index, 1);
+            element[0].setAttribute('class','orderBtn');
+            element.text("add");
+        }
+            
+        console.log(cart);
+        
+//        // write cookie & use cookie to get total price
+//        if(mid !== cookie.mid){ 
+//            cookie = {};
+//            cookie.mid = mid;
+//            cookie.dish = [];
+//            cookie.dish.push({'did':did,'number':number});
+//            totalPrice = number*price;
+//            console.log(cookie.dish);
+//        }
+//        else{
+//            
+//            var orgPrice;
+//            var dish = cookie.dish;
+//            for(var i=0; i<dish.length; ++i)
+//                if(did===dish[i].did){
+//                    orgPrice = price*dish[i].number;
+//                    dish[i].number = number;
+//                }
+//            
+//            if(orgPrice==null){
+//                cookie.dish.push({'did':did,'number':number});
+//                orgPrice = 0;
+//            }
+//                
+//            var diffPrice = number*price - orgPrice;
+//            totalPrice += diffPrice;
+//        }
+    
+//        $('#'+mid+' .orderPrice').text(totalPrice);
+    }
+    
+    $(window).on('beforeunload', function() {
+        // write into document cookie
+        // ajax send update section
+        cart.mid = curShop.mid;
+        
+        var aUrl = "";
+        $.ajax({
+            type:'POST',
+            url:aUrl,
+            data:cart
+        });
+        
+    });
+    
+    var getCookie = function(){
+        console.log(document.cookie);
+        var name = "mid=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            c = c.trim();
+            if (c.indexOf(name) === 0) {
+                // cookie found
+                var mid = c.substring(name.length, c.length);
+                curShop = {};
+                curShop.mid = mid;
+                break;
+            }
+        }
+    }
+    
+</script>
+</body>
+</html>

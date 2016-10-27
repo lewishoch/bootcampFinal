@@ -26,24 +26,7 @@ public class TestAdvertisementDao {
 	private AdvertisementManager am = (AdvertisementManager)context.getBean(AdvertisementManager.class);
 	
 	@Test
-	public void testInsertAd(){
-//		ShopInfo s = new ShopInfo();
-//		s.setsAddr("111111");
-//		s.setsName("111");
-//		s.setsTel("1111");
-//		s.setsLogoPath("1111");
-//		s.setsCat("111");
-//		Merchant m = new Merchant();
-//		m.setUname("test");
-//		m.setStatus(3);
-//		m.setmName("444");
-//		m.setPsd("123");
-//		m.setmGender("F");
-//		m.setmAge(100);
-//		m.setCreDt(new Date());
-//		m.setLastModDt(new Date());
-//		m.setShop(s);
-		
+	public void testInsertAd(){		
 		Merchant m = mm.findMerchant("8a5e9d35580070ba01580070bd760000");
 		Advertisement a = new Advertisement();
 		a.setMerchant(m);
@@ -51,14 +34,13 @@ public class TestAdvertisementDao {
 		a.setCreDt(new Date());
 		a.setLastModDt(new Date());
 		
-//		ad.insertAd(a);
 		am.insertAd(a);
 	}
 	
 	@Test
-	public void testLoadAllAds() throws Exception{
+	public void testLoadAllAds(){
 		List<Advertisement> as = am.findAllAds();
-		List<Advertisement> as1 = new ArrayList<Advertisement>();
+//		List<Advertisement> as1 = new ArrayList<Advertisement>();
 		
 		for(Advertisement a:as){
 			Advertisement a1 = new Advertisement();
@@ -69,7 +51,7 @@ public class TestAdvertisementDao {
 			} catch (Exception e) {
 				e.printStackTrace();
 			} 		
-			as1.add(a1);
+//			as1.add(a1);
 		}
 	}
 }

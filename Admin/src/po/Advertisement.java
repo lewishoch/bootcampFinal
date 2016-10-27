@@ -24,7 +24,7 @@ public class Advertisement {
 	@GeneratedValue(generator="aid")
 	private String aid;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
 	private Merchant merchant;
 	
