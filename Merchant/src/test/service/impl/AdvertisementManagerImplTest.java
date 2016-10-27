@@ -29,7 +29,7 @@ public class AdvertisementManagerImplTest {
 		a.setStatus(AdvertisementStatusProtocol.PENDING);
 		a.setCreDt(new Date());
 		a.setLastModDt(new Date());
-		am.addAdvertisement(a);
+		System.out.println(am.addAdvertisement(a));
 	}
 	
 	@org.junit.Test

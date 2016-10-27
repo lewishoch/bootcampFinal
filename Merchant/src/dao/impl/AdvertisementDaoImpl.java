@@ -26,8 +26,9 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		return as;
 	}
 
-	public void addAdvertisement(Advertisement a) {
+	public Advertisement addAdvertisement(Advertisement a) {
 		em.persist(a);
+		return a;
 	}
 
 }

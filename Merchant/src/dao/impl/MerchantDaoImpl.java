@@ -33,11 +33,12 @@ public class MerchantDaoImpl implements MerchantDao {
 		return m;
 	}
 
-	public void addMerchant(Merchant m) {
+	public Merchant addMerchant(Merchant m) {
 		em.persist(m);
+		return m;
 	}
 
-	public void updateMerchant(Merchant m) {
+	public Merchant updateMerchant(Merchant m) {
 		Merchant newM = em.find(Merchant.class, m.getMid());
 		
 		ShopInfo si = new ShopInfo();
@@ -50,12 +51,16 @@ public class MerchantDaoImpl implements MerchantDao {
 		newM.setShop(si);
 		
 		newM.setLastModDt(m.getLastModDt());
+		
+		return newM;
 	}
 
-	public void deleteMerchant(int mid) {
+	public Merchant deleteMerchant(int mid) {
 		Merchant m = em.find(Merchant.class, mid);
 		
 		em.remove(m);
+		
+		return m;
 	}
 
 }

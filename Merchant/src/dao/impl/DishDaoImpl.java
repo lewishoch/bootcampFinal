@@ -43,14 +43,17 @@ public class DishDaoImpl implements DishDao {
 		}
 	}
 
-	public void addDish(Dish d) {
+	public Dish addDish(Dish d) {
 		em.merge(d);
+		return d;
 	}
 
-	public void deleteDish(String did) {
+	public Dish deleteDish(String did) {
 		Dish d = em.find(Dish.class, did);
 		
 		em.remove(d);
+		
+		return d;
 	}
 
 }

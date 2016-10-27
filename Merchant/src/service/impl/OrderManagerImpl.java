@@ -32,8 +32,8 @@ public class OrderManagerImpl implements OrderManager {
 	}
 
 	@Transactional
-	public void updateOrder(Order o) {
-		od.updateOrder(o);
+	public Order updateOrder(Order o) {
+		return od.updateOrder(o);
 	}
 
 }

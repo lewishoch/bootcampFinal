@@ -45,7 +45,7 @@ public class MerchantManagerImplTest {
 		m.setLastModDt(new Date());
 		
 		if (mm.loadMerchantByUname(m.getUname()) != null)
-			mm.addMerchant(m);
+			System.out.println(mm.addMerchant(m));
 		else
 			System.out.println("Merchant name exist already!");
 	}
@@ -84,7 +84,7 @@ public class MerchantManagerImplTest {
 		m.setShop(shop);
 		m.setLastModDt(new Date());
 		
-		mm.updateMerchant(m);
+		System.out.println(mm.updateMerchant(m));
 		
 		m = mm.loadMerchantById("8a5e72cb57ffe8b00157ffe8b8900000");
 		System.out.println("Updated Merchant: "+m.getUname()+"..."+m.getPsd()+"..."+m.getStatus()+"..."+m.getmName()+"..."+m.getmAge()+"..."+m.getmGender()+"..."+m.getShop().getsName()+"..."+m.getShop().getsAddr()+"..."+m.getShop().getsCat()+"..."+m.getShop().getsTel()+"..."+m.getShop().getsLogoPath());

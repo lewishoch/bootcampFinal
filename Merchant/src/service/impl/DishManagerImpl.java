@@ -32,13 +32,13 @@ public class DishManagerImpl implements DishManager {
 	}
 
 	@Transactional
-	public void addDish(Dish d) {
-		dd.addDish(d);
+	public Dish addDish(Dish d) {
+		return dd.addDish(d);
 	}
 
 	@Transactional
-	public void deleteDish(String did) {
-		dd.deleteDish(did);
+	public Dish deleteDish(String did) {
+		return dd.deleteDish(did);
 	}
 
 }

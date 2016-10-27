@@ -25,18 +25,18 @@ public class MerchantManagerImpl implements MerchantManager {
 	}
 	
 	@Transactional
-	public void addMerchant(Merchant m) {
-		md.addMerchant(m);
+	public Merchant addMerchant(Merchant m) {
+		return md.addMerchant(m);
 	}
 
 	@Transactional
-	public void updateMerchant(Merchant m) {
-		md.updateMerchant(m);
+	public Merchant updateMerchant(Merchant m) {
+		return md.updateMerchant(m);
 	}
 
 	@Transactional
-	public void deleteMerchant(int mid) {
-		md.deleteMerchant(mid);
+	public Merchant deleteMerchant(int mid) {
+		return md.deleteMerchant(mid);
 	}
 
 }

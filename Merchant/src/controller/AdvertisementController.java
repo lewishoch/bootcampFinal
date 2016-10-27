@@ -18,21 +18,22 @@ public class AdvertisementController {
 	@Autowired
 	private AdvertisementManager am;
 	
-	@RequestMapping(value="findAllOwnAdvertisements")
+	@RequestMapping(value="findAllOwnAdvertisements", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public List<Advertisement> findAllOwnAdvertisements(String mid) {
 		return am.findAllOwnAdvertisements(mid);
 	}
 	
-	@RequestMapping(value="addAdvertisement",method={RequestMethod.POST})
+	@RequestMapping(value="addAdvertisement", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public String addAdvertisement(Advertisement a) {
+	public Advertisement addAdvertisement(Advertisement a) {
 		try {
-			am.addAdvertisement(a);
-			return "{\"status\":1}";
+			return am.addAdvertisement(a);
+			//return "{\"status\":1}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"status\":0}";
+			return null;
+			//return "{\"status\":0}";
 		}
 	}
 	
