@@ -1,11 +1,10 @@
 package service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 
-
-
-
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +31,17 @@ public class OrderManagerImpl implements OrderManager {
 	@Override
 	public Order findOrder(String id) {
 		Order o = od.findOrder(id);
-		o.getDishes().size();
-		return od.findOrder(id);
+		Order order = new Order();
+		
+		order.setComments(o.getComments());
+		order.setOid(o.getOid());
+		order.setRating(o.getRating());
+		order.setStatus(o.getStatus());
+		order.setCustomer(o.getCustomer());
+		order.setMerchant(o.getMerchant());
+		order.setCreDt(new Date());
+	
+		return order;
 	}
 
 }

@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name="dish")
 public class Dish {
@@ -20,17 +22,12 @@ public class Dish {
 	private String dishName;
 	private Integer dishPrice;
 	private String dishPhoto;
-	private String category;
 	@ManyToOne(targetEntity=Merchant.class,cascade={CascadeType.PERSIST,CascadeType.REMOVE},fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
-	private Merchant merchant;
 	
-	public String getCategory() {
-		return category;
-	}
-	public void setCategory(String category) {
-		this.category = category;
-	}
+	private Merchant merchant;
+	private String category;
+	
 	public String getDid() {
 		return did;
 	}
@@ -55,7 +52,17 @@ public class Dish {
 	public void setDishPhoto(String dishPhoto) {
 		this.dishPhoto = dishPhoto;
 	}
-	
-	
+	public Merchant getMerchant() {
+		return merchant;
+	}
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
 	
 }

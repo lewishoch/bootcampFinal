@@ -19,18 +19,17 @@ import po.Customer;
 import po.Dish;
 import po.Merchant;
 import po.Order;
+import service.AdvertisementManager;
 import service.CustomerManager;
 import service.DishManager;
 import service.MerchantManager;
 import service.OrderManager;
 import service.ShopInfoManager;
-import vo.AllShop;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.CustomerDao;
-import service.AdvertisementManager;
 
 
 public class Test1 {
@@ -112,11 +111,27 @@ public class Test1 {
 		for (Order a: o){
 			System.out.println(a);
 		}
+		ObjectMapper oj = new ObjectMapper();
+		try {
+			System.out.println(oj.writeValueAsString(o));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void TestFindOrder(){
 		Order o = om.findOrder("2");
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			System.out.println(mapper.writeValueAsString(o));
+			
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
 		System.out.println(o.getRating()+"..."+o.getComments());
 	}
 	@Test
@@ -145,7 +160,7 @@ public class Test1 {
 	
 	@Test
 	public void TestFindAllDishes(){
-		Set<Dish> d = sm.findAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
+		List<Dish> d = sm.findAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
 		for (Dish a: d){
 			System.out.println(d);
 		}
