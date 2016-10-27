@@ -55,7 +55,7 @@ public class MerchantManagerImpl implements MerchantManager {
 			allShop.setPicPath(s.getsLogoPath());
 			allShop.setRating(m.getRating());
 			allShop.setMid(m.getMid());
-			allShop.setCat(s.getCat());
+			allShop.setCat(s.getsCat());
 			
 			allShops.add(allShop);
 		}
