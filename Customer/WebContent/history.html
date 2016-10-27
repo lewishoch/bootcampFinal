@@ -9,7 +9,6 @@
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
    <link type="text/css" rel="stylesheet" href="../css/rater.css" />
-    <script type="text/javascript" src="../js/jquery.rater.js"></script>
     
 </head>
 <body>
@@ -34,7 +33,10 @@
             </div>
             <div class="feedback">
                 <div class="rating">
-                    <input type="text" />
+                    <div class="unfixRating">
+                        <span onclick="updateRating(this)">☆</span><span  onclick="updateRating(this)">☆</span><span  onclick="updateRating(this)">☆</span><span  onclick="updateRating(this)">☆</span><span  onclick="updateRating(this)">☆</span>
+                    </div>
+                    <input type="text" hidden/>
                 </div>
                 <div class="comment">
                     <input type="text" placeholder="Comment..."/>
@@ -47,6 +49,8 @@
 <script>
     
     var orderList = {};
+    var blackStar = "\u2605";
+    var whiteStart = "\u2606";
     
     $(function(){
         // ajax get shop, all dish, cart, comment
@@ -150,11 +154,30 @@
         var feedbackE = $('<div class="feedback"></div>');
         
         var ratingE = $('<div class="rating"></div>');
+        var ratingE2;
+        
         if(rating==null || rating==""){
-            var input = $('<input type="text" />');
+            ratingE2 = $('<div class="unfixRating"></div>');
+            var starString = '<span onclick="updateRating(this)">☆</span>';
+            var star = $(starString); star.appendTo(ratingE2);
+            star = $(starString); star.appendTo(ratingE2); 
+            star = $(starString); star.appendTo(ratingE2); 
+            star = $(starString); star.appendTo(ratingE2);
+            star = $(starString); star.appendTo(ratingE2);
+            var input = $('<input type="text" hidden/>');
             input.appendTo(ratingE);
         }
         else{
+            ratingE2 = $('<div></div>');
+            var whiteStarString = '<span onclick="updateRating(this)">☆</span>';
+            var blackStarString = '<span onclick="updateRating(this)">'+blackStar+'</span>';
+            var v = rating;
+            var star;
+            for(var i=1; i<6; ++i){
+                star = $((i<=v)? blackStarString:whiteStarString); 
+                star.appendTo(ratingE2);
+            }
+            
             ratingE.text(rating);
         }
         
@@ -256,6 +279,22 @@
             if(cart.dish[i].did==did)
                 return cart.dish[i].number;
         return 0;
+    }
+    
+    var updateRating = function(star){
+        console.log(star)
+        var children =$(star.parentNode).children();
+        for(var i=0; i<children.length; ++i)
+            children[i].innerHTML=whiteStart;
+
+        var cur = star;
+        var prevs = $(cur).prevAll();
+        for(var i=0; i<prevs.length; ++i)
+            prevs[i].innerHTML=blackStar;
+        cur.innerHTML=blackStar;
+        
+        $(star.parentNode.parentNode).children('input').val(prevs.length+1);
+
     }
     
 </script>
