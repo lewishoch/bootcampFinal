@@ -1,10 +1,13 @@
 package controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +26,9 @@ import service.CustomerManager;
 import service.MerchantManager;
 import service.OrderManager;
 import service.ShopInfoManager;
+import vo.AllShop;
 
 @Controller
-@RequestMapping(value="/customer")
 public class CustomerController {
 
 	@Autowired
@@ -41,22 +44,29 @@ public class CustomerController {
 	
 	@RequestMapping(value="/login", method={RequestMethod.POST})
 	@ResponseBody
-	public Customer login(String uname, String psd, HttpServletRequest request){
-		System.out.println("hello" + uname + ":" + psd );
+	public Customer login(String uname, String psd, HttpServletRequest request,HttpServletResponse resp) throws IOException{
+		System.out.println("login controller --> " + uname + ":" + psd );
 		HttpSession sen = request.getSession(true);
 		
 		Customer c = cm.loadCustomerByName(uname);
 		
 		if(c == null)
 		{
+			System.out.println("login invalid");
+			resp.sendRedirect("index.html");
 			return null;
 		}
 		
 		if(c != null && c.getPsd().equals(psd))
 		{
+			System.out.println("login valid");
+			
 			sen.setAttribute("isLogin", true);
 			sen.setAttribute("uuid", c.getCid());
+			
 			System.out.println("Login success");
+			
+			resp.sendRedirect("shop.html");
 			return c;
 		}
 		return c;
@@ -64,15 +74,24 @@ public class CustomerController {
 	
 	@RequestMapping(value="/signup", method={RequestMethod.POST})
 	@ResponseBody
-	public Customer login(String uname, String psd, String tel, List<String> address)
+	public Customer signup(String uname, String psd, String tel, String[] addr,HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
-		System.out.println("hello" + uname + ":" + psd + ":" + tel + ":" + address);
+		System.out.println("signup controller --> "+uname + ":" + psd + ":" + tel);
 		
+		HttpSession sen = req.getSession(true);
 		
+		List<String> address = new ArrayList<String>(); 
+		for(int i=0;i<addr.length;i++)
+		{
+			address.add(addr[i]);
+		}
+	
 		Customer c = cm.loadCustomerByName(uname);
 		
 		if(c == null)
 		{
+			
+			System.out.println("no existing user: valid");
 			// no existing user
 			Customer newC = new Customer();
 			newC.setAddress(address);
@@ -83,11 +102,16 @@ public class CustomerController {
 			
 			cm.addCustomer(newC);
 			
+			sen.setAttribute("isLogin", true);
+			sen.setAttribute("uuid", newC.getCid());
+			
+			resp.sendRedirect("shop.html");
 			return newC;
 		}
 		else
 		{
-			// have existing user
+			System.out.println("have existing user: invalid");
+			resp.sendRedirect("index.html");
 			return null;
 		}
 	}
@@ -140,7 +164,7 @@ public class CustomerController {
 	}
 	
 	@RequestMapping(value="viewAllOrders", method={RequestMethod.GET, RequestMethod.POST})
-	@ResponseBody
+	@ResponseBody	
 	public List<Order> viewAllOrders(String cid){
 		System.out.println("displaying all orders...");
 		return om.viewAllOrder(cid);
@@ -153,13 +177,15 @@ public class CustomerController {
 		return om.updateOrder(order);
 	}
 	
-	@RequestMapping(value="findAllShop", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="findAllShop", method={RequestMethod.GET})
 	@ResponseBody
-	public List<Merchant> findAllShop(){
-		//sname, stel, saddr, scat, mid, srating, spicPath
+	public List<AllShop> findAllShop(){
+		//name, tel, addr, picPath, rating, mid, cat (list of object) 
+
 		System.out.println("findAllShop controller");
 		
-		List<Merchant> m = mm.findAllMerchant();
+		List<AllShop> m = mm.findAllShop();
+		
 		
 		return m;
 		

@@ -37,7 +37,8 @@ public class CustomerManagerImpl implements CustomerManager{
 	@Transactional
 	public Customer loadCustomerByName(String uname) {
 		Customer c = cd.loadCustomerByName(uname);
-		c.getAddress().size();
+		if(c != null)
+			c.getAddress().size();
 		return c;
 	}
 
