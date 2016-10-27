@@ -18,18 +18,21 @@ public class MerchantMessageConsumer {
 	private AdvertisementManager am;
 	
 	public void handleMessage(String message) throws Exception{
-		System.out.println("---------Consumer---------");
+		System.out.println("---------Merchant Message Consumer---------");
 		System.out.println(message);
 		MerchantMessage msg = MerchantMessageProcessor.process(message);
 		System.out.println(msg.getId()+"..."+msg.getAction());
 		if(msg.getAction() == MerchantMessage.REGISTER){
+			System.out.println("test1");
 			Merchant merchant = mm.getMerchantByWebService(msg.getId());
 			System.out.println(merchant.getmName());
-//			mm.insertMerchant(merchant);
+			if(merchant != null)
+				mm.insertMerchant(merchant);
 		} else{
 			Advertisement ad = am.getAdvertisementByWebService(msg.getId());
 			System.out.println(ad.getMerchant().getmName());
-//			am.insertAd(ad);
+			if(ad != null)
+				am.insertAd(ad);
 		}
 	}
 	

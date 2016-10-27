@@ -16,7 +16,7 @@ public class MerchantQueueListener implements MessageListener{
 	@Override
 	public void onMessage(Message message) {
 		TextMessage textMsg = (TextMessage) message;
-		System.out.println("receiving messages");
+		System.out.println("receiving messages from merchant queue");
 		try {
 			System.out.println(textMsg.getText());		
 			mmcm.handleMessage(textMsg.getText());

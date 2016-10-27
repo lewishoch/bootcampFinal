@@ -17,64 +17,62 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import dao.MerchantDao;
+import dao.OrderDao;
 import po.Merchant;
-import queue.protocal.MerchantMessage;
-import service.MerchantManager;
+import po.Order;
+import service.OrderManager;
 @Service
-public class MerchantManagerImpl implements MerchantManager {
+public class OrderManagerImpl implements OrderManager{
 	@Autowired
-	private MerchantDao md;
+	private OrderDao od;
 	
 	@Override
 	@Transactional
-	public Merchant findMerchant(String mid) {
-		Merchant m = md.loadMerchant(mid);
-		return m;
+	public Order getOrder(String oid) {
+		Order order = od.loadOrder(oid);
+		return order;
 	}
 
 	@Override
 	@Transactional
-	public List<Merchant> findMerchantsByStatus(int status) {
-		List<Merchant> ms = md.listAllMerchantsBySatus(status);
-		return ms;
+	public void updateOrder(Order o) {
+		od.updateOrder(o);
 	}
 
 	@Override
 	@Transactional
-	public void insertMerchant(Merchant m) {
-		md.insertMerchant(m);
+	public List<Order> findAllOrders() {
+		List<Order> os = od.findAllOrders();
+		return os;
 	}
 
 	@Override
 	@Transactional
-	public void updateMerchant(Merchant m) {
-		md.updateMerchant(m);
+	public void insertOrder(Order o) {
+		od.insertOrder(o);
 	}
 
 	@Override
 	@Transactional
-	public Merchant getMerchantByWebService(String mid) {
-		String merchantString = "";
-		Merchant merchant = null;
+	public Order getOrderByWebService(String oid) {
+		String orderString = "";
+		Order order = null;
 		Client client = Client.create();
 		MultivaluedMap<String, String> params=new MultivaluedMapImpl();
-		params.add("mid", mid);
+		params.add("oid", oid);
 		client.setReadTimeout(1000);
 		WebResource wr = client
-//				.resource("http://localhost:8081/Admin/m/getMerchant");
-//				.resource("http://10.222.242.9:8080/Merchant/getMerchant");
-				.resource("http://10.222.242.9:8080/Merchant/merchant/getMerchant");
-		
-		merchantString = wr
+//				.resource("http://localhost:8081/Admin/getOrder");
+				.resource("http://10.222.57.12:8080/Customer/order/getOrder");
+		orderString = wr
 				.queryParams(params)
 				.accept(MediaType.APPLICATION_JSON_TYPE)
 				.get(String.class);
 		
-		System.out.println(merchantString);
+		System.out.println(orderString);
 		
 		try {
-			merchant = new ObjectMapper().readValue(merchantString, Merchant.class);
+			order = new ObjectMapper().readValue(orderString, Order.class);
 		} catch (JsonParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,8 +82,15 @@ public class MerchantManagerImpl implements MerchantManager {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-		return merchant;
+		}
+		return order;
+	}
+
+	@Override
+	@Transactional
+	public void insertAndBlock(Order o) {
+		Order order = od.insertOrder(o);
+		
 	}
 
 }

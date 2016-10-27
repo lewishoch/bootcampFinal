@@ -4,28 +4,30 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name="merchant")
 public class Merchant {
 	@Id
-	@GenericGenerator(name="mid",strategy="uuid")
-	@GeneratedValue(generator="mid")
+//	@GenericGenerator(name="mid",strategy="uuid")
+//	@GeneratedValue(generator="mid")
 	private String mid;
 	
 	@Column(nullable=false)
@@ -46,9 +48,22 @@ public class Merchant {
 	@Column(nullable=false)
 	private String mGender;
 	
+	@Column(nullable=false)
+	private int rating;
+	
+	@Column(nullable=false)
+	private int numOfOrder;
+	
+	/*
+	@ElementCollection
+	@JoinTable(name="dishes", joinColumns=@JoinColumn(name="mId"))
+	*/
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
-	@JsonIgnore
+	private Set<Dish> dishes = new HashSet<Dish>();
+	
+	@OneToMany(fetch=FetchType.EAGER)
+	@JoinColumn(name="mid")
 	private Set<Advertisement> advertisements = new HashSet<Advertisement>();
 
 	@Embedded
@@ -118,6 +133,13 @@ public class Merchant {
 		this.mGender = mGender;
 	}
 
+	public Set<Dish> getDishes() {
+		return dishes;
+	}
+
+	public void setDishes(Set<Dish> dishes) {
+		this.dishes = dishes;
+	}
 
 	public Set<Advertisement> getAdvertisements() {
 		return advertisements;
@@ -150,6 +172,23 @@ public class Merchant {
 	public void setLastModDt(Date lastModDt) {
 		this.lastModDt = lastModDt;
 	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public int getNumOfOrder() {
+		return numOfOrder;
+	}
+
+	public void setNumOfOrder(int numOfOrder) {
+		this.numOfOrder = numOfOrder;
+	}
+	
 	
 	
 }

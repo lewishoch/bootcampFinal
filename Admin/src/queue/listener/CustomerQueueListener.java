@@ -5,15 +5,23 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-public class CustomerQueueListener implements MessageListener{
+import org.springframework.beans.factory.annotation.Autowired;
 
+import queue.consumer.CustomerMessageConsumer;
+
+public class CustomerQueueListener implements MessageListener{
+	@Autowired
+	private CustomerMessageConsumer cmcm;
 	@Override
 	public void onMessage(Message message) {
 		TextMessage textMsg = (TextMessage) message;
-		System.out.println("接收到一个纯文本消�?�");
+		System.out.println("receiving messages from customer queue");
 		try {
-			System.out.println("消�?�内容是：" + textMsg.getText());
+			System.out.println(textMsg.getText());
+			cmcm.handleMessage(textMsg.getText());
 		} catch (JMSException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}		
 	}
