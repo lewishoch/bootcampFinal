@@ -87,10 +87,10 @@
                 if(allShop instanceof Array === false)
                     allShop = [allShop];
                 createCatMenu();
+                console.log('aaaaa')
                 displayAllShop();
             });
         }
-        
         getAllShop();
     });
     
@@ -117,6 +117,7 @@
     }
     
     var displayAllShop = function(filterFun,sortField){
+        console.log('bbbb')
         var data;
         (typeof filterFun === 'function')?
             data = allShop.filter(filterFun):
@@ -184,6 +185,7 @@
     }
 
     var setCookie = function(mid){
+        console.log(1)
         var now = new Date();
         var time = now.getTime();
         var expireTime = time + 1000*36000;
