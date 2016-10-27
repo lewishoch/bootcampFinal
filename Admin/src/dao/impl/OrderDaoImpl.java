@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import dao.OrderDao;
+import po.Merchant;
 import po.Order;
 @Repository
 public class OrderDaoImpl implements OrderDao {
@@ -43,12 +44,13 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public int countOrdersByMerchant(Order o) {
-		String mid = o.getMerchant().getMid();
-		String jpql = "select count(o) from Order o where o.mid =:mid";
-		int count = (int)em
+	public long countOrdersByMerchant(Order o) {
+		Merchant merchant = o.getMerchant();
+//		String mid = "2";
+		String jpql = "select count(o) from Order o where o.merchant =:merchant";
+		long count = (long) em
 				.createQuery(jpql)
-				.setParameter("mid", mid)
+				.setParameter("merchant", merchant)
 				.getSingleResult();
 		
 		return count;
