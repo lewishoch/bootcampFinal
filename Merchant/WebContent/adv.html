@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advertisement</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="js/common.js"></script>
+		<link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="header">
+     <div id="account"><form action="logout" method="GET"><button>Logout</button></form></div>
+</div>
+<div id="menu">
+     <table>
+         <tr>
+             <td class="menuButton" id="shopOrder">Order</td>
+             <td class="menuButton" id="shopAdv">Advertisement</td>
+             <td class="menuButton" id="shopSetting">Shop Setting</td>
+             <td class="menuButton" id="dishSetting">Dish Setting</td>
+         </tr>
+     </table>
+</div>
+    <div id="content">
+         <div id="advList">
+             <div class="adv" id="aid">
+                 <div class="aid">ID</div>
+                 <div class="creDt">2006/09/08</div>
+                 <div class="lastModDt">2016/09/08</div>
+                 <div class="status">Accepted</div>
+             </div>     
+         </div>
+         <div id="apply">
+            <button type="button" onclick="applyAdv()">Apply</button>
+         </div>
+    </div>
+<script>
+    
+    $(function(){
+        var aUrl = "advertisement/findAllOwnAdvertisements";
+
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{}
+        }).done(function(data){
+            setInfo(data);
+        });
+    });
+    
+    var setInfo = function(data){    
+        var advList = $('#advList');
+        dishList.empty();
+        
+        for(var i=0; i<data.length; ++i){
+            appendAdv(advList, data[i]);
+        }
+    }
+    
+    var applyAdv = function(){
+        var aUrl = "advertisement/addAdvertisement";
+        
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{}
+        }).done(function(data){
+            if(data!=null && data!="")
+                appendAdv($('#advList'),data, true);
+            console.log('result')
+            // prepend
+        });
+    }
+    
+    var appendAdv = function(parent, d, isHead){
+        var adv = $('<div class="adv" id="'+d.aid+'"></div>');
+        var aid = $('<div class="aid">'+d.aid+'</div>');
+        var creDt = $('<div class="creDt">'+(new Date(d.creDt)).toDateString()+'</div>');
+        var lastModDt = $('<div class="lastModDt">'+(new Date(d.lastModDt)).toDateString()+'</div>');
+
+        aid.appendTo(adv);
+        creDt.appendTo(adv);
+        lastModDt.appendTo(adv);
+        
+        if(isHead)
+            adv.prependTo(parent);
+        else
+            adv.appendTo(parent);
+    }
+    
+</script>
+</body>
+</html>
