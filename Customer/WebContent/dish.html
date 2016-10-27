@@ -67,19 +67,7 @@
             url:aUrl,
             data:{'mid':curShop.mid}
         }).done(function(data){
-<<<<<<< HEAD
-            console.log(data)
-            try{
-                data = JSON.parse(data);
-            }
-            catch(e){
-                return;
-             }
-             console.log(1); console.log(data)
-            cart = data.cart;
-=======
             cart = data.cart || {'mid':'','dish':[]};
->>>>>>> origin/Steve
             allDish = data.dish;
             allComment = data.comment;
             curShop = data.merchant;
