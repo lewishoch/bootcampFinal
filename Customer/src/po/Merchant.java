@@ -22,6 +22,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name="merchant")
 public class Merchant {
@@ -58,13 +60,6 @@ public class Merchant {
 	@ElementCollection
 	@JoinTable(name="dishes", joinColumns=@JoinColumn(name="mId"))
 	*/
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="mid")
-	private Set<Dish> dishes = new HashSet<Dish>();
-	
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="mid")
-	private Set<Advertisement> advertisements = new HashSet<Advertisement>();
 
 	@Embedded
 	private ShopInfo shop;
@@ -131,22 +126,6 @@ public class Merchant {
 
 	public void setmGender(String mGender) {
 		this.mGender = mGender;
-	}
-
-	public Set<Dish> getDishes() {
-		return dishes;
-	}
-
-	public void setDishes(Set<Dish> dishes) {
-		this.dishes = dishes;
-	}
-
-	public Set<Advertisement> getAdvertisements() {
-		return advertisements;
-	}
-
-	public void setAdvertisements(Set<Advertisement> advertisements) {
-		this.advertisements = advertisements;
 	}
 
 	public ShopInfo getShop() {

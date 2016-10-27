@@ -19,18 +19,17 @@ import po.Customer;
 import po.Dish;
 import po.Merchant;
 import po.Order;
+import service.AdvertisementManager;
 import service.CustomerManager;
 import service.DishManager;
 import service.MerchantManager;
 import service.OrderManager;
 import service.ShopInfoManager;
-import vo.AllShop;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.CustomerDao;
-import service.AdvertisementManager;
 
 
 public class Test1 {
@@ -94,7 +93,7 @@ public class Test1 {
 	@Test
 	public void TestFindMerchant(){
 		
-		Merchant m = mm.findMerchant("8a5e72cb57ffe8b00157ffe8b8900000");
+		Merchant m = mm.findMerchant("1");
 		System.out.println(m.getmName()+"...."+m.getStatus());
 	}
 	
@@ -106,17 +105,33 @@ public class Test1 {
 		}
 	}
 	
-	@Test
-	public void TestViewAllOrder(){
-		List<Order> o = om.viewAllOrder("1");
-		for (Order a: o){
-			System.out.println(a);
-		}
-	}
+//	@Test
+//	public void TestViewAllOrder(){
+//		List<Order> o = om.viewAllOrder("1");
+//		for (Order a: o){
+//			System.out.println(a);
+//		}
+//		ObjectMapper oj = new ObjectMapper();
+//		try {
+//			System.out.println(oj.writeValueAsString(o));
+//		} catch (JsonProcessingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Test
 	public void TestFindOrder(){
 		Order o = om.findOrder("2");
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			System.out.println(mapper.writeValueAsString(o));
+			
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
 		System.out.println(o.getRating()+"..."+o.getComments());
 	}
 	@Test
@@ -137,7 +152,7 @@ public class Test1 {
 	
 	@Test
 	public void TestGetAllDishes(){
-		Set<Dish> d = dm.getAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
+		List<Dish> d = dm.getAllDishes("1");
 		for(Dish b: d){
 			System.out.println(b);
 		}
@@ -145,9 +160,34 @@ public class Test1 {
 	
 	@Test
 	public void TestFindAllDishes(){
-		Set<Dish> d = sm.findAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
+		List<Dish> d = sm.findAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
 		for (Dish a: d){
 			System.out.println(d);
 		}
 	}
+	
+	@Test
+	public void TestFindAllComments(){
+		List<Order> o = sm.findAllComments("8a5e72cb57ffe8b00157ffe8b8900000");
+		for (Order a: o){
+			System.out.println(o);
+		}
+	}
+	
+	@Test
+	public void TestFindDishesByCategory(){
+		List<Dish> d = sm.findDishesByCategory("normal");
+		for (Dish a: d){
+			System.out.println(d);
+		}
+	}
+	
+	@Test
+	public void TestLoadShopInfo(){
+		List<Merchant> m = sm.loadShopInfo("8a5e72cb57ffe8b00157ffe8b8900000", "22221111");
+		for (Merchant a:m){
+			System.out.println(a);
+		}
+	}
+	
 }

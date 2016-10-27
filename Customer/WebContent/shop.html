@@ -115,6 +115,7 @@
                 allAds = data;
                 if(allAds instanceof Array === false)
                     allAds = [allAds];
+                console.log(allAds)
                 displayAllAds();
             });
         }
@@ -163,6 +164,7 @@
         console.log(shopList);
         var shop,shopImage,shopName,shopTel,shopAddr,shopRating,btn;
         var d;
+        console.log(data.length)
         for(var i=0; i<data.length; ++i){
             d = data[i];
             shop = $('<div class="shop"></div>');
@@ -201,7 +203,7 @@
         for(var i=0; i<allAds.length; ++i){
             a = allAds[i];
             adsImg = $('<div class="adsImg"></div>');
-            img = $('<img src="'+a.picPath+'" onclick="setCookie('+a.mid+')"/>');
+            img = $('<img src="pic/get?imgName='+a.shopLogoName+'" onclick="setCookie('+a.mid+')"/>');
             img.appendTo(adsImg);
             adsImg.appendTo(ads);
         }

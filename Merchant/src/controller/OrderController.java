@@ -2,6 +2,10 @@ package controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +24,26 @@ public class OrderController {
 	
 	@RequestMapping(value="findAllOwnOrders", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public List<Order> findAllOwnOrders(String mid) {
-		return om.findAllOwnOrders(mid);
+	public List<Order> findAllOwnOrders(HttpServletRequest request,HttpServletResponse resp) {
+		HttpSession s = request.getSession();
+		String mid;
+		if(s != null && (mid = (String)s.getAttribute("uuid")) != null)
+		{
+			return om.findAllOwnOrders(mid);
+		}
+		return null;
 	}
 	
 	@RequestMapping(value="findAllOwnOrdersByStatus", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public List<Order> findAllOwnOrdersByStatus(String mid, Integer status) {
-		return om.findAllOwnOrdersByStatus(mid, status);
+	public List<Order> findAllOwnOrdersByStatus(Integer status, HttpServletRequest request,HttpServletResponse resp) {
+		HttpSession s = request.getSession();
+		String mid;
+		if(s != null && (mid = (String)s.getAttribute("uuid")) != null)
+		{
+			return om.findAllOwnOrdersByStatus(mid, status);
+		}
+		return null;
 	}
 	
 	@RequestMapping(value="loadOrder", method={RequestMethod.GET, RequestMethod.POST})
@@ -41,11 +57,9 @@ public class OrderController {
 	public Order updateOrder(Order o) {
 		try {
 			return om.updateOrder(o);
-			//return "{\"status\":1}";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-			//return "{\"status\":0}";
 		}
 	}
 

@@ -15,6 +15,9 @@ public class ShopInfo {
 	private String sCat;
 	
 	@Column(nullable=false)
+	private Integer sStat;
+	
+	@Column(nullable=false)
 	private String sTel;
 	
 	@Column(nullable=false)
@@ -42,6 +45,14 @@ public class ShopInfo {
 
 	public void setsCat(String sCat) {
 		this.sCat = sCat;
+	}
+
+	public Integer getsStat() {
+		return sStat;
+	}
+
+	public void setsStat(Integer sStat) {
+		this.sStat = sStat;
 	}
 
 	public String getsTel() {

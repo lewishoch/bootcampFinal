@@ -16,12 +16,14 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="advertisement")
 public class Advertisement {
 	@Id
-	@GenericGenerator(name="aid",strategy="uuid")
-	@GeneratedValue(generator="aid")
+//	@GenericGenerator(name="aid",strategy="uuid")
+//	@GeneratedValue(generator="aid")
 	private String aid;
 	
 	@ManyToOne(fetch=FetchType.EAGER)

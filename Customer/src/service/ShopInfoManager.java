@@ -10,7 +10,7 @@ import vo.AllDishOfMerchant;
 
 public interface ShopInfoManager {
 
-	public Set<Dish> findAllDishes(String mid);
+	public List<Dish> findAllDishes(String mid);
 	public List<Order> findAllComments(String mid);
 	public List<Dish> findDishesByCategory(String category);
 	public List<Merchant> loadShopInfo(String mid, String category);

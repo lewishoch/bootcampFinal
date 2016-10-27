@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +11,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,8 +27,13 @@ import service.CustomerManager;
 import service.MerchantManager;
 import service.OrderManager;
 import service.ShopInfoManager;
+import vo.Adv;
 import vo.AllDishOfMerchant;
 import vo.AllShop;
+import vo.Cart;
+import vo.CartDish;
+import vo.CartPageInfo;
+import vo.ShopInfo;
 
 @Controller
 public class CustomerController {
@@ -78,7 +84,7 @@ public class CustomerController {
 	@ResponseBody
 	public Customer signup(String uname, String psd, String tel, String[] addr,HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
-		System.out.println("signup controller --> "+uname + ":" + psd + ":" + tel);
+		System.out.println("signup controller --> "+uname + ":" + psd );
 		
 		HttpSession sen = req.getSession(true);
 		
@@ -120,13 +126,18 @@ public class CustomerController {
 	
 	@RequestMapping(value="/logout", method={RequestMethod.GET})
 	@ResponseBody
-	public void logout(HttpServletRequest request)
+	public void logout(HttpServletRequest request, HttpServletResponse resp) throws IOException
 	{
 		
 		System.out.println("logout controller");
 		HttpSession session = request.getSession(false);
 		if (session != null)
+		{
 		    session.invalidate();
+		    System.out.println("lougout success");
+		    
+		}
+		resp.sendRedirect("index.html");
 	}
 	
 	
@@ -165,11 +176,18 @@ public class CustomerController {
 		return mm.findAllMerchant();
 	}
 	
+	@RequestMapping(value="findOrder", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Order findOrder(String id){
+		System.out.println("finding an order...");
+		return om.findOrder(id);
+	}
+	
 	@RequestMapping(value="viewAllOrders", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody	
-	public List<Order> viewAllOrders(String cid){
+	public List<Order> viewAllOrders(HttpServletRequest request){
 		System.out.println("displaying all orders...");
-		return om.viewAllOrder(cid);
+		return om.viewAllOrder(request);
 	}
 	
 	@RequestMapping(value="updateOrder", method={RequestMethod.GET, RequestMethod.POST})
@@ -193,12 +211,21 @@ public class CustomerController {
 		
 	}
 	
-	@RequestMapping(value="findAdv", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="findAllAdv", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public List<Advertisement> findAdv(){
+	public List<Adv> findAdv(){
 		System.out.println("findAdv controller");
-		List<Advertisement> advs = am.findlastestAdv(3);
+		List<Adv> advs = new ArrayList<Adv>();
 		
+		List<Advertisement> Advertisements = am.findlastestAdv(3);
+		for(Advertisement a: Advertisements)
+		{
+			Adv adv = new Adv();
+			adv.setMid(a.getMerchant().getMid());
+			adv.setShopLogoName(a.getMerchant().getShop().getsLogoPath());
+			advs.add(adv);			
+		}
+	
 		return advs;
 		
 	}
@@ -212,7 +239,7 @@ public class CustomerController {
 
 	@RequestMapping(value="loadAllDish", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public AllDishOfMerchant findAllDishes(String mid){
+	public AllDishOfMerchant findAllDishes(String mid, HttpServletRequest request,HttpServletResponse resp){
 		//cart(mid, dish:[did + number]), dish(did,picPath,name,cat,price), comment(uname, date, content), merchant(mid, name)
 		System.out.println("finding all dishes....");
 		
@@ -227,6 +254,21 @@ public class CustomerController {
 		mObj.setName(m.getmName());
 		obj.setMerchant(mObj);
 		
+		HttpSession s = request.getSession();
+		if(s != null && s.getAttribute(mid) != null)
+		{
+			System.out.println("!!!!!!!!!!!!!!!!!session has cart obj");
+			obj.setCart((Cart)s.getAttribute(mid));
+		}
+		else
+		{
+			System.out.println("session no cart obj");
+			
+			Cart cc = new Cart();
+			List<CartDish> cd = new ArrayList<CartDish>();
+			cc.setCartDish(cd);
+			obj.setCart(cc);
+		}
 		return obj;
 	}
 
@@ -244,7 +286,57 @@ public class CustomerController {
 	return sm.findDishesByCategory(category);
 	}
 	
+	@RequestMapping(value="addToCart", method={RequestMethod.GET, RequestMethod.POST}, headers = {"Content-type=application/json"})
+	@ResponseBody
+	public void addToCart(@RequestBody Cart cart, HttpServletRequest request,HttpServletResponse resp){
+		
+		HttpSession s = request.getSession();
+		System.out.println("-->" + cart.getMid());
+		if(s != null)
+		{
+			System.out.println("addToCart controller");
+			s.setAttribute(cart.getMid(), cart);
+			System.out.println("set cart session for "+cart.getMid()+"success");
+		}
+	}
 	
+	
+	// ajax get shop, all dish, cart
+	@RequestMapping(value="findForCart", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public CartPageInfo findForCart(String mid, HttpServletRequest request,HttpServletResponse resp){
+		
+		System.out.println("findForCart controller");
+		
+		Merchant m = mm.findMerchant(mid);
+		po.ShopInfo shopInfo = m.getShop();
+		vo.ShopInfo voShop = new vo.ShopInfo();
+		voShop.setsAddr(shopInfo.getsAddr());
+		voShop.setsCat(shopInfo.getsCat());
+		voShop.setsName(shopInfo.getsName());
+		voShop.setsStat(shopInfo.getsStat());
+
+		CartPageInfo CartPageInfo = new CartPageInfo();
+		CartPageInfo.setShopInfo(voShop);
+		CartPageInfo.setDish(sm.loadAllDishOfMerchant(mid));
+		
+		HttpSession s = request.getSession();
+		if(s != null && s.getAttribute(mid) != null)
+		{
+			System.out.println("session has cart obj");
+			CartPageInfo.setCart((Cart)s.getAttribute(mid));
+		}
+//		else
+//		{
+//			System.out.println("session no cart obj");
+//			
+//			Cart cc = new Cart();
+//			List<CartDish> cd = new ArrayList<CartDish>();
+//			cc.setCartDish(cd);
+//			CartPageInfo.setCart(cc);
+//		}
+		return CartPageInfo;
+	}
 	
 
 }

@@ -15,6 +15,17 @@ public class ShopInfo {
 	private String sCat;
 	
 	@Column(nullable=false)
+	private Integer sStat;
+	
+	public Integer getsStat() {
+		return sStat;
+	}
+
+	public void setsStat(Integer sStat) {
+		this.sStat = sStat;
+	}
+
+	@Column(nullable=false)
 	private String sTel;
 	
 	@Column(nullable=false)

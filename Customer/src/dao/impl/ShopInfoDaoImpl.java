@@ -21,12 +21,13 @@ public class ShopInfoDaoImpl implements ShopInfoDao {
 	private EntityManager em;
 	
 	@Override
-	public Set<Dish> findAllDishes(String mid) {
-		Merchant m = em.find(Merchant.class, mid);
-		if(m != null && m.getDishes() != null)
-			return m.getDishes();
-		else
-			return null;
+	public List<Dish> findAllOwnDishes(String mid) {
+		String jpql = "select d from Dish d where d.merchant.mid=:mid";
+		List<Dish> ds = em
+				.createQuery(jpql)
+				.setParameter("mid", mid)
+				.getResultList();
+		return ds;
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class ShopInfoDaoImpl implements ShopInfoDao {
 
 	@Override
 	public List<Dish> findDishesByCategory(String category) {
-		String jpql = "select d from dish d, merchant m where m.mid = d.mid and m.cate=:category";
+		String jpql = "select d from Dish d, Merchant m where m.mid = d.merchant.mid and d.category=:category";
 		Query q = em.createQuery(jpql);
 		q.setParameter("category",category);
 		List<Dish> dishes = q.getResultList();
@@ -53,7 +54,8 @@ public class ShopInfoDaoImpl implements ShopInfoDao {
 
 	@Override
 	public List<Merchant> loadShopInfo(String mid, String category) {
-		String jpql = "select m.sname, m.slogopath, m.scate, m.saddr, m.stel from merchant m where m.cate = :category and m.mid=:mid";
+		
+		String jpql = "select m from Merchant m where m.shop.sCat =:category and m.mid=:mid";
 		Query q = em.createQuery(jpql);
 		q.setParameter("category", category);
 		q.setParameter("mid", mid);

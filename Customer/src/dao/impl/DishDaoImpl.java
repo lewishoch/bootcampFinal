@@ -24,14 +24,19 @@ public class DishDaoImpl implements DishDao {
 	
 	
 	@Override
-	public Set<Dish> getAllDishes(String mid) {
+	public List<Dish> getAllDishes(String mid) {
 		
-		Merchant m = em.find(Merchant.class, mid);
-		
-		return m.getDishes();
-		
+		String jpql = "select d from Dish d, Merchant m where d.merchant.mid = m.mid and d.merchant.mid=:mid";
+		Query q = em.createQuery(jpql);
+		q.setParameter("mid", mid);
+		List<Dish> d = q.getResultList();
+		if(d.size()>0)
+		{
+			return d;
+		} else {
+			return null;
+		}
+	
+	
 	}
-	
-	
-
 }

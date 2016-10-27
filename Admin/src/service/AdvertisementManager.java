@@ -9,4 +9,5 @@ public interface AdvertisementManager {
 	public Advertisement findAd(String aid);
 	public void insertAd(Advertisement a);
 	public void updateAd(Advertisement a);
+	public Advertisement getAdvertisementByWebService(String aid);
 }

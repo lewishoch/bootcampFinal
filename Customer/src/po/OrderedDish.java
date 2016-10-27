@@ -20,7 +20,7 @@ public class OrderedDish {
 	@GeneratedValue(generator="odid")
 	private String odid;
 	
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="did")
 	private Dish dish;
 	

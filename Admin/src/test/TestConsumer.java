@@ -1,16 +1,13 @@
 package test;
 
-import javax.jms.Queue;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import queue.consumer.CustomerMessageConsumer;
 import queue.consumer.MerchantMessageConsumer;
-import queue.producer.MerchantQueueProducer;
-import queue.protocal.MerchantMessage;
 
 public class TestConsumer {
 	private static ApplicationContext context = null;
@@ -25,8 +22,20 @@ public class TestConsumer {
 	@Transactional
 	public void testMerchantQueueConsumer() throws Exception {
 		MerchantMessageConsumer mmcm = (MerchantMessageConsumer) context.getBean("mmcm");
-//		Queue queue= (Queue)context.getBean("merchantQueue");
-		String message = "{\"id\":\"8a5e9d35580072db01580072de4b0000\",\"action\":1}";
+		// test for merchant register
+//		String message = "{\"id\":\"8a5e72cb580527bb01580527c2190000\",\"action\":1}";
+		String message = "{\"id\":\"2\",\"action\":1}";
+		// test for advertisement application
+//		String message = "{\"id\":\"8a5e72cb5804223a0158042240820000\",\"action\":2}";
 		mmcm.handleMessage(message);
+	}
+	
+	@Test
+	@Transactional
+	public void testCustomerQueueConsumer() throws Exception {
+		CustomerMessageConsumer cmcm = (CustomerMessageConsumer) context.getBean("cmcm");
+//		String message = "{\"id\":\"8a5e9d35580072db01580072de4b0000\"}";
+		String message = "{\"id\":\"1\"}";
+		cmcm.handleMessage(message);
 	}
 }
