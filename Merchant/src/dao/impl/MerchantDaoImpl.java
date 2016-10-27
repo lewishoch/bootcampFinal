@@ -26,11 +26,16 @@ public class MerchantDaoImpl implements MerchantDao {
 
 	public Merchant loadMerchantByUname(String uname) {
 		String jpql = "select m from Merchant m where m.uname=:uname";
-		Merchant m = (Merchant) em
-				.createQuery(jpql)
-				.setParameter("uname", uname)
-				.getSingleResult();
-		return m;
+		Merchant m;
+		try {
+			m = (Merchant) em
+					.createQuery(jpql)
+					.setParameter("uname", uname)
+					.getSingleResult();
+			return m;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public Merchant addMerchant(Merchant m) {

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.jms.Queue;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.FetchType;
@@ -26,6 +27,9 @@ import po.Customer;
 import po.Dish;
 import po.Merchant;
 import po.ShopInfo;
+import producer.MerchantQueueProducer;
+import producer.util.MerchantQueueProducerUtil;
+import protocal.MerchantMessage;
 import protocol.AccountStatusProtocol;
 import protocol.GenderProtocol;
 import protocol.ShopCategoryProtocol;
@@ -77,6 +81,8 @@ public class MerchantController {
 			newM.setmName(mName);
 			newM.setmAge(mAge);
 			//newM.setmGender(GenderProtocol.);
+			newM.setRating(0);
+			newM.setNumOfOrder(0);
 			ShopInfo shop = new ShopInfo();
 			shop.setsName(sName);
 			shop.setsAddr(sAddr);
@@ -88,7 +94,13 @@ public class MerchantController {
 			newM.setCreDt(new Date());
 			newM.setLastModDt(new Date());
 			
-			return mm.addMerchant(newM);
+			Merchant mWithId = null;
+			//Send Register message to  
+			if ((mWithId = mm.addMerchant(newM)) != null) {
+				MerchantQueueProducerUtil.queue(MerchantMessage.REGISTER, mWithId.getMid());
+			}
+			
+			return mWithId;
 		}
 		else
 		{
