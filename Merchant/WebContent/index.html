@@ -47,7 +47,7 @@
                   </div>
                   <div id="telField">
                       <span>Contact</span>
-                      <input type="text" name="tel" placeholder="Tel no." pattern="[0-9]+" required/>
+                      <input type="text" name="sTel" placeholder="Tel no." pattern="[0-9]+" required/>
                       <span id="err_tel" class="err_msg"></span>
                   </div>
                   <div>
@@ -61,7 +61,7 @@
                       
                   </div>
                   <div>
-                      <button type="button" onclick="submitForm(form)">Submit</button>
+                      <button type="button" onclick="form.submit()">Submit</button>
                       <button type="button"  onclick="form.reset()">Reset</button>
                   </div>
               </form>

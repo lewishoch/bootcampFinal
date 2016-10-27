@@ -9,8 +9,8 @@
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
        <link type="text/css" rel="stylesheet" href="../css/rater.css" />
-		<script src="../js/common.js"></script>
-		<link rel="stylesheet" href="../css/common.css">
+		<script src="js/common.js"></script>
+		<link rel="stylesheet" href="css/common.css">
 </head>
 <body>
 <div id="header">
@@ -37,7 +37,6 @@
             <div class="dishList">
                 <div class="dishInfo">
                     <div class="dishName">dname</div>
-                    <div class="dishCat">Seafood</div>
                     <div class="dishPrice">10.00</div>
                     <div class="dishNumber">0</div>
                 </div>
@@ -118,7 +117,7 @@
     
     var displayAllDish = function(parent, data){
         var dishList = $('<div class="dishList"></div>');
-        var dish,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn, preTime;
+        var dish,dishInfo,dishName,dishPrice,dishNumber,control,btn, preTime;
         var d;
         var _dish = data || [];
         
@@ -127,13 +126,11 @@
             d = _dish[i];
             dishInfo = $('<div class="dishInfo"></div>');
                 dishName = $('<div class="dishName">'+d.dname+'</div>');
-                dishCat = $('<div class="dishCat">'+d.cat+'</div>');
                 dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
                 dishNumber = $('<div class="dishNumber">'+getDishNumber(d.did)+'</div>');
                 var timeDiff = getTimeDiff(d.creDt, d.lastModDt);
                 parTime = $('<div class="dishPreTime">'+timeDiff+'</div>');
             dishName.appendTo(dishInfo);
-            dishCat.appendTo(dishInfo);
             dishPrice.appendTo(dishInfo);
             dishNumber.appendTo(dishInfo);
             parTime.appendTo(dishInfo);
