@@ -8,25 +8,25 @@ $(function(){
     var dishSetting = $('#menu #dishSetting')[0];
 
 
-    menuMenu && menuMenu.onclick = function(){
+    menuMenu && (menuMenu.onclick = function(){
         window.location.href = "shop.html";
-    }
-    menuOrders && menuOrders.onclick = function(){
+    })
+    menuOrders && (menuOrders.onclick = function(){
         window.location.href = "history.html";
-    }
-    menuSetting && menuSetting.onclick = function(){
+    })
+    menuSetting && (menuSetting.onclick = function(){
         window.location.href = "account.html";
-    }
-    shopOrder && shopOrder.onclick = function(){
+    })
+    shopOrder && (shopOrder.onclick = function(){
         window.location.href = "order.html";
-    }
-    shopAdv && shopAdv.onclick = function(){
+    })
+    shopAdv && (shopAdv.onclick = function(){
         window.location.href = "adv.html";
-    }
-    shopSetting && shopSetting.onclick = function(){
+    })
+    shopSetting && (shopSetting.onclick = function(){
         window.location.href = "edit.html";
-    }
-    dishSetting && dishSetting.onclick = function(){
+    })
+    dishSetting && (dishSetting.onclick = function(){
         window.location.href = "dishEdit.html";
-    }
+    })
 });
