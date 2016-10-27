@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -41,7 +42,7 @@ public class Order {
 	
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="oid")
-	@JsonManagedReference
+	
 	private Set<OrderedDish> dishes = new HashSet<OrderedDish>();
 	
 	

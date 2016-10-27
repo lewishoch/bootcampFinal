@@ -21,12 +21,13 @@ public class ShopInfoDaoImpl implements ShopInfoDao {
 	private EntityManager em;
 	
 	@Override
-	public Set<Dish> findAllDishes(String mid) {
-		Merchant m = em.find(Merchant.class, mid);
-		if(m != null && m.getDishes() != null)
-			return m.getDishes();
-		else
-			return null;
+	public List<Dish> findAllOwnDishes(String mid) {
+		String jpql = "select d from Dish d where d.merchant.mid=:mid";
+		List<Dish> ds = em
+				.createQuery(jpql)
+				.setParameter("mid", mid)
+				.getResultList();
+		return ds;
 	}
 
 	@Override

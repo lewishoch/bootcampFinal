@@ -160,7 +160,7 @@ public class Test1 {
 	
 	@Test
 	public void TestFindAllDishes(){
-		Set<Dish> d = sm.findAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
+		List<Dish> d = sm.findAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
 		for (Dish a: d){
 			System.out.println(d);
 		}

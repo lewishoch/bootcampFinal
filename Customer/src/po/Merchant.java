@@ -60,15 +60,6 @@ public class Merchant {
 	@ElementCollection
 	@JoinTable(name="dishes", joinColumns=@JoinColumn(name="mId"))
 	*/
-	@OneToMany(mappedBy="merchant",fetch=FetchType.EAGER)
-	//@JoinColumn(name="mid")
-	@JsonManagedReference
-	private Set<Dish> dishes = new HashSet<Dish>();
-	
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="mid")
-	@JsonManagedReference
-	private Set<Advertisement> advertisements = new HashSet<Advertisement>();
 
 	@Embedded
 	private ShopInfo shop;
@@ -135,22 +126,6 @@ public class Merchant {
 
 	public void setmGender(String mGender) {
 		this.mGender = mGender;
-	}
-
-	public Set<Dish> getDishes() {
-		return dishes;
-	}
-
-	public void setDishes(Set<Dish> dishes) {
-		this.dishes = dishes;
-	}
-
-	public Set<Advertisement> getAdvertisements() {
-		return advertisements;
-	}
-
-	public void setAdvertisements(Set<Advertisement> advertisements) {
-		this.advertisements = advertisements;
 	}
 
 	public ShopInfo getShop() {
