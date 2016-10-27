@@ -9,4 +9,5 @@ public interface MerchantManager {
 	public List<Merchant> findMerchantsByStatus(int status);
 	public void insertMerchant(Merchant m);
 	public void updateMerchant(Merchant m);
+	public void getMerchantByWebService(String mid);
 }

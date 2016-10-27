@@ -1,4 +1,4 @@
-package protocal;
+package queue.protocal;
 
 public class MerchantMessage {
 	public static final int REGISTER = 1;
