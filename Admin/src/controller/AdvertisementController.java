@@ -22,7 +22,7 @@ public class AdvertisementController {
 	public Advertisement getAdvertisement(String id){
 		Advertisement a = am.findAd(id);
 		
-		System.out.println(a.getMerchant().getmName());
+//		System.out.println(a.getMerchant().getmName());
 		return a;
 	}
 	

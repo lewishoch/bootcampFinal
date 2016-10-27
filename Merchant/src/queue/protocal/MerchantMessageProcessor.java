@@ -1,4 +1,4 @@
-package protocal;
+package queue.protocal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,7 +12,6 @@ public class MerchantMessageProcessor {
 	public static String construct(MerchantMessage msg) throws Exception{
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonStr = mapper.writeValueAsString(msg);
-//		System.out.println(jsonStr);
-		return jsonStr+"\n";
+		return jsonStr;
 	}
 }

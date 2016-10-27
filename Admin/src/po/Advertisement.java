@@ -20,8 +20,8 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name="advertisement")
 public class Advertisement {
 	@Id
-	@GenericGenerator(name="aid",strategy="uuid")
-	@GeneratedValue(generator="aid")
+//	@GenericGenerator(name="aid",strategy="uuid")
+//	@GeneratedValue(generator="aid")
 	private String aid;
 	
 	@ManyToOne(fetch=FetchType.EAGER)

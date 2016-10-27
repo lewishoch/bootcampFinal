@@ -19,7 +19,7 @@
         
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
     
-    <context:component-scan base-package="service,dao"></context:component-scan>
+    <context:component-scan base-package="service,dao,queue"></context:component-scan>
 	
 	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver"></property>
@@ -102,7 +102,6 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="mqps" class="producer.MerchantQueueProducer">
-     </bean>
+	
 
 </beans>

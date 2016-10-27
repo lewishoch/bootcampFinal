@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import po.Advertisement;
-import po.Merchant;
 import producer.util.MerchantQueueProducerUtil;
-import protocal.MerchantMessage;
 import protocol.AdvertisementStatusProtocol;
+import queue.protocal.MerchantMessage;
 import service.AdvertisementManager;
 import service.MerchantManager;
 
@@ -53,6 +52,12 @@ public class AdvertisementController {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@RequestMapping(value="getAdvertisement", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Advertisement loadAdvertisement(String aid) {
+		return am.loadAdvertisement(aid);
 	}
 	
 }

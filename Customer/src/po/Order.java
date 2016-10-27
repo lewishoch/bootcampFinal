@@ -1,5 +1,6 @@
 package po;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -25,13 +28,13 @@ public class Order {
 	private String oid;
 	
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="cid")
 	private Customer customer;
 
 	
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
 	private Merchant merchant;
 	
@@ -46,6 +49,11 @@ public class Order {
 	private Integer rating;
 
 	private String comments;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creDt;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastModDt;
 	
 //	private String reply;
 
@@ -113,6 +121,24 @@ public class Order {
 	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
+
+	public Date getCreDt() {
+		return creDt;
+	}
+
+	public void setCreDt(Date creDt) {
+		this.creDt = creDt;
+	}
+
+	public Date getLastModDt() {
+		return lastModDt;
+	}
+
+	public void setLastModDt(Date lastModDt) {
+		this.lastModDt = lastModDt;
+	}
+	
+	
 	
 	
 	

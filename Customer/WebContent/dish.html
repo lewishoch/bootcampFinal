@@ -60,22 +60,17 @@
         getCookie();
         
         // ajax get shop, all dish, cart, comment
-        var aUrl = "";
+        var aUrl = "loadAllDish";
 
         $.ajax({
             type:'GET',
             url:aUrl,
             data:{'mid':curShop.mid}
         }).done(function(data){
-            try{
-                data = JSON.parse(data);
-            }
-            catch(e){
-                return;
-             }
-            cart = data.cart;
+            cart = data.cart || {'mid':'','dish':[]};
+            console.log(data)
             allDish = data.dish;
-            allComment = data.comments;
+            allComment = data.comment;
             curShop = data.merchant;
             displayShop();
             displayAllDish();
@@ -127,6 +122,8 @@
     
     var displayAllDish = function(filterFun,sortField){
         
+        console.log('enter')
+        
         var data;
         (typeof filterFun === 'function')?
             data = allDish.filter(filterFun):
@@ -144,12 +141,17 @@
         var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn;
         var d;
         
+        console.log(dishList)
+        console.log(data)
+        
         for(var i=0; i<data.length; ++i){
             d = data[i];
+            
+            console.log(d)
             dish = $('<div id='+d.did+'></div>');
-            dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
+            dishImage = $('<div class="dishImage"><img src="pic/get?imgName='+d.picPath+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
-                dishName = $('<div class="dishName">'+d.dname+'</div>');
+                dishName = $('<div class="dishName">'+d.name+'</div>');
                 dishCat = $('<div class="dishCat">'+d.cat+'</div>');
                 dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
                 dishNumber = $('<div class="dishNumber"><input type="number" value="'+getDishNumber(d.did)+'"/></div>');
@@ -179,40 +181,50 @@
     
     var displayAllComment = function(){
         var comment = $('<div></div>');
-        var uname,content,date;
+        var uname,content;
         
         var c;
         for(var i=0; i<allComment.length; ++i){
             c = allComment[i];
             uname = $('<div class="commentUname">'+c.uname+'</div>');
             content = $('<div class="commentContent">'+c.content+'</div>');
-            date = $('<div class="commentDate">'+c.date+'</div>');
             
             uname.appendTo(comment);
             content.appendTo(comment);
-            date.appendTo(comment);
         }
         comment.appendTo($('#comment'));
     }
     
     var updateOrder = function(did){
         var element = $('#'+did+' .control button');
+        var number = $('#'+did+' .dishNumber input').val();
+        
+        if(number<=0) return;
+        
         console.log(element);
         // add to cookie
         console.log(cart);
         cart.dish = (cart.dish instanceof Array)? cart.dish:[];
         
-        var index = cart.dish.indexOf(did);
+        var index = -1;
+        for(var i=0; i<cart.dish.length; ++i){
+            if(cart.dish[i].did==did){
+                index = i;
+                break;
+            }
+        }
+        
         if(index==-1){
             cart.dish.push({'did':did,'number':number});
-            cart.dish.push(did);
             element[0].setAttribute('class','cancelBtn');
             element.text("remove");
+            $('#'+did+' .dishNumber input').prop('readonly', true);
         }
         else{
             cart.dish.splice(index, 1);
             element[0].setAttribute('class','orderBtn');
             element.text("add");
+            $('#'+did+' .dishNumber input').prop('readonly', false);
         }
             
         console.log(cart);
@@ -223,7 +235,7 @@
         // ajax send update section
         cart.mid = curShop.mid;
         
-        var aUrl = "";
+        var aUrl = "addToCart";
         $.ajax({
             type:'POST',
             url:aUrl,
