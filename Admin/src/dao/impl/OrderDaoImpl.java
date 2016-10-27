@@ -27,13 +27,11 @@ public class OrderDaoImpl implements OrderDao {
 		order.setStatus(o.getStatus());
 	}
 
-	@Override
 	public Order loadOrder(String oid) {
 		Order order = em.find(Order.class, oid);
 		return order;
 	}
 
-	@Override
 	public List<Order> findAllOrders() {
 		String jpql="select o from Order o";
 		List<Order> os = em
