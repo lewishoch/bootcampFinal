@@ -28,6 +28,7 @@ import service.OrderManager;
 import service.ShopInfoManager;
 import vo.AllDishOfMerchant;
 import vo.AllShop;
+import vo.Cart;
 
 @Controller
 public class CustomerController {
@@ -120,13 +121,17 @@ public class CustomerController {
 	
 	@RequestMapping(value="/logout", method={RequestMethod.GET})
 	@ResponseBody
-	public void logout(HttpServletRequest request)
+	public void logout(HttpServletRequest request, HttpServletResponse resp) throws IOException
 	{
 		
 		System.out.println("logout controller");
 		HttpSession session = request.getSession(false);
 		if (session != null)
+		{
 		    session.invalidate();
+		    System.out.println("lougout success");
+		    resp.sendRedirect("index.html");
+		}
 	}
 	
 	
@@ -219,7 +224,7 @@ public class CustomerController {
 
 	@RequestMapping(value="loadAllDish", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public AllDishOfMerchant findAllDishes(String mid){
+	public AllDishOfMerchant findAllDishes(String mid, HttpServletRequest request,HttpServletResponse resp){
 		//cart(mid, dish:[did + number]), dish(did,picPath,name,cat,price), comment(uname, date, content), merchant(mid, name)
 		System.out.println("finding all dishes....");
 		
@@ -234,6 +239,12 @@ public class CustomerController {
 		mObj.setName(m.getmName());
 		obj.setMerchant(mObj);
 		
+		HttpSession s = request.getSession();
+		if(s != null && s.getAttribute(mid) != null)
+		{
+			System.out.println("session has cart obj");
+			obj.setCart((Cart)s.getAttribute(mid));
+		}
 		return obj;
 	}
 
@@ -250,6 +261,19 @@ public class CustomerController {
 	System.out.println("finding all dishes by category....");
 	return sm.findDishesByCategory(category);
 	}
+	
+	@RequestMapping(value="addToCart", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public void addToCart(vo.Cart cart, HttpServletRequest request,HttpServletResponse resp){
+		HttpSession s = request.getSession(false);
+		if(s != null)
+		{
+			s.setAttribute(cart.getMid(), cart);
+			System.out.println("set cart session for "+cart.getMid()+"success");
+		}
+	}
+	
+	
 	
 
 }
