@@ -142,7 +142,9 @@
         $.ajax({
             type:'POST',
             url:aUrl,
-            data:{'mid':curShop.mid}
+            data:JSON.stringify({'mid':curShop.mid}),
+            contentType:"application/json;charset=UTF-8",
+            processData: false
         });
         
         //window.location.hostname+

@@ -169,8 +169,9 @@
             var whiteStarString = '<span>'+whiteStar+'</span>';
             var blackStarString = '<span>'+blackStar+'</span>';
             var star;
-            for(var i=1; i<6; ++i){
-                star = $((i<=d.rating)? blackStarString:whiteStarString); 
+            for(var j=1; j<6; ++j){
+                star = $((j<=d.rating)? blackStarString:whiteStarString);
+                console.log(star)
                 star.appendTo(shopRating);
             }
             

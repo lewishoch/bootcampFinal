@@ -256,7 +256,9 @@
         $.ajax({
             type:'POST',
             url:aUrl,
-            data:cart
+            contentType:"application/json;charset=UTF-8",
+            data:JSON.stringify(cart),
+            processData: false
         });
         
     });
