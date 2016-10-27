@@ -26,6 +26,7 @@ import service.CustomerManager;
 import service.MerchantManager;
 import service.OrderManager;
 import service.ShopInfoManager;
+import vo.AllDishOfMerchant;
 import vo.AllShop;
 
 @Controller
@@ -218,10 +219,22 @@ public class CustomerController {
 
 	@RequestMapping(value="loadAllDish", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public Set<Dish> findAllDishes(String mid){
+	public AllDishOfMerchant findAllDishes(String mid){
 		//cart(mid, dish:[did + number]), dish(did,picPath,name,cat,price), comment(uname, date, content), merchant(mid, name)
-	System.out.println("finding all dishes....");
-	return sm.findAllDishes(mid);
+		System.out.println("finding all dishes....");
+		
+		Merchant m = mm.findMerchant(mid);
+		
+		AllDishOfMerchant obj = new AllDishOfMerchant();
+		obj.setDish(sm.loadAllDishOfMerchant(mid));
+		obj.setComment(sm.loadAllCommmentsOfMerchant(mid));
+		
+		vo.Merchant mObj = new vo.Merchant();
+		mObj.setMid(m.getMid());
+		mObj.setName(m.getmName());
+		obj.setMerchant(mObj);
+		
+		return obj;
 	}
 
 	@RequestMapping(value="findAllComments", method={RequestMethod.GET, RequestMethod.POST})

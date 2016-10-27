@@ -28,13 +28,13 @@ public class Order {
 	private String oid;
 	
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="cid")
 	private Customer customer;
 
 	
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
 	private Merchant merchant;
 	
@@ -137,6 +137,24 @@ public class Order {
 	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
+
+	public Date getCreDt() {
+		return creDt;
+	}
+
+	public void setCreDt(Date creDt) {
+		this.creDt = creDt;
+	}
+
+	public Date getLastModDt() {
+		return lastModDt;
+	}
+
+	public void setLastModDt(Date lastModDt) {
+		this.lastModDt = lastModDt;
+	}
+	
+	
 	
 	
 	

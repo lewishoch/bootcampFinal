@@ -33,7 +33,7 @@
                </div>
                <div class="shopSearch">
                    <input type="text" placeholder="Search..."/>
-                   <button type="button" onclick="searchShop()">Search</button>               </div>
+                   <button type="button" onchange="searchShop()">Search</button>               </div>
            </div>
            <div id="shopList">
                 <div class="shop">
@@ -83,12 +83,11 @@
                 data:{}
             }).done(function(data){
                 // store
-                
-                console.log(data)
                 allShop = data;
                 if(allShop instanceof Array === false)
                     allShop = [allShop];
                 createCatMenu();
+                console.log('aaaaa')
                 displayAllShop();
             });
         }
@@ -118,6 +117,7 @@
     }
     
     var displayAllShop = function(filterFun,sortField){
+        console.log('bbbb')
         var data;
         (typeof filterFun === 'function')?
             data = allShop.filter(filterFun):
@@ -137,12 +137,12 @@
         for(var i=0; i<data.length; ++i){
             d = data[i];
             shop = $('<div class="shop"></div>');
-            shopImage = $('<div class="shopImage"><img src="'+d.picPath+'"/></div>');
+            shopImage = $('<div class="shopImage"><img src="pic/get?imgName='+d.picPath+'"/></div>');
             shopName = $('<div clss="shopName">'+d.name+'</div>');
             shopTel = $('<div class="shopTel">'+d.tel+'</div>');
             shopAddr = $('<div class="shopAddr">'+d.addr+'</div>');
             shopRating = $('<div class="shopRating">'+d.rating+'</div>');
-            btn = $('<div class="btn"><button type="button"   onclick="setCookie('+d.mid+')">Order</button></div>');
+            btn = $('<div class="btn"><button type="button"   onclick="setCookie('+""+d.mid+')">Order</button></div>');
             
             shopImage.appendTo(shop);
             shopName.appendTo(shop);
@@ -185,6 +185,7 @@
     }
 
     var setCookie = function(mid){
+        console.log(1)
         var now = new Date();
         var time = now.getTime();
         var expireTime = time + 1000*36000;
@@ -192,7 +193,7 @@
         document.cookie = 'mid='+mid+';expires='+now.toGMTString()+';path=/';
         console.log(document.cookie)
         //window.location.hostname+
-        window.location.href = "/dish.html";
+        window.location.href = "dish.html";
     }
     
 </script>
