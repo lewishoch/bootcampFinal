@@ -12,6 +12,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import po.Advertisement;
 import po.Customer;
 import dao.CustomerDao;
@@ -44,6 +46,7 @@ public class CustomerDaoImpl implements CustomerDao{
 		c.setName(customer.getName());
 		c.setPsd(customer.getPsd());
 		c.setAddress(customer.getAddress());
+		c.setcTel(customer.getcTel());
 		c.setLastModDt(customer.getLastModDt());
 		return c;
 	}
