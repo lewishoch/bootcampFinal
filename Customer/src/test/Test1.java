@@ -93,7 +93,7 @@ public class Test1 {
 	@Test
 	public void TestFindMerchant(){
 		
-		Merchant m = mm.findMerchant("8a5e72cb57ffe8b00157ffe8b8900000");
+		Merchant m = mm.findMerchant("1");
 		System.out.println(m.getmName()+"...."+m.getStatus());
 	}
 	
@@ -152,7 +152,7 @@ public class Test1 {
 	
 	@Test
 	public void TestGetAllDishes(){
-		Set<Dish> d = dm.getAllDishes("8a5e72cb57ffe8b00157ffe8b8900000");
+		List<Dish> d = dm.getAllDishes("1");
 		for(Dish b: d){
 			System.out.println(b);
 		}

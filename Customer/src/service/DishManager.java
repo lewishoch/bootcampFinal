@@ -8,5 +8,5 @@ import po.Dish;
 
 public interface DishManager {
 
-	public Set<Dish> getAllDishes(String mid);
+	public List<Dish> getAllDishes(String mid);
 }

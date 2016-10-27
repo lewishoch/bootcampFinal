@@ -4,9 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import po.Order;
 import dao.OrderDao;
@@ -19,16 +21,19 @@ public class OrderManagerImpl implements OrderManager {
 	private OrderDao od;
 	
 	@Override
+	@Transactional
 	public List<Order> viewAllOrder(String cid) {
 		return od.viewAllOrders(cid);
 	}
 
 	@Override
+	@Transactional
 	public Order updateOrder(Order order) {
 		return od.updateOrder(order);
 	}
 
 	@Override
+	@Transactional
 	public Order findOrder(String id) {
 		Order o = od.findOrder(id);
 		Order order = new Order();
