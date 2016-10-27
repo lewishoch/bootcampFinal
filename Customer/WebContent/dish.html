@@ -67,7 +67,7 @@
             url:aUrl,
             data:{'mid':curShop.mid}
         }).done(function(data){
-            cart = data.cart || {'mid':'','dish':[]};
+            cart = data.cart || {'mid':'','CartDish':[]};
             console.log(data)
             allDish = data.dish;
             allComment = data.comment;
@@ -158,7 +158,7 @@
             
             control = $('<div class="control"></div>');
             
-            if(cart.dish.indexOf(d)==-1)
+            if(cart.CartDish.indexOf(d)==-1)
                 btn = $('<button class="orderBtn" onclick="updateOrder('+d.did+')">add</button>');
             else
                 btn = $('<button class="cancelBtn" onclick="updateOrder('+d.did+')">remove</button>');
@@ -204,24 +204,24 @@
         console.log(element);
         // add to cookie
         console.log(cart);
-        cart.dish = (cart.dish instanceof Array)? cart.dish:[];
+        cart.CartDish = (cart.CartDish instanceof Array)? cart.CartDish:[];
         
         var index = -1;
-        for(var i=0; i<cart.dish.length; ++i){
-            if(cart.dish[i].did==did){
+        for(var i=0; i<cart.CartDish.length; ++i){
+            if(cart.CartDish[i].did==did){
                 index = i;
                 break;
             }
         }
         
         if(index==-1){
-            cart.dish.push({'did':did,'number':number});
+            cart.CartDish.push({'did':did,'number':number});
             element[0].setAttribute('class','cancelBtn');
             element.text("remove");
             $('#'+did+' .dishNumber input').prop('readonly', true);
         }
         else{
-            cart.dish.splice(index, 1);
+            cart.CartDish.splice(index, 1);
             element[0].setAttribute('class','orderBtn');
             element.text("add");
             $('#'+did+' .dishNumber input').prop('readonly', false);
@@ -262,9 +262,9 @@
     }
     
     var getDishNumber = function(did){
-        for(var i=0; i<cart.dish.length; ++i)
-            if(cart.dish[i].did==did)
-                return cart.dish[i].number;
+        for(var i=0; i<cart.CartDish.length; ++i)
+            if(cart.CartDish[i].did==did)
+                return cart.CartDish[i].number;
         return 0;
     }
     
