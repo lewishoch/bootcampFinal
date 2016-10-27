@@ -232,13 +232,9 @@
         }
         
         if(index==-1){
-<<<<<<< HEAD
-            var obj = {};
-            obj.did = did; obj.number = number;
-            cart.cartDish.push(obj);
-=======
-            cart.cartDish.push({'did':did,'number':number});
->>>>>>> origin/Steve
+                
+            cart.cartDish.push({'did':""+did,'number':""+number});
+
             element[0].setAttribute('class','cancelBtn');
             element.text("remove");
             $('#'+did+' .dishNumber input').prop('readonly', true);
@@ -249,8 +245,24 @@
             element.text("add");
             $('#'+did+' .dishNumber input').prop('readonly', false);
         }
-            cart.mid = curShop.mid;
+            cart.mid = ""+curShop.mid;
         console.log(cart);
+    }
+    
+    var aaaa = function(){
+         cart.mid = curShop.mid;
+        var cartJson = JSON.stringify(cart.cartDish[0]);
+        var aUrl = "addToCart";         
+        console.log(cart.cartDish)
+        console.log(cartJson)
+        $.ajax({
+            type:'POST',
+            contentType: "application/json;charset=UTF-8",
+            url:aUrl,
+            data:cartJson,
+            processData: false
+        });
+        
     }
     
     $(window).on('beforeunload', function() {
@@ -259,11 +271,15 @@
         cart.mid = curShop.mid;
         var cartJson = JSON.stringify(cart);
         var aUrl = "addToCart";
+        console.log(cart)        
         $.ajax({
             type:'POST',
+            contentType: "application/json;charset=UTF-8",
             url:aUrl,
-            data:{"cart":cartJson}
+            data:cartJson,
+            processData: false
         });
+        
         
     });
     

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -200,7 +201,7 @@ public class CustomerController {
 		
 	}
 	
-	@RequestMapping(value="findAdv", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="findAllAdv", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public List<Advertisement> findAdv(){
 		System.out.println("findAdv controller");
@@ -266,17 +267,17 @@ public class CustomerController {
 	return sm.findDishesByCategory(category);
 	}
 	
-	@RequestMapping(value="addToCart", method={RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="addToCart", method={RequestMethod.GET, RequestMethod.POST}, headers = {"Content-type=application/json"})
 	@ResponseBody
-	public void addToCart(Cart cart, HttpServletRequest request,HttpServletResponse resp){
+	public void addToCart(@RequestBody Cart cart, HttpServletRequest request,HttpServletResponse resp){
 		
 		HttpSession s = request.getSession();
-		System.out.println(s+cart.getMid());
+		System.out.println("-->" + cart.getMid());
 		if(s != null)
 		{
-//			System.out.println("addToCart controller");
-//			s.setAttribute(cart.getMid(), cart);
-//			System.out.println("set cart session for "+cart.getMid()+"success");
+			System.out.println("addToCart controller");
+			s.setAttribute(cart.getMid(), cart);
+			System.out.println("set cart session for "+cart.getMid()+"success");
 		}
 	}
 	
