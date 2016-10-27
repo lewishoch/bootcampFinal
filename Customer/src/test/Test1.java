@@ -105,20 +105,20 @@ public class Test1 {
 		}
 	}
 	
-	@Test
-	public void TestViewAllOrder(){
-		List<Order> o = om.viewAllOrder("1");
-		for (Order a: o){
-			System.out.println(a);
-		}
-		ObjectMapper oj = new ObjectMapper();
-		try {
-			System.out.println(oj.writeValueAsString(o));
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void TestViewAllOrder(){
+//		List<Order> o = om.viewAllOrder("1");
+//		for (Order a: o){
+//			System.out.println(a);
+//		}
+//		ObjectMapper oj = new ObjectMapper();
+//		try {
+//			System.out.println(oj.writeValueAsString(o));
+//		} catch (JsonProcessingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Test
 	public void TestFindOrder(){
