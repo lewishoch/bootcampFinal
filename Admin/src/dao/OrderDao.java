@@ -9,5 +9,5 @@ public interface OrderDao {
 	public void updateOrder(Order o);
 	public Order loadOrder(String oid);
 	public List<Order> findAllOrders();
-	public int countOrdersByMerchant(Order o);
+	public long countOrdersByMerchant(Order o);
 }

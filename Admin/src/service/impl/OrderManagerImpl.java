@@ -29,7 +29,19 @@ public class OrderManagerImpl implements OrderManager{
 	@Override
 	@Transactional
 	public Order getOrder(String oid) {
-		Order order = od.loadOrder(oid);
+		Order o = od.loadOrder(oid);
+		Order order = new Order();
+		
+		order.setComments(o.getComments());
+		order.setOid(o.getOid());
+		order.setRating(o.getRating());
+		order.setStatus(o.getStatus());
+		order.setCustomer(o.getCustomer());
+		order.setMerchant(o.getMerchant());
+		order.setCreDt(o.getCreDt());
+		order.setLastModDt(o.getLastModDt());
+//		order.setCreDt(new Date());
+
 		return order;
 	}
 
@@ -89,8 +101,10 @@ public class OrderManagerImpl implements OrderManager{
 	@Override
 	@Transactional
 	public void insertAndBlock(Order o) {
-		Order order = od.insertOrder(o);
-		System.out.println(order.getMerchant().getMid());
+//		Order order = od.insertOrder(o);
+//		System.out.println(order.getMerchant().getMid());
+		long count = od.countOrdersByMerchant(o);
+		System.out.println("count: "+count);
 	}
 
 }
