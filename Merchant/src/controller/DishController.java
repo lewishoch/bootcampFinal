@@ -2,6 +2,10 @@ package controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +28,14 @@ public class DishController {
 
 	@RequestMapping(value="findAllOwnDishes", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public List<Dish> findAllOwnDishes(String mid) {
-		return dm.findAllOwnDishes(mid);
+	public List<Dish> findAllOwnDishes(HttpServletRequest request,HttpServletResponse resp) {
+		HttpSession s = request.getSession();
+		String mid;
+		if(s != null && (mid = (String)s.getAttribute("uuid")) != null)
+		{
+			return dm.findAllOwnDishes(mid);
+		}
+		return null;
 	}
 	
 	@RequestMapping(value="loadDishById", method={RequestMethod.GET, RequestMethod.POST})
@@ -36,27 +46,37 @@ public class DishController {
 	
 	@RequestMapping(value="loadDishByIdAndName", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public Dish loadDish(String mid, String dname) {
-		return dm.loadDish(mid, dname);
+	public Dish loadDishByName(String dname, HttpServletRequest request,HttpServletResponse resp) {
+		HttpSession s = request.getSession();
+		String mid;
+		if(s != null && (mid = (String)s.getAttribute("uuid")) != null)
+		{
+			return dm.loadDish(mid, dname);	
+		}
+		return null;
 	}
 	
 	@RequestMapping(value="addDish", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public Dish addDish(String dishName, Integer dishPrice, String dishPhoto, String mid, String category) {
-		try {
-			Dish d = new Dish();
-			d.setDishName(dishName);
-			d.setDishPrice(dishPrice);
-			d.setDishPhoto(dishPhoto);
-			d.setMerchant(mm.loadMerchantById(mid));
-			d.setCategory(category);
-			return dm.addDish(d);
-			//return "{\"status\":1}";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-			//return "{\"status\":0}";
+	public Dish addDish(String dishName, Integer dishPrice, String dishPhoto, String category, HttpServletRequest request,HttpServletResponse resp) {
+		HttpSession s = request.getSession();
+		String mid;
+		if(s != null && (mid = (String)s.getAttribute("uuid")) != null)
+		{
+			try {
+				Dish d = new Dish();
+				d.setDishName(dishName);
+				d.setDishPrice(dishPrice);
+				d.setDishPhoto(dishPhoto);
+				d.setMerchant(mm.loadMerchantById(mid));
+				d.setCategory(category);
+				return dm.addDish(d);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
 		}
+		return null;
 	}
 	
 	@RequestMapping(value="deleteDish", method={RequestMethod.GET, RequestMethod.POST})
@@ -64,11 +84,9 @@ public class DishController {
 	public Dish deleteDish(String did) {
 		try {
 			return dm.deleteDish(did);
-			//return "{\"status\":1}";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-			//return "{\"status\":0}";
 		}
 	}
 	

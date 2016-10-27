@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -48,6 +49,7 @@ public class OrderDaoImpl implements OrderDao {
 		
 		newO.setStatus(o.getStatus());
 		newO.setReply(o.getReply());
+		newO.setLastModDt(new Date());
 		
 		return newO;
 	}
