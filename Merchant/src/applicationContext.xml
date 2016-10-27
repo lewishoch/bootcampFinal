@@ -101,7 +101,19 @@
 			<value>Merchant_Q001</value>
 		</constructor-arg>
 	</bean>
+	<bean id="merchantQueue2" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg>
+			<value>Merchant_Q002</value>
+		</constructor-arg>
+	</bean>
 	
+	<bean id="merchantQueueListener" class="queue.listener.MerchantQueueListener" />
+	<bean id="jmsContainerNM"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destination" ref="merchantQueue2" />
+		<property name="messageListener" ref="merchantQueueListener" />
+	</bean>
 	
 
 </beans>

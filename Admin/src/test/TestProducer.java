@@ -33,7 +33,7 @@ public class TestProducer {
 //		msgObj.setAction(MerchantMessage.REGISTER);
 //		msgObj.setId("8a5e9d35580072db01580072de4b0000");
 		msgObj.setAction(MerchantMessage.APPLY_ADS);
-		msgObj.setId("8a5e9d3558007c6b0158007c6e9a0000");
+		msgObj.setId("8a5e72cb5804223a0158042240820000");
 		mqps.sendMessage(queue, msgObj);
 		
 	}
@@ -47,6 +47,7 @@ public class TestProducer {
 		CustomerMessage msgObj = new CustomerMessage();
 //		msgObj.setAction(MerchantMessage.REGISTER);
 		msgObj.setId("8a5e9d35580072db01580072de4b0000");
+//		msgObj.setId("1");
 		
 		cqps.sendMessage(queue, msgObj);
 		
