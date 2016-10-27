@@ -100,7 +100,7 @@
 		<property name="connectionFactory" ref="connectionFactory" />
 	</bean>
 	<!--这个是队列目的地，点对点的 -->
-	<bean id="merchentQueue" class="org.apache.activemq.command.ActiveMQQueue">
+	<bean id="merchantQueue" class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg>
 			<value>Merchant_Q001</value>
 		</constructor-arg>
@@ -116,7 +116,7 @@
 	<bean id="jmsContainerNM"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
 		<property name="connectionFactory" ref="connectionFactory" />
-		<property name="destination" ref="merchentQueue" />
+		<property name="destination" ref="merchantQueue" />
 		<property name="messageListener" ref="merchantQueueListener" />
 	</bean>
 	

@@ -9,7 +9,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import producer.CustomerQueueProducer;
 import producer.MerchantQueueProducer;
+import protocal.CustomerMessage;
 import protocal.MerchantMessage;
 
 public class TestProducer {
@@ -25,13 +27,27 @@ public class TestProducer {
 	@Transactional
 	public void testMerchantQueueProducer() {
 		MerchantQueueProducer mqps = (MerchantQueueProducer) context.getBean("mqps");
-		Queue queue= (Queue)context.getBean("merchentQueue");
+		Queue queue= (Queue)context.getBean("merchantQueue");
 		
 		MerchantMessage msgObj = new MerchantMessage();
 		msgObj.setAction(MerchantMessage.REGISTER);
 		msgObj.setId("8a5e9d35580072db01580072de4b0000");
 		
 		mqps.sendMessage(queue, msgObj);
+		
+	}
+	
+	@Test
+	@Transactional
+	public void testCustomerQueueProducer() {
+		CustomerQueueProducer cqps = (CustomerQueueProducer) context.getBean("cqps");
+		Queue queue= (Queue)context.getBean("customerQueue");
+		
+		CustomerMessage msgObj = new CustomerMessage();
+//		msgObj.setAction(MerchantMessage.REGISTER);
+		msgObj.setId("8a5e9d35580072db01580072de4b0000");
+		
+		cqps.sendMessage(queue, msgObj);
 		
 	}
 
