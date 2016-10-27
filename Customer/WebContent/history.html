@@ -117,15 +117,17 @@
     
     var displayAllDish = function(parent, data){
         var dishList = $('<div class="dishList"></div>');
-        var dish,dishInfo,dishName,dishPrice,dishNumber,control,btn, preTime;
+        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn, preTime;
         var d;
         var _dish = data || [];
         
         // dish list
         for(var i=0; i<_dish.length; ++i){
             d = _dish[i];
+            dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
                 dishName = $('<div class="dishName">'+d.dname+'</div>');
+                dishCat = $('<div class="dishCat">'+d.cat+'</div>');
                 dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
                 dishNumber = $('<div class="dishNumber">'+getDishNumber(d.did)+'</div>');
                 var timeDiff = getTimeDiff(d.creDt, d.lastModDt);
@@ -136,6 +138,7 @@
             dishNumber.appendTo(dishInfo);
             parTime.appendTo(dishInfo);
             
+            dishImage.appendTo(dishList);
             dishInfo.appendTo(dishList);
             dish.appendTo(dishList);
             

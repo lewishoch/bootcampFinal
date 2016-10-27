@@ -27,6 +27,7 @@ import service.CustomerManager;
 import service.MerchantManager;
 import service.OrderManager;
 import service.ShopInfoManager;
+import vo.Adv;
 import vo.AllDishOfMerchant;
 import vo.AllShop;
 import vo.Cart;
@@ -210,10 +211,19 @@ public class CustomerController {
 	
 	@RequestMapping(value="findAllAdv", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public List<Advertisement> findAdv(){
+	public List<Adv> findAdv(){
 		System.out.println("findAdv controller");
-		List<Advertisement> advs = am.findlastestAdv(3);
+		List<Adv> advs = new ArrayList<Adv>();
 		
+		List<Advertisement> Advertisements = am.findlastestAdv(3);
+		for(Advertisement a: Advertisements)
+		{
+			Adv adv = new Adv();
+			adv.setMid(a.getMerchant().getMid());
+			adv.setShopLogoName(a.getMerchant().getShop().getsLogoPath());
+			advs.add(adv);			
+		}
+	
 		return advs;
 		
 	}

@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="advertisement")
@@ -26,9 +27,8 @@ public class Advertisement {
 	@GeneratedValue(generator="aid")
 	private String aid;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
-	@JsonBackReference
 	private Merchant merchant;
 	
 	private String status;
