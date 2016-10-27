@@ -35,6 +35,9 @@
                 <div class="dishPrice">
                     10.00
                 </div>
+                <div class="dishNumber">
+                    <input type="number" value="0"/>
+                </div>
             </div>
             <div class="control">
                 <button class="orderBtn" onclick="updateOrder('001')">add</button>
@@ -52,7 +55,6 @@
     var allDish = {};
     var allComment = {};
     var cart = {};
-    var section = {};
     
     $(function(){
         getCookie();
@@ -71,11 +73,10 @@
             catch(e){
                 return;
              }
-            section = data;
-            cart = section.cart;
-            allDish = section.dish;
-            allComment = section.comment;
-            curShop.name = section.shop.name;
+            cart = data.cart;
+            allDish = data.dish;
+            allComment = data.comments;
+            curShop = data.merchant;
             displayShop();
             displayAllDish();
             displayAllComment();
@@ -140,7 +141,7 @@
         var dishList = $('#dishList');
         dishList.empty();
         console.log(dishList);
-        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,control,btn;
+        var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn;
         var d;
         
         for(var i=0; i<data.length; ++i){
@@ -151,6 +152,8 @@
                 dishName = $('<div class="dishName">'+d.dname+'</div>');
                 dishCat = $('<div class="dishCat">'+d.cat+'</div>');
                 dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
+                dishNumber = $('<div class="dishNumber"><input type="number" value="'+getDishNumber(d.did)+'"/></div>');
+            
             control = $('<div class="control"></div>');
             
             if(cart.dish.indexOf(d)==-1)
@@ -161,6 +164,8 @@
             dishName.appendTo(dishInfo);
             dishCat.appendTo(dishInfo);
             dishPrice.appendTo(dishInfo);
+            dishNumber.appendTo(dishInfo);
+            
             btn.appendTo(control);
             
             dishImage.appendTo(dish);
@@ -195,11 +200,11 @@
         console.log(element);
         // add to cookie
         console.log(cart);
-        console.log((cart.dish instanceof Array));
         cart.dish = (cart.dish instanceof Array)? cart.dish:[];
         
         var index = cart.dish.indexOf(did);
         if(index==-1){
+            cart.dish.push({'did':did,'number':number});
             cart.dish.push(did);
             element[0].setAttribute('class','cancelBtn');
             element.text("remove");
@@ -211,36 +216,6 @@
         }
             
         console.log(cart);
-        
-//        // write cookie & use cookie to get total price
-//        if(mid !== cookie.mid){ 
-//            cookie = {};
-//            cookie.mid = mid;
-//            cookie.dish = [];
-//            cookie.dish.push({'did':did,'number':number});
-//            totalPrice = number*price;
-//            console.log(cookie.dish);
-//        }
-//        else{
-//            
-//            var orgPrice;
-//            var dish = cookie.dish;
-//            for(var i=0; i<dish.length; ++i)
-//                if(did===dish[i].did){
-//                    orgPrice = price*dish[i].number;
-//                    dish[i].number = number;
-//                }
-//            
-//            if(orgPrice==null){
-//                cookie.dish.push({'did':did,'number':number});
-//                orgPrice = 0;
-//            }
-//                
-//            var diffPrice = number*price - orgPrice;
-//            totalPrice += diffPrice;
-//        }
-    
-//        $('#'+mid+' .orderPrice').text(totalPrice);
     }
     
     $(window).on('beforeunload', function() {
@@ -272,6 +247,13 @@
                 break;
             }
         }
+    }
+    
+    var getDishNumber = function(did){
+        for(var i=0; i<cart.dish.length; ++i)
+            if(cart.dish[i].did==did)
+                return cart.dish[i].number;
+        return 0;
     }
     
 </script>
