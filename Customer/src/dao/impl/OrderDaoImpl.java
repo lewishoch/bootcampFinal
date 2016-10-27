@@ -12,9 +12,10 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import dao.OrderDao;
-import po.Dish;
+
 import po.Merchant;
 import po.Order;
+import po.OrderedDish;
 import service.MerchantManager;
 
 @Repository
@@ -27,6 +28,12 @@ public class OrderDaoImpl implements OrderDao {
 		String jpql = "select o from Order o, Customer c where o.customer.cid = c.cid and c.cid = :cid";
 		Query q = em.createQuery(jpql).setParameter("cid", cid);
 		List<Order> o = q.getResultList();
+		Set<OrderedDish> a = o.get(0).getDishes();
+	
+		for(OrderedDish aa: a)
+		{
+			System.out.print("checking -->" + aa.getDish().getDishPrice());
+		}
 		return o;
 
 	}
@@ -34,7 +41,7 @@ public class OrderDaoImpl implements OrderDao {
 	public Order updateOrder(Order order) {
 		Order o = em.find(Order.class, order.getOid());
 		o.setStatus(order.getStatus());
-		o.setComments(order.getComments());
+		o.setComments(order.getComments()); 
 		o.setRating(order.getRating());
 		return o;
 	}

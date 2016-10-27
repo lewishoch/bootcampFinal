@@ -1,10 +1,7 @@
 package service.impl;
 
+import java.util.Date;
 import java.util.List;
-
-
-
-
 
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -39,6 +36,10 @@ public class OrderManagerImpl implements OrderManager {
 		order.setComments(o.getComments());
 		order.setOid(o.getOid());
 		order.setRating(o.getRating());
+		order.setStatus(o.getStatus());
+		order.setCustomer(o.getCustomer());
+		order.setMerchant(o.getMerchant());
+		order.setCreDt(new Date());
 	
 		return order;
 	}

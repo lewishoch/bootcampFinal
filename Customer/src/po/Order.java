@@ -59,22 +59,6 @@ public class Order {
 	
 //	private String reply;
 
-	public Date getCreDatet() {
-		return creDt;
-	}
-
-	public void setCreDt1(Date creDt) {
-		this.creDt = creDt;
-	}
-
-	public Date getDateLastModDt() {
-		return lastModDt;
-	}
-
-	public void setLastModDt1(Date lastModDt) {
-		this.lastModDt = lastModDt;
-	}
-
 	public String getOid() {
 		return oid;
 	}
