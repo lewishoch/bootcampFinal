@@ -17,28 +17,45 @@
             <form action="signup" method="POST" >
                  <div id="unameField">
                      <span>User Name</span>
-                      <input type="text" name="uname" placeholder="User name"/>
+                      <input type="text" name="uname" placeholder="User name" required/>
                       <span id="err_uname" class="err_msg"></span>
                   </div>
                   <div id="psdField">
                       <span>Password</span>
-                      <input type="password" name="psd" placeholder="Password"/>
+                      <input type="password" name="psd" placeholder="Password" required/>
                       <span id="err_psd" class="err_msg"></span>
+                  </div>
+                  <div id="genderField">
+                      <span>Gender</span>
+                      <input type="radio" value="M" checked="checked" name="mGender"/><label>Male </label><input type="radio" value="F" name="mGender"/><label>Female </label>
+                  </div>
+                  <div id="sNameField">
+                      <span>Shop Name</span>
+                      <input type="text" name="sName" placeholder="Shop Name" pattern="[/w]+" required/>
+                  </div>
+                  <div id="sCatField">
+                      <span>Category</span>
+                       <select name="sCat">
+                          <option value="Chinese">Chinese</option>
+                          <option value="French">French</option>
+                          <option value="Italian">Italian</option>
+                          <option value="Japanese">Japanese</option>
+                          <option value="Indian">Indian</option>
+                          <option value="Amercian">Amercian</option>
+                          <option value="Others">Others</option>
+                        </select> 
                   </div>
                   <div id="telField">
                       <span>Contact</span>
-                      <input type="text" name="tel" placeholder=""/>
+                      <input type="text" name="tel" placeholder="Tel no." pattern="[0-9]+" required/>
                       <span id="err_tel" class="err_msg"></span>
                   </div>
                   <div>
                       <span>Address</span>
-                      <button type="button" id="addressBtn">Add</button>
-                      <div id="address">
-                         <div id="addrField">
-                             <div>
-                              <input type="text" name="addr" placeholder="Address..."/>
-                              <span id="err_adr" class="err_msg"></span>
-                              </div>
+                     <div id="addrField">
+                         <div>
+                          <input type="text" name="sAddr" placeholder="Address..." required/>
+                          <span id="err_adr" class="err_msg"></span>
                           </div>
                       </div>
                       
@@ -56,11 +73,11 @@
 
                  <div>
                       <span>User Name</span>
-                      <input type="text" name="uname" placeholder="User name"/>
+                      <input type="text" name="uname" placeholder="User name" required/>
                   </div>
                   <div>
                       <span>Password</span>
-                      <input type="password" name="psd" placeholder="Password"/>
+                      <input type="password" name="psd" placeholder="Password" required/>
                   </div>
                   <div>
                       <button type="button" onclick="submitForm(form)">Submit</button>
@@ -70,15 +87,6 @@
         </div>
 </body>
 <script>
-    $(function(){
-        $('#addressBtn').on('click',function(){
-           var addressDiv = $('#addrField');
-            var div = $('<div></div>');
-            div.append('<input type="text" name="addr" placeholder="Address..."/>');
-            $('<div></div>').append('<span id="err_adr" class="err_msg"></span>');
-            addressDiv.append(div);
-        }); 
-    });
     
     var submitForm = function(form){
         if(validForm(form))

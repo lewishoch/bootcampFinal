@@ -22,8 +22,8 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 	@Override
 	public List<Advertisement> findlastestAdv(int num) {
 		
-		String jpql = "select a from Advertisement a order by a.creDt desc";
-		Query q = em.createQuery(jpql).setMaxResults(num);
+		String jpql = "select a from Advertisement a where a.status = :status order by a.creDt desc ";
+		Query q = em.createQuery(jpql).setParameter("status", "Accepted").setMaxResults(num);
 		List<Advertisement> advertisements = q.getResultList();
 		
 		return advertisements;

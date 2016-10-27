@@ -1,28 +1,17 @@
 package po;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="merchant")
@@ -56,20 +45,6 @@ public class Merchant {
 	@Column(nullable=false)
 	private int numOfOrder;
 	
-	/*
-	@ElementCollection
-	@JoinTable(name="dishes", joinColumns=@JoinColumn(name="mId"))
-	*/
-	@OneToMany(mappedBy="merchant",fetch=FetchType.EAGER)
-	//@JoinColumn(name="mid")
-	@JsonManagedReference
-	private Set<Dish> dishes = new HashSet<Dish>();
-	
-	@OneToMany(fetch=FetchType.EAGER)
-	@JoinColumn(name="mid")
-	@JsonManagedReference
-	private Set<Advertisement> advertisements = new HashSet<Advertisement>();
-
 	@Embedded
 	private ShopInfo shop;
 	
@@ -151,22 +126,6 @@ public class Merchant {
 
 	public void setNumOfOrder(int numOfOrder) {
 		this.numOfOrder = numOfOrder;
-	}
-
-	public Set<Dish> getDishes() {
-		return dishes;
-	}
-
-	public void setDishes(Set<Dish> dishes) {
-		this.dishes = dishes;
-	}
-
-	public Set<Advertisement> getAdvertisements() {
-		return advertisements;
-	}
-
-	public void setAdvertisements(Set<Advertisement> advertisements) {
-		this.advertisements = advertisements;
 	}
 
 	public ShopInfo getShop() {

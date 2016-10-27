@@ -115,7 +115,7 @@
         }
         
         getAllShop();
-       // getAllAds();
+        getAllAds();
     });
     
     var createCatMenu = function(){
@@ -197,7 +197,7 @@
         for(var i=0; i<allAds.length; ++i){
             a = allAds[i];
             adsImg = $('<div class="adsImg"></div>');
-            img = $('<img src="'+a.picPath+'" onclick="setCookie('+a.mid+')"/>');
+            img = $('<img src="pic/get?imgName='+a.shopLogoName+'" onclick="setCookie('+a.mid+')"/>');
             img.appendTo(adsImg);
             adsImg.appendTo(ads);
         }

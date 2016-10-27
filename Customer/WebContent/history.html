@@ -35,10 +35,8 @@
                 <div class="shopName">sname</div>
             </div>
             <div class="dishList">
-                <div class="dishImage">image</div>
                 <div class="dishInfo">
                     <div class="dishName">dname</div>
-                    <div class="dishCat">Seafood</div>
                     <div class="dishPrice">10.00</div>
                     <div class="dishNumber">0</div>
                 </div>
@@ -135,7 +133,7 @@
                 var timeDiff = getTimeDiff(d.creDt, d.lastModDt);
                 parTime = $('<div class="dishPreTime">'+timeDiff+'</div>');
             dishName.appendTo(dishInfo);
-            dishCat.appendTo(dishInfo);
+            
             dishPrice.appendTo(dishInfo);
             dishNumber.appendTo(dishInfo);
             parTime.appendTo(dishInfo);

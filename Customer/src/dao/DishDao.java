@@ -7,5 +7,5 @@ import po.Advertisement;
 import po.Dish;
 
 public interface DishDao {
-	public Set<Dish> getAllDishes(String mid);
+	public List<Dish> getAllDishes(String mid);
 }
