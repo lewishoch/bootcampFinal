@@ -18,7 +18,7 @@
         
         
     <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-    <context:component-scan base-package="service,dao,producer"></context:component-scan>
+    <context:component-scan base-package="service,dao,queue"></context:component-scan>
 	
 	<context:component-scan base-package="service"></context:component-scan>
 	<context:component-scan base-package="dao"></context:component-scan>
@@ -112,7 +112,7 @@
 		</constructor-arg>
 	</bean>
 	 
-	<bean id="merchantQueueListener" class="listener.MerchantQueueListener" />
+	<bean id="merchantQueueListener" class="queue.listener.MerchantQueueListener" />
 	<bean id="jmsContainerNM"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
 		<property name="connectionFactory" ref="connectionFactory" />
@@ -120,7 +120,7 @@
 		<property name="messageListener" ref="merchantQueueListener" />
 	</bean>
 	
-	<bean id="customerQueueListener" class="listener.CustomerQueueListener" />
+	<bean id="customerQueueListener" class="queue.listener.CustomerQueueListener" />
 	<bean id="jmsContainerNC"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
 		<property name="connectionFactory" ref="connectionFactory" />

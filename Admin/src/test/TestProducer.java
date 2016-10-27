@@ -9,10 +9,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 
-import producer.CustomerQueueProducer;
-import producer.MerchantQueueProducer;
-import protocal.CustomerMessage;
-import protocal.MerchantMessage;
+import queue.producer.CustomerQueueProducer;
+import queue.producer.MerchantQueueProducer;
+import queue.protocal.CustomerMessage;
+import queue.protocal.MerchantMessage;
 
 public class TestProducer {
 	private static ApplicationContext context = null;

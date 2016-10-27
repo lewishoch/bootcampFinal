@@ -1,4 +1,4 @@
-package producer;
+package queue.producer;
 
 import javax.annotation.Resource;
 import javax.jms.Destination;
@@ -12,8 +12,8 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
 
-import protocal.MerchantMessage;
-import protocal.MerchantMessageProcessor;
+import queue.protocal.MerchantMessage;
+import queue.protocal.MerchantMessageProcessor;
 
 @Component("mqps")
 public class MerchantQueueProducer {
@@ -25,7 +25,7 @@ public class MerchantQueueProducer {
 	}
 
 	public void sendMessage(Destination destination, MerchantMessage msgObj) {
-		System.out.println("---------------Producer-----------------");
+//		System.out.println("---------------Producer-----------------");
 		try {
 			jmsTemplate.convertAndSend(destination, MerchantMessageProcessor.construct(msgObj));
 		} catch (JmsException e) {

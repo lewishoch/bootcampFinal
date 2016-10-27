@@ -18,6 +18,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="merchant")
 public class Merchant {
@@ -46,6 +48,7 @@ public class Merchant {
 	
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
+	@JsonIgnore
 	private Set<Advertisement> advertisements = new HashSet<Advertisement>();
 
 	@Embedded

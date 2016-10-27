@@ -1,4 +1,4 @@
-package producer;
+package queue.producer;
 
 import javax.annotation.Resource;
 import javax.jms.Destination;
@@ -12,10 +12,10 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Component;
 
-import protocal.CustomerMessage;
-import protocal.CustomerMessageProcessor;
-import protocal.MerchantMessage;
-import protocal.MerchantMessageProcessor;
+import queue.protocal.CustomerMessage;
+import queue.protocal.CustomerMessageProcessor;
+import queue.protocal.MerchantMessage;
+import queue.protocal.MerchantMessageProcessor;
 
 @Component("cqps")
 public class CustomerQueueProducer {
