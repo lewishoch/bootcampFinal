@@ -36,6 +36,7 @@
 			<mvc:exclude-mapping path="/signup"/>
 			<mvc:exclude-mapping path="/logout"/>
 			<mvc:exclude-mapping path="/findMerchant"/>
+			<mvc:exclude-mapping path="/order/getOrder"/>
 			<bean class="interceptor.LoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>

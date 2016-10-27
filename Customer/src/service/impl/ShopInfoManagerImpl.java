@@ -24,8 +24,8 @@ public class ShopInfoManagerImpl implements ShopInfoManager {
 	private ShopInfoDao sd;
 	
 	@Override
-	public Set<Dish> findAllDishes(String mid) {
-		return sd.findAllDishes(mid);
+	public List<Dish> findAllDishes(String mid) {
+		return sd.findAllOwnDishes(mid);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class ShopInfoManagerImpl implements ShopInfoManager {
 		
 	
 		// dish
-		Set<po.Dish> pdish = findAllDishes(mid);
+		List<po.Dish> pdish = findAllDishes(mid);
 		
 		Set<vo.Dish> vdish = new HashSet<vo.Dish>();
 		for(po.Dish d: pdish)
