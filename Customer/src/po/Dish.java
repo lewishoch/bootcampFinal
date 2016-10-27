@@ -24,7 +24,6 @@ public class Dish {
 	private String dishPhoto;
 	@ManyToOne(targetEntity=Merchant.class,cascade={CascadeType.PERSIST,CascadeType.REMOVE},fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
-	
 	private Merchant merchant;
 	private String category;
 	

@@ -8,11 +8,12 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Repository;
 
 import dao.OrderDao;
-
 import po.Merchant;
 import po.Order;
 import po.OrderedDish;
@@ -24,13 +25,17 @@ public class OrderDaoImpl implements OrderDao {
 	private EntityManager em;
 	
 	@Override
-	public List<Order> viewAllOrders(String cid) {
-		String jpql = "select o from Order o, Customer c where o.customer.cid = c.cid and c.cid = :cid";
+	public List<Order> viewAllOrders(HttpServletRequest request) {
+		String jpql = "select o from Order o where o.customer.cid =:cid";
+		HttpSession sen = request.getSession(); 
+		//select * from Orders o, Ordered_Dish od where o.oid = od.oid and o.cid='297e3fc45803dee8015803df5f220000'
+		String cid = (String) sen.getAttribute("uuid"); 
+		System.out.println("i am "+cid);
 		Query q = em.createQuery(jpql).setParameter("cid", cid);
 		List<Order> o = q.getResultList();
 		Set<OrderedDish> a = o.get(0).getDishes();
-	
-		for(OrderedDish aa: a)
+
+			for(OrderedDish aa: a)
 		{
 			System.out.print("checking -->" + aa.getDish().getDishPrice());
 		}

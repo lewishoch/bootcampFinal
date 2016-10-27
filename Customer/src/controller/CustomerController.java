@@ -84,7 +84,7 @@ public class CustomerController {
 	@ResponseBody
 	public Customer signup(String uname, String psd, String tel, String[] addr,HttpServletRequest req, HttpServletResponse resp) throws IOException
 	{
-		System.out.println("signup controller --> "+uname + ":" + psd + ":" + tel);
+		System.out.println("signup controller --> "+uname + ":" + psd );
 		
 		HttpSession sen = req.getSession(true);
 		
@@ -185,9 +185,9 @@ public class CustomerController {
 	
 	@RequestMapping(value="viewAllOrders", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody	
-	public List<Order> viewAllOrders(String cid){
+	public List<Order> viewAllOrders(HttpServletRequest request){
 		System.out.println("displaying all orders...");
-		return om.viewAllOrder(cid);
+		return om.viewAllOrder(request);
 	}
 	
 	@RequestMapping(value="updateOrder", method={RequestMethod.GET, RequestMethod.POST})

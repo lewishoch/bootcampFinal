@@ -42,7 +42,6 @@ public class Order {
 	
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="oid")
-	
 	private Set<OrderedDish> dishes = new HashSet<OrderedDish>();
 	
 	

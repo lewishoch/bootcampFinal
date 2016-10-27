@@ -5,6 +5,9 @@ import java.util.List;
 
 
 
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +25,8 @@ public class OrderManagerImpl implements OrderManager {
 	
 	@Override
 	@Transactional
-	public List<Order> viewAllOrder(String cid) {
-		return od.viewAllOrders(cid);
+	public List<Order> viewAllOrder(HttpServletRequest request) {
+		return od.viewAllOrders(request);
 	}
 
 	@Override
