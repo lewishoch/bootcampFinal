@@ -24,9 +24,9 @@ public class TestConsumer {
 		MerchantMessageConsumer mmcm = (MerchantMessageConsumer) context.getBean("mmcm");
 		// test for merchant register
 //		String message = "{\"id\":\"8a5e72cb580527bb01580527c2190000\",\"action\":1}";
-//		String message = "{\"id\":\"2\",\"action\":1}";
+		String message = "{\"id\":\"2\",\"action\":1}";
 		// test for advertisement application
-		String message = "{\"id\":\"8a5e72cb5804223a0158042240820000\",\"action\":2}";
+//		String message = "{\"id\":\"8a5e72cb5804223a0158042240820000\",\"action\":2}";
 		mmcm.handleMessage(message);
 	}
 	

@@ -27,10 +27,13 @@ import service.CustomerManager;
 import service.MerchantManager;
 import service.OrderManager;
 import service.ShopInfoManager;
+import vo.Adv;
 import vo.AllDishOfMerchant;
 import vo.AllShop;
 import vo.Cart;
 import vo.CartDish;
+import vo.CartPageInfo;
+import vo.ShopInfo;
 
 @Controller
 public class CustomerController {
@@ -210,10 +213,19 @@ public class CustomerController {
 	
 	@RequestMapping(value="findAllAdv", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public List<Advertisement> findAdv(){
+	public List<Adv> findAdv(){
 		System.out.println("findAdv controller");
-		List<Advertisement> advs = am.findlastestAdv(3);
+		List<Adv> advs = new ArrayList<Adv>();
 		
+		List<Advertisement> Advertisements = am.findlastestAdv(3);
+		for(Advertisement a: Advertisements)
+		{
+			Adv adv = new Adv();
+			adv.setMid(a.getMerchant().getMid());
+			adv.setShopLogoName(a.getMerchant().getShop().getsLogoPath());
+			advs.add(adv);			
+		}
+	
 		return advs;
 		
 	}
@@ -289,6 +301,42 @@ public class CustomerController {
 	}
 	
 	
+	// ajax get shop, all dish, cart
+	@RequestMapping(value="findForCart", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public CartPageInfo findForCart(String mid, HttpServletRequest request,HttpServletResponse resp){
+		
+		System.out.println("findForCart controller");
+		
+		Merchant m = mm.findMerchant(mid);
+		po.ShopInfo shopInfo = m.getShop();
+		vo.ShopInfo voShop = new vo.ShopInfo();
+		voShop.setsAddr(shopInfo.getsAddr());
+		voShop.setsCat(shopInfo.getsCat());
+		voShop.setsName(shopInfo.getsName());
+		voShop.setsStat(shopInfo.getsStat());
+
+		CartPageInfo CartPageInfo = new CartPageInfo();
+		CartPageInfo.setShopInfo(voShop);
+		CartPageInfo.setDish(sm.loadAllDishOfMerchant(mid));
+		
+		HttpSession s = request.getSession();
+		if(s != null && s.getAttribute(mid) != null)
+		{
+			System.out.println("session has cart obj");
+			CartPageInfo.setCart((Cart)s.getAttribute(mid));
+		}
+//		else
+//		{
+//			System.out.println("session no cart obj");
+//			
+//			Cart cc = new Cart();
+//			List<CartDish> cd = new ArrayList<CartDish>();
+//			cc.setCartDish(cd);
+//			CartPageInfo.setCart(cc);
+//		}
+		return CartPageInfo;
+	}
 	
 
 }

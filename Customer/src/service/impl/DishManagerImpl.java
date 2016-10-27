@@ -22,7 +22,7 @@ public class DishManagerImpl implements DishManager{
 
 	@Override
 	@Transactional
-	public Set<Dish> getAllDishes(String mid) {
+	public List<Dish> getAllDishes(String mid) {
 		// TODO Auto-generated method stub
 		return dd.getAllDishes(mid);
 	}

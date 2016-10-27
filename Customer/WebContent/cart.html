@@ -8,8 +8,8 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-		<script src="../js/common.js"></script>
-		<link rel="stylesheet" href="../css/common.css">
+		<script src="js/common.js"></script>
+		<link rel="stylesheet" href="css/common.css">
 </head>
 <body>
 <div id="header">
@@ -62,25 +62,26 @@
     var curShop = {};
     var allDish = {};
     var cart = {};
+    var gmid;
     
     $(function(){
+        getCookie();
+        
         // ajax get shop, all dish, cart
-        var aUrl = "";
+        var aUrl = "findForCart";
 
         $.ajax({
             type:'GET',
             url:aUrl,
-            data:{'mid':curShop.mid}
+            data:{'mid':gmid}
         }).done(function(data){
-            try{
-                data = JSON.parse(data);
-            }
-            catch(e){
+            if(data==null || data==""){
+                console.log('no info get with gmid: '+gmid);
                 return;
-             }
+            }
             cart = data.cart;
             allDish = data.dish;
-            curShop = data.merchant;
+            curShop = data.shopInfo;
             displayShop();
             displayAllDish();
         });
@@ -89,7 +90,7 @@
      var displayShop = function(){
         var shop = $('#shop');
         shop.empty();
-        var shopName = $('<div class="shopName">'+curShop.name+'</div>');
+        var shopName = $('<div class="shopName">'+curShop.sName+'</div>');
         shopName.appendTo(shop);
     }
     
@@ -99,7 +100,7 @@
         console.log(dishList);
         var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber;
         var d;
-        var data = cart.dish;
+        var data = cart.cartDish;
         
         for(var i=0; i<data.length; ++i){
             d = getDishInfo(data[i].did);
@@ -127,9 +128,9 @@
     
     var updatePrice = function(){
         var totalPrice = 0;
-        for(var i=0; i<cart.dish.length; ++i){
-            var price = getDishInfo(cart.dish[i].did).price;
-            totalPrice += price + cart.dish[i].number;
+        for(var i=0; i<cart.cartDish.length; ++i){
+            var price = getDishInfo(cart.cartDish[i].did).price;
+            totalPrice += price + cart.cartDish[i].number;
         }
         $('.totalPrice').text(totalPrice);
         
@@ -137,12 +138,12 @@
     
     var confirm = function(){
         var aUrl = "";
-        console.log('curShop.mid: '+curShop.mid);
+        console.log('cart.mid: '+cart.mid);
         
         $.ajax({
             type:'POST',
             url:aUrl,
-            data:JSON.stringify({'mid':curShop.mid}),
+            data:JSON.stringify({'mid':cart.mid}),
             contentType:"application/json;charset=UTF-8",
             processData: false
         });
@@ -157,6 +158,23 @@
                 return allDish[i];
         console.log('error, dish info not included');
     }
+    
+    var getCookie = function(){
+        console.log(document.cookie);
+        var name = "mid=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            c = c.trim();
+            if (c.indexOf(name) === 0) {
+                // cookie found
+                var mid = c.substring(name.length, c.length);
+                gmid = mid;
+                break;
+            }
+        }
+    }
+    
     
 </script>
 </body>

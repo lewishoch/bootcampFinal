@@ -8,8 +8,8 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-		<script src="../js/common.js"></script>
-		<link rel="stylesheet" href="../css/common.css">
+		<script src="js/common.js"></script>
+		<link rel="stylesheet" href="css/common.css">
 </head>
 <body>
 <div id="header">
@@ -27,21 +27,16 @@
      </table>
 </div>
     <div id="update">
-        <form action="" method="" >
+        <form action="updateCustomer" method="POST" >
              <div id="unameField">
                  <span>User Name</span>
-                  <input type="text" name="uname" placeholder="User name"/>
+                  <input type="text" name="uname" placeholder="User name" readonly />
                   <span id="err_uname" class="err_msg"></span>
               </div>
               <div id="psdField">
                   <span>Password</span>
                   <input type="password" name="psd" placeholder="Password"/>
                   <span id="err_psd" class="err_msg"></span>
-              </div>
-              <div id="telField">
-                  <span>Contact</span>
-                  <input type="text" name="tel" placeholder=""/>
-                  <span id="err_tel" class="err_msg"></span>
               </div>
               <div>
                   <span>Address</span>
@@ -53,7 +48,7 @@
 
               </div>
               <div>
-                  <button type="button" onclick="submitForm(form)">Submit</button>
+                  <button type="button" onclick="form.submit()">Submit</button>
                   <button type="button"  onclick="form.reset()">Reset</button>
               </div>
           </form>
@@ -74,7 +69,6 @@
                 var userInfo = JSON.parse(xhttp.responseText);
                 $('#unameField input').val(userInfo.uname);
                 $('#psdField input').val(userInfo.psd);
-                $('#telField input').val(userInfo.tel);
                 
                 var address = userInfo.address;
                 var length = address.length;
@@ -89,7 +83,7 @@
         };
         
         xhttp.open("GET", "getUser?=");
-		xhttp.send();
+		    xhttp.send();
     });
     
     var addAddressField = function(){

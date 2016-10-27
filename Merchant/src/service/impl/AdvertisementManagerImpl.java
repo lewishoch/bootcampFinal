@@ -1,5 +1,6 @@
 package service.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
@@ -39,8 +43,9 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 	}
 	
 	@Transactional
-	public void getAdvertisementByWebService(String aid) {
+	public Advertisement getAdvertisementByWebService(String aid) {
 		String advertisementString = "";
+		Advertisement ad = null;
 		Client client = Client.create();
 		MultivaluedMap<String, String> params=new MultivaluedMapImpl();
 		params.add("id", aid);
@@ -52,6 +57,25 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 				.accept(MediaType.APPLICATION_JSON_TYPE)
 				.get(String.class);
 		System.out.println(advertisementString);	
+		
+		try {
+			ad =  new ObjectMapper().readValue(advertisementString, Advertisement.class);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ad;
+	}
+
+	@Override
+	public void updateAdvertisement(Advertisement a) {
+		ad.addAdvertisement(a);
 	}
 
 }
