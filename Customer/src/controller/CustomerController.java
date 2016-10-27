@@ -212,6 +212,7 @@ public class CustomerController {
 	@RequestMapping(value="loadAllDish", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Set<Dish> findAllDishes(String mid){
+		//cart(mid, dish:[did + number]), dish(did,picPath,name,cat,price), comment(uname, date, content), merchant(mid, name)
 	System.out.println("finding all dishes....");
 	return sm.findAllDishes(mid);
 	}
