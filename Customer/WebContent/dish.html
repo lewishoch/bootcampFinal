@@ -68,6 +68,7 @@
             data:{'mid':curShop.mid}
         }).done(function(data){
             cart = data.cart || {'mid':'','dish':[]};
+            console.log(data)
             allDish = data.dish;
             allComment = data.comment;
             curShop = data.merchant;
@@ -121,6 +122,8 @@
     
     var displayAllDish = function(filterFun,sortField){
         
+        console.log('enter')
+        
         var data;
         (typeof filterFun === 'function')?
             data = allDish.filter(filterFun):
@@ -138,10 +141,15 @@
         var dish, dishImage,dishInfo,dishName,dishCat,dishPrice,dishNumber,control,btn;
         var d;
         
+        console.log(dishList)
+        console.log(data)
+        
         for(var i=0; i<data.length; ++i){
             d = data[i];
+            
+            console.log(d)
             dish = $('<div id='+d.did+'></div>');
-            dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
+            dishImage = $('<div class="dishImage"><img src="pic/get?imgName='+d.picPath+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
                 dishName = $('<div class="dishName">'+d.name+'</div>');
                 dishCat = $('<div class="dishCat">'+d.cat+'</div>');
@@ -189,6 +197,10 @@
     
     var updateOrder = function(did){
         var element = $('#'+did+' .control button');
+        var number = $('#'+did+' .dishNumber input').val();
+        
+        if(number<=0) return;
+        
         console.log(element);
         // add to cookie
         console.log(cart);
@@ -206,11 +218,13 @@
             cart.dish.push({'did':did,'number':number});
             element[0].setAttribute('class','cancelBtn');
             element.text("remove");
+            $('#'+did+' .dishNumber input').prop('readonly', true);
         }
         else{
             cart.dish.splice(index, 1);
             element[0].setAttribute('class','orderBtn');
             element.text("add");
+            $('#'+did+' .dishNumber input').prop('readonly', false);
         }
             
         console.log(cart);

@@ -137,7 +137,7 @@
         for(var i=0; i<data.length; ++i){
             d = data[i];
             shop = $('<div class="shop"></div>');
-            shopImage = $('<div class="shopImage"><img src="'+d.picPath+'"/></div>');
+            shopImage = $('<div class="shopImage"><img src="pic/get?imgName='+d.picPath+'"/></div>');
             shopName = $('<div clss="shopName">'+d.name+'</div>');
             shopTel = $('<div class="shopTel">'+d.tel+'</div>');
             shopAddr = $('<div class="shopAddr">'+d.addr+'</div>');
@@ -193,7 +193,7 @@
         document.cookie = 'mid='+mid+';expires='+now.toGMTString()+';path=/';
         console.log(document.cookie)
         //window.location.hostname+
-        window.location.href = "/dish.html";
+        window.location.href = "dish.html";
     }
     
 </script>
