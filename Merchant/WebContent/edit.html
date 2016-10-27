@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Setting</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="../js/common.js"></script>
+		<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+<div id="header">
+     <div id="account"><form action="logout" method="GET"><button>Logout</button></form></div>
+</div>
+<div id="menu">
+     <table>
+         <tr>
+             <td class="menuButton" id="shopOrder">Order</td>
+             <td class="menuButton" id="shopAdv">Advertisement</td>
+             <td class="menuButton" id="shopSetting">Shop Setting</td>
+             <td class="menuButton" id="dishSetting">Dish Setting</td>
+         </tr>
+     </table>
+</div>
+    <div id="update">
+        <form action="merchant/updateMerchant" method="POST" >
+             <div id="unameField">
+                 <span>User Name</span>
+                  <input type="text" name="uname" placeholder="User name" readonly/>
+                  <span id="err_uname" class="err_msg"></span>
+              </div>
+              <div id="psdField">
+                  <span>Password</span>
+                  <input type="password" name="psd" placeholder="Password"/>
+                  <span id="err_psd" class="err_msg"></span>
+              </div>
+              <div id="sCatField">
+                  <span>Category</span>
+                   <select name="sCat">
+                      <option value="Chinese">Chinese</option>
+                      <option value="French">French</option>
+                      <option value="Italian">Italian</option>
+                      <option value="Japanese">Japanese</option>
+                      <option value="Indian">Indian</option>
+                      <option value="Amercian">Amercian</option>
+                      <option value="Others">Others</option>
+                    </select> 
+              </div>
+              <div id="telField">
+                  <span>Contact</span>
+                  <input type="text" name="sTel" placeholder="Tel no." pattern="[0-9]+" required/>
+                  <span id="err_tel" class="err_msg"></span>
+              </div>
+              <div>
+                  <span>Address</span>
+                 <div id="addrField">
+                     <div>
+                      <input type="text" name="sAddr" placeholder="Address..." required/>
+                      <span id="err_adr" class="err_msg"></span>
+                      </div>
+                  </div>          
+            </div>
+              <div>
+                  <button type="button" onclick="form.submit()">Submit</button>
+                  <button type="button"  onclick="form.reset()">Reset</button>
+              </div>
+          </form>
+    </div>
+<script>
+    
+    $(function(){
+        var aUrl = "merchant/getMerchant";
+
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{}
+        }).done(function(data){
+            setInfo(data);
+        });
+    });
+    
+    var setInfo = function(merchant){    
+        $('#unameField input').val(merchant.uname);
+        $('#psdField input').val(merchant.psd);
+        $('#telField input').val(merchant.sTel);
+        $('#addrField input').val(merchant.sAddr);
+        $('#sCatField select').val(merchant.sCat);
+    }
+    
+    var resetForm = function(form){
+        form.reset();
+    }
+    
+    var clearError = function(form){
+        var errMsgs = $('.err_msg');
+        console.log(errMsgs)
+        for(var i=errMsgs.length-1; i>=0; --i)
+            errMsgs[i].innerHTML = "";
+    }
+    
+    var validForm = function(form){
+        clearError(form);
+        var isValid = true;
+        // uname
+        // psd
+        // tel
+        var tel = $(form).children('#telField');
+        var telVal = tel.children('input').val();
+        if(telVal==="" || false === /[0-9]+/.test(telVal)){
+            console.log(123);
+            console.log($(tel))
+            console.log($(tel).children('span.err_msg'))
+            $(tel).children('span.err_msg')
+                .text("Error");
+            isValid = false;
+        }
+        // address
+        
+        return isValid;
+    }
+    
+</script>
+</body>
+</html>
