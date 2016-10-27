@@ -25,8 +25,10 @@ public class TestConsumer {
 	@Transactional
 	public void testMerchantQueueConsumer() throws Exception {
 		MerchantMessageConsumer mmcm = (MerchantMessageConsumer) context.getBean("mmcm");
-//		Queue queue= (Queue)context.getBean("merchantQueue");
+		// test for merchant register
 		String message = "{\"id\":\"8a5e9d35580072db01580072de4b0000\",\"action\":1}";
+		// test for advertisement application
+//		String message = "{\"id\":\"8a5e9d3558007c6b0158007c6e9a0000\",\"action\":2}";
 		mmcm.handleMessage(message);
 	}
 }

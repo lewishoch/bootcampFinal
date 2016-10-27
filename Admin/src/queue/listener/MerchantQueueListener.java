@@ -20,7 +20,6 @@ public class MerchantQueueListener implements MessageListener{
 		try {
 			System.out.println(textMsg.getText());		
 			mmcm.handleMessage(textMsg.getText());
-
 		} catch (JMSException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
