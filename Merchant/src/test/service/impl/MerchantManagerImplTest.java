@@ -10,8 +10,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import po.Merchant;
 import po.ShopInfo;
+import producer.util.MerchantQueueProducerUtil;
+import protocal.MerchantMessage;
 import protocol.AccountStatusProtocol;
 import protocol.GenderProtocol;
+import protocol.ShopCategoryProtocol;
 import protocol.ShopStatusProtocol;
 import service.MerchantManager;
 
@@ -31,6 +34,8 @@ public class MerchantManagerImplTest {
 		m.setmName("clara");
 		m.setmAge(50);
 		m.setmGender(GenderProtocol.FEMALE);
+		m.setRating(0);
+		m.setNumOfOrder(0);
 		
 		ShopInfo shop = new ShopInfo();
 		shop.setsName("group02 shop");
@@ -44,8 +49,14 @@ public class MerchantManagerImplTest {
 		m.setCreDt(new Date());
 		m.setLastModDt(new Date());
 		
-		if (mm.loadMerchantByUname(m.getUname()) != null)
-			System.out.println(mm.addMerchant(m));
+		if (mm.loadMerchantByUname(m.getUname()) == null) {
+			Merchant mWithId = mm.addMerchant(m);
+			//Send Register message to  
+			if (mWithId != null) {
+				System.out.println(mWithId.getMid());
+				MerchantQueueProducerUtil.queue(MerchantMessage.REGISTER, mWithId.getMid());
+			}
+		}
 		else
 			System.out.println("Merchant name exist already!");
 	}
