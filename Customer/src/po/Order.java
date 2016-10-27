@@ -25,13 +25,13 @@ public class Order {
 	private String oid;
 	
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="cid")
 	private Customer customer;
 
 	
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
 	private Merchant merchant;
 	

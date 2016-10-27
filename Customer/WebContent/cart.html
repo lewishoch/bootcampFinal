@@ -111,8 +111,10 @@
     
     var updatePrice = function(){
         var totalPrice = 0;
-        for(var i=0; i<cart.length; ++i)
-            totalPrice += cart.dish[i].price + cart.dish[i].number;
+        for(var i=0; i<cart.dish.length; ++i){
+            var price = getDishInfo(cart.dish[i].did).price;
+            totalPrice += price + cart.dish[i].number;
+        }
         $('.totalPrice').text(totalPrice);
         
     }

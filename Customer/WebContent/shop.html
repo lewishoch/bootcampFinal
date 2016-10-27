@@ -33,7 +33,7 @@
                </div>
                <div class="shopSearch">
                    <input type="text" placeholder="Search..."/>
-                   <button type="button" onclick="searchShop()">Search</button>               </div>
+                   <button type="button" onchange="searchShop()">Search</button>               </div>
            </div>
            <div id="shopList">
                 <div class="shop">
@@ -83,8 +83,6 @@
                 data:{}
             }).done(function(data){
                 // store
-                
-                console.log(data)
                 allShop = data;
                 if(allShop instanceof Array === false)
                     allShop = [allShop];
@@ -92,6 +90,7 @@
                 displayAllShop();
             });
         }
+        
         getAllShop();
     });
     
@@ -142,7 +141,7 @@
             shopTel = $('<div class="shopTel">'+d.tel+'</div>');
             shopAddr = $('<div class="shopAddr">'+d.addr+'</div>');
             shopRating = $('<div class="shopRating">'+d.rating+'</div>');
-            btn = $('<div class="btn"><button type="button"   onclick="setCookie('+d.mid+')">Order</button></div>');
+            btn = $('<div class="btn"><button type="button"   onclick="setCookie('+""+d.mid+')">Order</button></div>');
             
             shopImage.appendTo(shop);
             shopName.appendTo(shop);
