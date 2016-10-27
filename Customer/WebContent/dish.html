@@ -45,7 +45,7 @@
         </div>
     </div>
     <div class="check">
-        <a herf="../cart.html">Check</a>
+        <a href="cart.html">Check</a>
     </div>
     <div id="comment">
     </div>
@@ -158,7 +158,7 @@
             
             control = $('<div class="control"></div>');
             
-            if(cart.dish.indexOf(d)==-1)
+            if(cart.cartDish.indexOf(d)==-1)
                 btn = $('<button class="orderBtn" onclick="updateOrder('+d.did+')">add</button>');
             else
                 btn = $('<button class="cancelBtn" onclick="updateOrder('+d.did+')">remove</button>');
@@ -204,29 +204,31 @@
         console.log(element);
         // add to cookie
         console.log(cart);
-        cart.dish = (cart.dish instanceof Array)? cart.dish:[];
+        cart.cartDish = (cart.cartDish instanceof Array)? cart.cartDish:[];
         
         var index = -1;
-        for(var i=0; i<cart.dish.length; ++i){
-            if(cart.dish[i].did==did){
+        for(var i=0; i<cart.cartDish.length; ++i){
+            if(cart.cartDish[i].did==did){
                 index = i;
                 break;
             }
         }
         
         if(index==-1){
-            cart.dish.push({'did':did,'number':number});
+            var obj = {};
+            obj.did = did; obj.number = number;
+            cart.cartDish.push(obj);
             element[0].setAttribute('class','cancelBtn');
             element.text("remove");
             $('#'+did+' .dishNumber input').prop('readonly', true);
         }
         else{
-            cart.dish.splice(index, 1);
+            cart.cartDish.splice(index, 1);
             element[0].setAttribute('class','orderBtn');
             element.text("add");
             $('#'+did+' .dishNumber input').prop('readonly', false);
         }
-            
+            cart.mid = curShop.mid;
         console.log(cart);
     }
     
@@ -234,12 +236,12 @@
         // write into document cookie
         // ajax send update section
         cart.mid = curShop.mid;
-        
+        var cartJson = JSON.stringify(cart);
         var aUrl = "addToCart";
         $.ajax({
             type:'POST',
             url:aUrl,
-            data:cart
+            data:{"cart":cartJson}
         });
         
     });
@@ -262,9 +264,9 @@
     }
     
     var getDishNumber = function(did){
-        for(var i=0; i<cart.dish.length; ++i)
-            if(cart.dish[i].did==did)
-                return cart.dish[i].number;
+        for(var i=0; i<cart.cartDish.length; ++i)
+            if(cart.cartDish[i].did==did)
+                return cart.cartDish[i].number;
         return 0;
     }
     
