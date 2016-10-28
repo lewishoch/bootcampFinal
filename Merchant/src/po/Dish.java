@@ -22,7 +22,7 @@ public class Dish {
 	private String dishName;
 	private Integer dishPrice;
 	private String dishPhoto;
-	@ManyToOne(targetEntity=Merchant.class,cascade={CascadeType.PERSIST,CascadeType.REMOVE},fetch=FetchType.EAGER)
+	@ManyToOne(targetEntity=Merchant.class,fetch=FetchType.EAGER)
 	@JoinColumn(name="mid")
 	private Merchant merchant;
 	private String category;

@@ -12,4 +12,5 @@ public interface OrderManager {
 	public Order updateOrder(Order order);
 	public Order findOrder(String id);
 	public List<Order> viewAllOrder( HttpServletRequest request);
+	public void createOrder (Order order);
 }

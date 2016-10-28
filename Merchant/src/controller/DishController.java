@@ -17,7 +17,6 @@ import service.DishManager;
 import service.MerchantManager;
 
 @Controller
-@RequestMapping(value="dish")
 public class DishController {
 	
 	@Autowired

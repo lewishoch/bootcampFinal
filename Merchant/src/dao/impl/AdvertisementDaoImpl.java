@@ -18,7 +18,7 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 	private EntityManager em;
 	
 	public List<Advertisement> findAllOwnAdvertisements(String mid) {
-		String jpql = "select a from Advertisement a where a.merchant.mid=:mid";
+		String jpql = "select a from Advertisement a where a.merchant.mid=:mid order by a.creDt desc";
 		List<Advertisement> as = em
 				.createQuery(jpql)
 				.setParameter("mid", mid)

@@ -39,4 +39,10 @@ public class DishDaoImpl implements DishDao {
 	
 	
 	}
+
+
+	@Override
+	public Dish getDish(String did) {
+		return em.find(Dish.class, did);
+	}
 }

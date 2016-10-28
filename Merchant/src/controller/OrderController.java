@@ -16,7 +16,6 @@ import po.Order;
 import service.OrderManager;
 
 @Controller
-@RequestMapping(value="order")
 public class OrderController {
 	
 	@Autowired

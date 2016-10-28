@@ -41,7 +41,7 @@
 <script>
     
     $(function(){
-        var aUrl = "advertisement/findAllOwnAdvertisements";
+        var aUrl = "findAllOwnAdvertisements";
 
         $.ajax({
             type:'GET',
@@ -54,7 +54,7 @@
     
     var setInfo = function(data){    
         var advList = $('#advList');
-        dishList.empty();
+        advList.empty();
         
         for(var i=0; i<data.length; ++i){
             appendAdv(advList, data[i]);
@@ -62,7 +62,7 @@
     }
     
     var applyAdv = function(){
-        var aUrl = "advertisement/addAdvertisement";
+        var aUrl = "addAdvertisement";
         
         $.ajax({
             type:'GET',

@@ -6,6 +6,9 @@ public class OrderStatusProtocol {
 	public static final int ACCEPTED = 1;
 	public static final int START_DELIVERY = 2;
 	public static final int RECEIVED = 3;
+	public static final int UNDER_COMPLAIN = 4;
+	public static final int ACCEPT_COMPLAIN = 5;
+	public static final int REJECT_COMPLAIN = 6;
 	
 	public static String getStatusName(int statusCode){
 		switch(statusCode){

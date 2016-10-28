@@ -8,4 +8,5 @@ import po.Dish;
 
 public interface DishDao {
 	public List<Dish> getAllDishes(String mid);
+	public Dish getDish(String did) ;
 }

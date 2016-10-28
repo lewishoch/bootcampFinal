@@ -9,5 +9,6 @@ public interface OrderDao {
 	public void updateOrder(Order o);
 	public Order loadOrder(String oid);
 	public List<Order> findAllOrders();
+	public List<Order> findOrdersByStatus(int status);
 	public long countOrdersByMerchant(Order o);
 }

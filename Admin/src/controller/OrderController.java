@@ -31,6 +31,13 @@ public class OrderController {
 		return os;
 	}
 	
+	@RequestMapping("/getPendingComplaints")
+	@ResponseBody
+	public List<Order> getPendingOrders(){
+		List<Order> os = om.findOrdersByStatus(Order.UNDER_COMPLAIN);
+		return os;
+	}
+	
 	@RequestMapping("/insertOrder")
 	@ResponseBody
 	public void insertOrder(Order o){
@@ -39,7 +46,10 @@ public class OrderController {
 	
 	@RequestMapping(value="/updateOrder", method = {RequestMethod.POST})
 	@ResponseBody
-	public void updateOrder(Order o){
+	public void updateOrder(String oid, int status){
+		Order o = new Order();
+		o.setOid(oid);
+		o.setStatus(status);
 		om.updateOrder(o);
 	}
 }

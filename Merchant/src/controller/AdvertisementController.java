@@ -26,7 +26,6 @@ import service.AdvertisementManager;
 import service.MerchantManager;
 
 @Controller
-@RequestMapping(value="advertisement")
 public class AdvertisementController {
 
 	@Autowired

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order</title>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		<script src="js/common.js"></script>
+		<link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<div id="header">
+     <div id="account"><form action="logout" method="GET"><button>Logout</button></form></div>
+</div>
+<div id="menu">
+     <table>
+         <tr>
+             <td class="menuButton" id="shopOrder">Order</td>
+             <td class="menuButton" id="shopAdv">Advertisement</td>
+             <td class="menuButton" id="shopSetting">Shop Setting</td>
+             <td class="menuButton" id="dishSetting">Dish Setting</td>
+         </tr>
+     </table>
+</div>
+    <div id="content">
+         <div id="orderList">
+             <div class="order" id="oid">
+                <div class="oid">0</div>
+                <div class="dishes">
+                    <div class="dish">
+                         <div class="dishName">dish name</div>
+                         <div class="quantity">10</div>
+                     </div>
+                 </div>
+                 <div class="customerName"></div>
+                 <div class="comments">comments</div>
+                 <div class="creDt">creDt</div>
+                 <div class="lastModDt">lsatModDt</div>
+                 <div class="status">status</div>
+                 <div class="updateStatus">
+                 <button type="button" onclick="updateS('oid')">Update</button>
+                 </div>
+             </div>     
+         </div>
+    </div>
+<script>
+    
+    $(function(){
+        var aUrl = "findAllOwnOrders";
+
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{}
+        }).done(function(data){
+            setInfo(data);
+        });
+    });
+    
+    var setInfo = function(data){    
+        var orderList = $('#orderList');
+        orderList.empty();
+        console.log(1111)
+        console.log(data)
+        for(var i=0; i<data.length; ++i){
+            appendOrder(data[i]);
+        }
+    }
+    
+    var updateS = function(oid){
+        var aUrl = "updateOrder";
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{'oid':oid}
+        }).done(function(data){
+            var newStatus = data.status;
+            console.log(newStatus)
+            $('#'+oid+" .status").text(newStatus);
+        });
+    }
+    
+    var appendOrder = function(parent, d){
+        var order = $('<div class="order" id="'+d.oid+'"></div>');
+        var oid = $('<div class="oid">'+d.oid+'</div>');
+        var dishes = $('<div class="dishes"></div>');
+        for(var i=0; i<d.dishes.lenght; ++i){
+            var dd = d.dishes[i];
+            var dish = $('<div class="dish"></div>');
+            var dishName = $('<div class="dishName">'+dd.dish.dishName+'</div>');
+            var quantity = $('<div class="quantity">'+dd.quantity+'</div>');
+            
+            dishName.appendTo(dish);
+            quantity.appendTo(dish);
+            dish.appendTo(dishes);
+        }
+        var comments = $('<div class="comments">'+d.comments+'</div>');
+        var creDt = $('<div class="creDt">'+(new Date(d.creDt)).toDateString()+'</div>');
+        var lastModDt = $('<div class="lastModDt">'+(new Date(d.lastModDt)).toDateString()+'</div>');
+        var status = $('<div class="status">'+d.status+'</div>');
+        var updateStatus = $('<div class="updateStatus"><button type="button" onclick="updateS('+d.oid+')">Update</button></div>');
+        
+        oid.appendTo(order);
+        dishes.appendTo(order);
+        comments.appendTo(order);
+        creDt.appendTo(order);
+        lastModDt.appendTo(order);
+        status.appendTo(order);
+        updateStatus.appendTo(order);
+        order.appendTo(parent);
+    }
+    
+</script>
+</body>
+</html>

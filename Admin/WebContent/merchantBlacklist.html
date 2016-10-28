@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+  <h1>Blacklist</h1> 
+  <br>
+  <table class="table table-striped">
+	<tr><th>Merchant ID</th><th>Merchant Name</th><th>Merchant Status</th><th>Freeze Operation</th><th>Unfreeze Operation</th></tr>
+  </table> 
+  
+  <script type="text/javascript">
+$(function(){
+  $.get("m/getAvailableMerchants", function(data){
+//      console.log(data);
+      var table = $("table");
+//      $.each(data, function() {
+//          var tr=$("<tr></tr>");
+//      });
+      for(var i=0; i<data.length; i++){
+    	  var tr = $("<tr></tr>");
+    	  let row = data[i];
+    	  console.log(row);
+          tr.append("<td>"+row.mid+"</td>");
+          tr.append("<td>"+row.mName+"</td>");
+          if(row.status == 1)
+          	tr.append("<td>"+"Accepted"+"</td>");
+          else
+        	tr.append("<td>"+"Frozen"+"</td>"); 
+          var aBtn = $('<button></button>')
+            .addClass("btn btn-primary")
+            .text("Freeze")
+            .on("click",function(e){  
+                  $.ajax({
+                          type:'POST',
+                          url:'m/updateMerchant',
+                          data:{
+                              mid: row.mid,
+                              status: 3
+                          }
+                      }).done(function(msg){                  
+                          location.reload();
+                      });});
+          var tda = $('<td></td>');
+          tda.append(aBtn);
+
+          var rBtn = $('<button></button>')
+            .addClass("btn btn-default")
+            .text("Unfreeze")
+            .on("click",function(e){  
+                  $.ajax({
+                          type:'POST',
+                          url:'m/updateMerchant',
+                          data:{
+                              mid: row.mid,
+                              status: 1
+                          }
+                      }).done(function(msg){                  
+                          location.reload();
+                      });});
+          var tdr = $('<td></td>');
+          tdr.append(rBtn);
+          tr.append(tda);
+          tr.append(tdr);
+          table.append(tr);
+      }
+  });
+	
+});
+
+</script>
+</body>
+</html>
