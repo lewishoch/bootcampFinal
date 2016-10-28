@@ -31,6 +31,8 @@
     <div id="orderList">
         <div id="oid">
            <button type="button" class="status" onclick="changeStatus('oid')">Confirm</button>
+           <button type="button" class="report" onclick="report('oid')">Report</button>
+           <button type="button" class="refresh" onclick="refresh('oid')">Refresh</button>
             <div class="shop">
                 <div class="shopName">sname</div>
             </div>
@@ -125,8 +127,38 @@
             o = "Invalid";
         }
         
-        var s = $('<button type="button" class="status" onclick="changeStatus('+data.oid+')">'+data.status+'</button>');
+        var s = $('<button type="button" class="status" onclick="changeStatus('+data.oid+')">'+data.status+'</button>');        
+        var s2 = $('<button type="button" class="report" onclick="report('+data.oid+')">Report</button>');
+        var s3 = $('<button type="button" class="refresh" onclick="refresh('+data.oid+')">Refresh</button>');
+        
         s.appendTo(parent);
+        s2.appendTo(parent);
+        s3.appendTo(parent);
+        
+    }
+    
+    var report = function(oid){
+        // ajax get shop, all dish, cart, comment
+        var aUrl = "reportOrder";
+
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{'oid':oid, 'status':4}
+        });
+    }
+    
+    var refresh = function(oid){
+        // ajax get shop, all dish, cart, comment
+        var aUrl = "refreshOrder";
+
+        $.ajax({
+            type:'GET',
+            url:aUrl,
+            data:{'oid':oid}
+        }).done(function(data){
+            window.location.href = "/history.html";
+        });
     }
     
      var displayShop = function(parent, merchant){
