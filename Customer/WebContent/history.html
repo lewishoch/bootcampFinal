@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>		
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-       <link type="text/css" rel="stylesheet" href="../css/rater.css" />
+       <link type="text/css" rel="stylesheet" href="/css/rater.css" />
 		<script src="js/common.js"></script>
 		<link rel="stylesheet" href="css/common.css">
 </head>
@@ -74,6 +74,8 @@
             url:aUrl,
             data:{}
         }).done(function(data){
+        	console.log(11111)
+        	console.log(data)
             orderList = data;
             displayAllOrder();
         });
@@ -82,6 +84,7 @@
     var displayAllOrder = function(){
         // create order
         var o;
+        $('#orderList').empty();
         for(var i=0; i<orderList.length; ++i){
             o = orderList[i];
             var order = $('<div id="'+o.oid+'"></div>');
@@ -99,23 +102,42 @@
             displayTotalPrice(order, o.dishes);
             
             // display comment
-            displayFeedback(order, {'comment':o.comment, 'rating':o.rating, 'oid':o.oid});
+            displayFeedback(order, {'comments':o.comments, 'rating':o.rating, 'oid':o.oid, 'customer':o.customer});
         }
+        order.appendTo($('#orderList'));
     }
     
     var displayStatus = function(parent, data){
+        var o = data.status;
+        if(o == 3){
+           o = "Recived";
+        }
+        else if(o == 2){
+            o = "Delivering";
+        }
+        else if(o == 1){
+            o = "Pending";
+        }
+        else if(o == 0){
+            o = "Accepted";
+        }
+        else{
+            o = "Invalid";
+        }
+        
         var s = $('<button type="button" class="status" onclick="changeStatus('+data.oid+')">'+data.status+'</button>');
         s.appendTo(parent);
     }
     
-     var displayShop = function(parent, shop){
+     var displayShop = function(parent, merchant){
         var shop = $('<div class="shop"></div>');
-        var shopName = $('<div class="shopName">'+shop.name+'</div>');
+        var shopName = $('<div class="shopName">'+merchant.shop.sName+'</div>');
         shopName.appendTo(shop);
         shop.appendTo(parent);
     }
     
-    var displayAllDish = function(parent, data){
+    var displayAllDish = function(parent, data){ 
+    	console.log('displayAllDish')
         var dishList = $('<div class="dishList"></div>');
         var dish,dishInfo,dishName,dishPrice,dishNumber,control,btn, preTime;
 
@@ -125,20 +147,21 @@
         // dish list
         for(var i=0; i<_dish.length; ++i){
             d = _dish[i];
-            dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
+            dish = $('<div class="dish"></div>');
+            dishImage = $('<div class="dishImage"><img src="'+d.dish.dishPhoto+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
-                dishName = $('<div class="dishName">'+d.dname+'</div>');
-                dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
-                dishNumber = $('<div class="dishNumber">'+getDishNumber(d.did)+'</div>');
-                var timeDiff = getTimeDiff(d.creDt, d.lastModDt);
+                dishName = $('<div class="dishName">'+d.dish.dishName+'</div>');
+                dishPrice = $('<div class="dishPrice">'+d.dish.dishPrice+'</div>');
+                dishNumber = $('<div class="dishNumber">'+d.quantity+'</div>');
+                var timeDiff = getTimeDiff(d.dish.merchant.creDt, data.lastModDt);
                 parTime = $('<div class="dishPreTime">'+timeDiff+'</div>');
             dishName.appendTo(dishInfo);
             dishPrice.appendTo(dishInfo);
             dishNumber.appendTo(dishInfo);
             parTime.appendTo(dishInfo);
             
-            dishImage.appendTo(dishList);
-            dishInfo.appendTo(dishList);
+            dishImage.appendTo(dish);
+            dishInfo.appendTo(dish);
             dish.appendTo(dishList);
             
             console.log(dishList)
@@ -150,9 +173,9 @@
         var total = 0;
         dishes = dishes || [];
         for(var i=0; i<dishes.length; ++i){
-            console.log('price: '+dishes[i].dish.price);
+            console.log('price: '+dishes[i].dish.dishPrice);
             console.log('number: '+dishes[i].quantity)
-            total += dishes[i].dish.price * dishes[i].quantity;
+            total += dishes[i].dish.dishPrice * dishes[i].quantity;
         }
         
         // total price
@@ -162,7 +185,7 @@
     
     var displayFeedback = function(parent, data){
         var rating = data.rating;
-        var comment = data.comment;
+        var comment = data.comments;
         var oid = data.oid;
         
         var feedbackE = $('<div class="feedback"></div>');
@@ -185,10 +208,9 @@
             ratingE2 = $('<div></div>');
             var whiteStarString = '<span>'+whiteStar+'</span>';
             var blackStarString = '<span>'+blackStar+'</span>';
-            var v = rating;
             var star;
             for(var i=1; i<6; ++i){
-                star = $((i<=v)? blackStarString:whiteStarString); 
+                star = $((i<=rating)? blackStarString:whiteStarString); 
                 star.appendTo(ratingE2);
             }
             
@@ -202,8 +224,8 @@
             $('<button type="button" onclick="sendComment('+oid+')">Send</button>').appendTo(commentE);
         }
         else{
-            $('<div class="commentUname">'+comment.uname+'</div>').appendTo(commentE);
-            $('<div class="commentContent">'+comment.content+'</div>').appendTo(commentE);
+            $('<div class="commentUname">'+data.customer.name+'</div>').appendTo(commentE);
+            $('<div class="commentContent">'+comment+'</div>').appendTo(commentE);
         }
         commentE.appendTo(parent);
     }
@@ -231,9 +253,12 @@
             for(var i=0; i<orderList.length; ++i){
                 if(orderList[i].oid==oid){
                     o = orderList[i];
-                    o.comment = content;
+                    o.comments = content;
                     o.rating = rating;
-                    displayFeedback(parent, {'comment':o.comment, 'rating':o.rating, 'oid':o.oid});
+                    displayFeedback(parent, {'comments':o.comments, 
+                    	'rating':o.rating, 
+                    	'oid':o.oid, 
+                    	'customer':o.customer});
                     break;
                 }
             }
@@ -244,10 +269,10 @@
         var btn = $('#'+oid+" .status button");
         var status = btn.text();
             
-        var aUrl = "";
+        var aUrl = "updateOrder";
 
         $.ajax({
-            type:'POST',
+            type:'GET',
             url:aUrl,
             data:{'oid':oid,"status":status}
         }).done(function(data){
@@ -260,7 +285,21 @@
                 if(orderList[i].oid==oid){
                     o = orderList[i];
                     o.status = data.status;
-                    btn.text(data.status);
+                    if(data.status == 3){
+                       o.status = "Recived";
+                    }
+                    else if(data.status == 2){
+                        o.status = "Delivering";
+                    }
+                    else if(data.status == 1){
+                        o.status = "Pending";
+                    }
+                    else if(data.status == 0){
+                        o.status = "Accepted";
+                    }
+                    else{
+                        o.status = "Invalid";
+                    }
                     break;
                 }
             }
@@ -268,41 +307,11 @@
         });
     }
     
-    var updateOrder = function(did){
-        var element = $('#'+did+' .control button');
-        console.log(element);
-        // add to cookie
-        console.log(cart);
-        cart.cartDish = (cart.cartDish instanceof Array)? cart.cartDish:[];
-        
-        var index = cart.cartDish.indexOf(did);
-        if(index==-1){
-            cart.cartDish.push({'did':did,'number':number});
-            cart.cartDish.push(did);
-            element[0].setAttribute('class','cancelBtn');
-            element.text("remove");
-        }
-        else{
-            cart.cartDish.splice(index, 1);
-            element[0].setAttribute('class','orderBtn');
-            element.text("add");
-        }
-            
-        console.log(cart);
-    }
-    
-    var getDishNumber = function(did){
-        for(var i=0; i<cart.cartDish.length; ++i)
-            if(cart.cartDish[i].did==did)
-                return cart.cartDish[i].number;
-        return 0;
-    }
-    
     var updateRating = function(star){
         console.log(star)
         var children =$(star.parentNode).children();
         for(var i=0; i<children.length; ++i)
-            children[i].innerHTML=whiteStart;
+            children[i].innerHTML=whiteStar;
 
         var cur = star;
         var prevs = $(cur).prevAll();

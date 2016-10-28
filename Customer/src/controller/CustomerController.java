@@ -190,6 +190,13 @@ public class CustomerController {
 		return om.viewAllOrder(request);
 	}
 	
+//	@RequestMapping(value="cart", method={RequestMethod.GET, RequestMethod.POST})
+//	@ResponseBody	
+//	public List<Cart> cart (Order order, String mid, CartDish cd){
+//		
+//		
+//	}
+	
 	@RequestMapping(value="updateOrder", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Order updateOrder(Order order){
