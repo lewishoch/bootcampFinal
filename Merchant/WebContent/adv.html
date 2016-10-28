@@ -27,12 +27,7 @@
 </div>
     <div id="content">
          <div id="advList">
-             <div class="adv" id="aid">
-                 <div class="aid">ID</div>
-                 <div class="creDt">2006/09/08</div>
-                 <div class="lastModDt">2016/09/08</div>
-                 <div class="status">Accepted</div>
-             </div>     
+                
          </div>
          <div id="apply">
             <button type="button" onclick="applyAdv()">Apply</button>
@@ -76,15 +71,25 @@
         });
     }
     
+    var getStatusText = function(s){
+        if(s==0) return "Pending";
+        else if(s==1) return "Accepted";
+        else if(s==2) return "Delivering";
+        else if(s==3) return "Recived";
+        else return "Invalid";
+    }
+    
     var appendAdv = function(parent, d, isHead){
         var adv = $('<div class="adv" id="'+d.aid+'"></div>');
-        var aid = $('<div class="aid">'+d.aid+'</div>');
-        var creDt = $('<div class="creDt">'+(new Date(d.creDt)).toDateString()+'</div>');
-        var lastModDt = $('<div class="lastModDt">'+(new Date(d.lastModDt)).toDateString()+'</div>');
-
+        var aid = $('<div class="aid"><span>Id: </span>'+d.aid+'</div>');
+        var creDt = $('<div class="creDt"><span>Create Date: </span>'+(new Date(d.creDt)).toDateString()+'</div>');
+        var lastModDt = $('<div class="lastModDt"><span>Last Modified Date: </span>'+(new Date(d.lastModDt)).toDateString()+'</div>');
+        var status =  $('<div class="status"><span>Status: </span>'+getStatusText(d.status)+'</div>');
+        
         aid.appendTo(adv);
         creDt.appendTo(adv);
         lastModDt.appendTo(adv);
+        status.appendTo(adv);
         
         if(isHead)
             adv.prependTo(parent);

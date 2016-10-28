@@ -26,24 +26,7 @@
      </table>
 </div>
     <div id="content">
-         <div id="orderList">
-             <div class="order" id="oid">
-                <div class="oid">0</div>
-                <div class="dishes">
-                    <div class="dish">
-                         <div class="dishName">dish name</div>
-                         <div class="quantity">10</div>
-                     </div>
-                 </div>
-                 <div class="customerName"></div>
-                 <div class="comments">comments</div>
-                 <div class="creDt">creDt</div>
-                 <div class="lastModDt">lsatModDt</div>
-                 <div class="status">status</div>
-                 <div class="updateStatus">
-                 <button type="button" onclick="updateS('oid')">Update</button>
-                 </div>
-             </div>     
+         <div id="orderList">   
          </div>
     </div>
 <script>
@@ -63,11 +46,18 @@
     var setInfo = function(data){    
         var orderList = $('#orderList');
         orderList.empty();
-        console.log(1111)
         console.log(data)
         for(var i=0; i<data.length; ++i){
-            appendOrder(data[i]);
+            appendOrder(orderList,data[i]);
         }
+    }
+    
+    var getStatusText = function(s){
+        if(s==0) return "Pending";
+        else if(s==1) return "Accepted";
+        else if(s==2) return "Delivering";
+        else if(s==3) return "Recived";
+        else return "Invalid";
     }
     
     var updateS = function(oid){
@@ -79,12 +69,12 @@
         }).done(function(data){
             var newStatus = data.status;
             console.log(newStatus)
-            $('#'+oid+" .status").text(newStatus);
+            $('#'+oid+" .status").text(getStatusText(newStatus));
         });
     }
     
     var appendOrder = function(parent, d){
-        var order = $('<div class="order" id="'+d.oid+'"></div>');
+        var order = $('<div class="order" id='+d.oid+'></div>');
         var oid = $('<div class="oid">'+d.oid+'</div>');
         var dishes = $('<div class="dishes"></div>');
         for(var i=0; i<d.dishes.lenght; ++i){
@@ -100,7 +90,8 @@
         var comments = $('<div class="comments">'+d.comments+'</div>');
         var creDt = $('<div class="creDt">'+(new Date(d.creDt)).toDateString()+'</div>');
         var lastModDt = $('<div class="lastModDt">'+(new Date(d.lastModDt)).toDateString()+'</div>');
-        var status = $('<div class="status">'+d.status+'</div>');
+               
+        var status = $('<div class="status">'+getStatusText(d.status)+'</div>');
         var updateStatus = $('<div class="updateStatus"><button type="button" onclick="updateS('+d.oid+')">Update</button></div>');
         
         oid.appendTo(order);

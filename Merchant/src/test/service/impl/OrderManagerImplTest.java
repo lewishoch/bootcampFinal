@@ -53,7 +53,7 @@ public class OrderManagerImplTest {
 		}
 		
 		o.setStatus(1);
-		om.updateOrder(o);
+		om.updateOrder("1");
 		
 		o = om.loadOrder("1");
 		System.out.println("Updated order:");
