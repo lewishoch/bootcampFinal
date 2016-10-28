@@ -27,5 +27,12 @@ public class DishManagerImpl implements DishManager{
 		return dd.getAllDishes(mid);
 	}
 	
+	@Override
+	@Transactional
+	public Dish getDish(String did) {
+		// TODO Auto-generated method stub
+		return dd.getAllDishes(mid);
+	}
+	
 	
 }

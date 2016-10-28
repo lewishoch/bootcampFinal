@@ -105,7 +105,7 @@
         for(var i=0; i<data.length; ++i){
             d = getDishInfo(data[i].did);
             dish = $('<div id='+d.did+'></div>');
-            dishImage = $('<div class="dishImage"><img src="'+d.picPath+'"/></div>');
+            dishImage = $('<div class="dishImage"><img src="pic/get?imgName='+d.picPath+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
                 dishName = $('<div class="dishName">'+d.name+'</div>');
                 dishCat = $('<div class="dishCat">'+d.cat+'</div>');
@@ -137,19 +137,16 @@
     }
     
     var confirm = function(){
-        var aUrl = "";
+        var aUrl = "submitOrder";
         console.log('cart.mid: '+cart.mid);
         
         $.ajax({
-            type:'POST',
-            url:aUrl,
-            data:JSON.stringify({'mid':cart.mid}),
-            contentType:"application/json;charset=UTF-8",
-            processData: false
+            type:'GET',
+            url:'submitOrder?mid=' + cart.mid	
         });
         
         //window.location.hostname+
-        window.location.href = "/shop.html";
+        //window.location.href = "/shop.html";
     }
     
     var getDishInfo = function(did){
