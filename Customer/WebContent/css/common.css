@@ -39,6 +39,14 @@
 }
 
 
+#shopList .shopImage{
+     float: left;
+    top:10px;
+    width:100px;
+    height:100px;
+    margin-right: 40px ;
+}
+
 #menu {
     width: 90%;
     margin:auto;
@@ -52,16 +60,22 @@
 }
 #menu td{
     align-content: center;
-    border: solid;
+    margin: 3px;
     padding: 10px;
     width: auto;
     background-color:beige;
+}
+.menuButton{
+    align-content: center;
     font-size: 120%;
     font-weight: bold;
 }
-
 .shopName{
     font-size: 25px;
+}
+
+#menu td:hover{
+    color:red;
 }
 
 #content {
@@ -90,4 +104,10 @@ div {
 /*dish*/
 #content .dishAction {
     width: 100%;
+}
+
+.shopsAction div{
+    display: inline;
+    margin: 3px 20px;
+    
 }
