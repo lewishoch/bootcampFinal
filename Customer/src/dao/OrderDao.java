@@ -14,4 +14,5 @@ public interface OrderDao {
 	public Order updateOrder(Order order);
 	public Order findOrder(String id);
 	public List<Order> viewAllOrders( HttpServletRequest request);
+	public void createOrder(Order order);
 }

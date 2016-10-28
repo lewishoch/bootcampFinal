@@ -52,4 +52,11 @@ public class OrderManagerImpl implements OrderManager {
 		return order;
 	}
 
+	@Override
+	@Transactional
+	public void createOrder(Order order) {
+		od.createOrder(order);
+		
+	}
+
 }

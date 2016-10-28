@@ -27,6 +27,7 @@ import service.AdvertisementManager;
 import service.CustomerManager;
 import service.MerchantManager;
 import service.OrderManager;
+import service.OrderedDishManager;
 import service.ShopInfoManager;
 import service.impl.DishManagerImpl;
 import vo.Adv;
@@ -52,6 +53,8 @@ public class CustomerController {
 	private ShopInfoManager sm;
 	@Autowired
 	private DishManagerImpl dm;
+	@Autowired
+	private OrderedDishManager odm;
 	
 	@RequestMapping(value="/login", method={RequestMethod.POST})
 	@ResponseBody
@@ -349,8 +352,7 @@ public class CustomerController {
 		HttpSession s = request.getSession();
 		Cart c = (Cart)s.getAttribute(mid);
 	
-		String did = c.getCartDish().get(0).getDid();
-		String number = c.getCartDish().get(0).getNumber();
+		
 		
 		Order o = new Order();
 		o.setCreDt(new Date());
@@ -364,11 +366,17 @@ public class CustomerController {
 		Customer customer = cm.loadCustomer((String)s.getAttribute("uuid"));
 		o.setCustomer(customer);
 		
-		OrderedDish odh = new OrderedDish();
-		odh.setDish(dm.getDish(did));
-		odh.setQuantity(Integer.parseInt(number));
-		o.getDishes().add(odh);
-		
+		for(int i = 0 ; i < c.getCartDish().size(); i++)
+		{
+			OrderedDish odh = new OrderedDish();
+			String did = c.getCartDish().get(i).getDid();
+			String number = c.getCartDish().get(i).getNumber();
+			odh.setDish(dm.getDish(did));
+			odh.setQuantity(Integer.parseInt(number));
+			o.getDishes().add(odh);
+			odm.createOrderedDish(odh);
+		}
+		om.createOrder(o);
 		
 //		o.getDishes()
 //		

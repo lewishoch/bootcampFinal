@@ -31,7 +31,7 @@ public class DishManagerImpl implements DishManager{
 	@Transactional
 	public Dish getDish(String did) {
 		// TODO Auto-generated method stub
-		return dd.getAllDishes(mid);
+		return dd.getDish(did);
 	}
 	
 	
