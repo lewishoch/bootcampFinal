@@ -47,7 +47,7 @@ public class MerchantController {
 			sen.setAttribute("isLogin", true);
 			sen.setAttribute("uuid", m.getMid());
 			System.out.println("Login success");
-			resp.sendRedirect("adv.html");
+			resp.sendRedirect("dishEdit.html");
 			return m;
 		}
 		
@@ -103,7 +103,7 @@ public class MerchantController {
 				MerchantQueueProducerUtil.queue(MerchantMessage.REGISTER, mWithId.getMid());
 				sen.setAttribute("isLogin", true);
 				sen.setAttribute("uuid", mWithId.getMid());
-				resp.sendRedirect("edit.html");
+				resp.sendRedirect("dishEdit.html");
 			}
 			
 			return mWithId;
@@ -118,11 +118,17 @@ public class MerchantController {
 	
 	@RequestMapping(value="/logout", method={RequestMethod.GET})
 	@ResponseBody
-	public void logout(HttpServletRequest request)
+	public void logout(HttpServletRequest request, HttpServletResponse resp) throws IOException
 	{
+		System.out.println("logout controller");
 		HttpSession session = request.getSession(false);
 		if (session != null)
+		{
 		    session.invalidate();
+		    System.out.println("lougout success");
+		    
+		}
+		resp.sendRedirect("index.html");
 	}
 	
 	@RequestMapping(value="/loadMerchantById", method={RequestMethod.GET, RequestMethod.POST})
@@ -174,10 +180,13 @@ public class MerchantController {
 			si.setsAddr(sAddr);
 			si.setsCat(sCat);
 			si.setsTel(sTel);
+			System.out.println(si.getsStat());
+			si.setsStat(si.getsStat());
 			m.setShop(si);
 			m.setLastModDt(new Date());
 			
 			try {
+				resp.sendRedirect("edit.html");
 				return mm.updateMerchant(m);
 			} catch (Exception e) {
 				e.printStackTrace();

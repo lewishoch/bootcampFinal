@@ -130,7 +130,7 @@
         var dishPrice = $('<div class="dishPrice">'+d.dishPrice+'</div>');
         var dishPhoto = $('<div class="dishPhoto"><img src="'+d.dishPhoto+'"></div>');
         var category = $('<div class="category">'+d.category+'</div>');
-        var removeDish = $('<div class="removeDish"><button type="button" onclick="remove("'+d.did+'")">Remove</button></div>');
+        var removeDish = $('<div class="removeDish"><button type="button" onclick="removeDish('+d.did+')">Remove</button></div>');
 
         dishName.appendTo(dish);
         dishPrice.appendTo(dish);
