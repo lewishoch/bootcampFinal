@@ -143,10 +143,12 @@
         $.ajax({
             type:'GET',
             url:'submitOrder?mid=' + cart.mid	
+        }).done(function(data){
+        	window.location.href = "shop.html";
         });
-        
+       
         //window.location.hostname+
-        //window.location.href = "/shop.html";
+       
     }
     
     var getDishInfo = function(did){

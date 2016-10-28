@@ -347,7 +347,7 @@ public class CustomerController {
 	
 	@RequestMapping(value="submitOrder", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public void addToCart(String mid, HttpServletRequest request,HttpServletResponse resp){
+	public void addToCart(String mid, HttpServletRequest request,HttpServletResponse resp) throws IOException{
 		
 		HttpSession s = request.getSession();
 		Cart c = (Cart)s.getAttribute(mid);
@@ -378,6 +378,8 @@ public class CustomerController {
 		}
 		om.createOrder(o);
 		
+		
+//		resp.sendRedirect("shop.html");
 //		o.getDishes()
 //		
 		
