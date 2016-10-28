@@ -163,7 +163,7 @@
     
      var displayShop = function(parent, merchant){
         var shop = $('<div class="shop"></div>');
-        var shopName = $('<div class="shopName">'+merchant.shop.sName+'</div>');
+        var shopName = $('<div class="shopName"><span>Shop Name:  </span>'+merchant.shop.sName+'</div>');
         shopName.appendTo(shop);
         shop.appendTo(parent);
     }
@@ -182,11 +182,11 @@
             dish = $('<div class="dish"></div>');
             dishImage = $('<div class="dishImage"><img src="'+d.dish.dishPhoto+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
-                dishName = $('<div class="dishName">'+d.dish.dishName+'</div>');
-                dishPrice = $('<div class="dishPrice">'+d.dish.dishPrice+'</div>');
-                dishNumber = $('<div class="dishNumber">'+d.quantity+'</div>');
+                dishName = $('<div class="dishName"><span>Dish Name:  </span>'+d.dish.dishName+'</div>');
+                dishPrice = $('<div class="dishPrice">$'+d.dish.dishPrice+'</div>');
+                dishNumber = $('<div class="dishNumber"><span>Quantity:  </span>'+d.quantity+'</div>');
                 var timeDiff = getTimeDiff(d.dish.merchant.creDt, data.lastModDt);
-                parTime = $('<div class="dishPreTime">'+timeDiff+'</div>');
+                parTime = $('<div class="dishPreTime"><span>Time used:  </span>'+timeDiff+'</div>');
             dishName.appendTo(dishInfo);
             dishPrice.appendTo(dishInfo);
             dishNumber.appendTo(dishInfo);
@@ -211,7 +211,7 @@
         }
         
         // total price
-        var totalPrice = $('<div class="totalPrice">'+total+'</div>');
+        var totalPrice = $('<div class="totalPrice">$'+total+'</div>');
         totalPrice.appendTo(parent);
     }
     
@@ -256,8 +256,8 @@
             $('<button type="button" onclick="sendComment('+oid+')">Send</button>').appendTo(commentE);
         }
         else{
-            $('<div class="commentUname">'+data.customer.name+'</div>').appendTo(commentE);
-            $('<div class="commentContent">'+comment+'</div>').appendTo(commentE);
+            $('<div class="commentUname"><span>User:  </span>'+data.customer.name+'</div>').appendTo(commentE);
+            $('<div class="commentContent"><span>Comment:  </span>'+comment+'</div>').appendTo(commentE);
         }
         commentE.appendTo(parent);
     }
@@ -266,7 +266,7 @@
         var content = $('#'+oid+" .feedback .comment input").val();
         var rating = $('#'+oid+" .feedback .rating input").val();
             
-        var aUrl = "";
+        var aUrl = "sendComment";
 
         $.ajax({
             type:'POST',
