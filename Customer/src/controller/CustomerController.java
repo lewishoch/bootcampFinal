@@ -209,7 +209,16 @@ public class CustomerController {
 	public Order updateOrder(Order order){
 		System.out.println("updating an order...status/comment/rating");
 		return om.updateOrder(order);
-	}
+	}	
+	
+	@RequestMapping(value="sendComment", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Order sendComment(String oid,String content, String rating){
+		System.out.println("updating an order...status/comment/rating");
+		return null;
+		
+	}	
+	
 	
 	@RequestMapping(value="findAllShop", method={RequestMethod.GET})
 	@ResponseBody
