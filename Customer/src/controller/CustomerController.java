@@ -219,6 +219,7 @@ public class CustomerController {
 		Order o = om.findOrder(oid);
 		o.setComments(content);
 		o.setRating(Integer.parseInt(rating));
+		om.updateOrder(o);
 		
 		
 		return null;
