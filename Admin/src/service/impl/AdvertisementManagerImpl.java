@@ -20,6 +20,8 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import dao.AdvertisementDao;
 import po.Advertisement;
 import po.Merchant;
+import queue.producer.MerchantQueueProducerUtil;
+import queue.protocal.MerchantMessage;
 import service.AdvertisementManager;
 @Service
 public class AdvertisementManagerImpl implements AdvertisementManager {
@@ -51,6 +53,7 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 	@Transactional
 	public void updateAd(Advertisement a) {
 		ad.updateAd(a);
+		MerchantQueueProducerUtil.queue(MerchantMessage.APPLY_ADS, a.getAid());
 	}
 
 	@Override
@@ -85,6 +88,13 @@ public class AdvertisementManagerImpl implements AdvertisementManager {
 		}
 		
 		return ad;
+	}
+
+	@Override
+	@Transactional
+	public List<Advertisement> findAdsByStatus(String status) {
+		List<Advertisement> as = ad.loadAdsByStatus(status);
+		return as;
 	}
 
 }

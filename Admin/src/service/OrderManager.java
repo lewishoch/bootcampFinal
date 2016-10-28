@@ -9,6 +9,7 @@ public interface OrderManager {
 	public void updateOrder(Order o);
 	public void insertOrder(Order o);
 	public List<Order> findAllOrders();
+	public List<Order> findOrdersByStatus(int status);
 	public Order getOrderByWebService(String oid);
 	public void insertAndBlock(Order o);
 }

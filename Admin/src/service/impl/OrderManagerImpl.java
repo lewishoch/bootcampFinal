@@ -107,4 +107,11 @@ public class OrderManagerImpl implements OrderManager{
 		System.out.println("count: "+count);
 	}
 
+	@Override
+	@Transactional
+	public List<Order> findOrdersByStatus(int status) {
+		List<Order> os = od.findOrdersByStatus(status);
+		return os;
+	}
+
 }

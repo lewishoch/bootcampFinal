@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+   <h1>Advertisement Requests</h1> 
+  <br>
+  <table class="table table-striped">
+	<tr><th>Advertisement ID</th><th>Merchant ID</th><th>Merchant Name</th><th>Application Status</th><th>Aprove Operation</th><th>Reject Operation</th></tr>
+  </table>    
+  
+  <script type="text/javascript">
+    $(function(){
+      $.get("a/getPendingAdvertisements", function(data){
+          var table = $("table");
+          for(var i=0; i<data.length; i++){
+              var tr = $("<tr></tr>");
+              let row = data[i];
+              console.log(row);
+              tr.append("<td>"+row.aid+"</td>");
+              tr.append("<td>"+row.merchant.mid+"</td>");
+              tr.append("<td>"+row.merchant.mName+"</td>");
+              tr.append("<td>"+row.status+"</td>");
+              var aBtn = $('<button></button>')
+                .addClass("btn btn-success")
+                .text("Approve")
+                .on("click",function(e){  
+                      $.ajax({
+                              type:'POST',
+                              url:'a/updateAdvertisment',
+                              data:{
+                                  aid: row.aid,
+                                  status: "Accepted"
+                              }
+                          }).done(function(msg){                  
+                              location.reload();
+                          });});
+              var tda = $('<td></td>');
+              tda.append(aBtn);
+
+              var rBtn = $('<button></button>')
+                .addClass("btn btn-danger")
+                .text("Reject")
+                .on("click",function(e){  
+                      $.ajax({
+                              type:'POST',
+                              url:'a/updateAdvertisment',
+                              data:{
+                                  aid: row.aid,
+                                  status: "Rejected"
+                              }
+                          }).done(function(msg){                  
+                              location.reload();
+                          });});
+              var tdr = $('<td></td>');
+              tdr.append(rBtn);
+              tr.append(tda);
+              tr.append(tdr);
+              table.append(tr);
+          }
+      });
+
+    });
+
+</script>
+</body>
+</html>

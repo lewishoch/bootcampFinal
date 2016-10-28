@@ -6,6 +6,7 @@ import po.Advertisement;
 
 public interface AdvertisementManager {
 	public List<Advertisement> findAllAds();
+	public List<Advertisement> findAdsByStatus(String status);
 	public Advertisement findAd(String aid);
 	public void insertAd(Advertisement a);
 	public void updateAd(Advertisement a);

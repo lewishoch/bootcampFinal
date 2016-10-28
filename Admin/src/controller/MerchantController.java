@@ -27,8 +27,11 @@ public class MerchantController {
 	
 	@RequestMapping(value="/updateMerchant", method = {RequestMethod.POST})
 	@ResponseBody
-	public void updateMerchant(Merchant m){
+	public void updateMerchant(String mid, int status){
 //		System.out.println(m.getmName());
+		Merchant m = new Merchant();
+		m.setMid(mid);
+		m.setStatus(status);
 		mm.updateMerchant(m);
 	}
 	

@@ -56,4 +56,14 @@ public class OrderDaoImpl implements OrderDao {
 		return count;
 	}
 
+	@Override
+	public List<Order> findOrdersByStatus(int status) {
+		String jpql="select o from Order o where o.status =:status";
+		List<Order> os = em
+				.createQuery(jpql)
+				.setParameter("status", status)
+				.getResultList();
+		return os;
+	}
+
 }
