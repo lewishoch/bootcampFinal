@@ -52,12 +52,13 @@ public class MerchantDaoImpl implements MerchantDao {
 		si.setsCat(m.getShop().getsCat());
 		si.setsTel(m.getShop().getsTel());
 		si.setsLogoPath(m.getShop().getsLogoPath());
+		si.setsStat(m.getShop().getsStat());
 		
 		newM.setShop(si);
 		
 		newM.setLastModDt(m.getLastModDt());
 		
-		em.merge(newM);
+		em.persist(newM);
 		
 		return newM;
 	}

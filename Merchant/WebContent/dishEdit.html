@@ -26,14 +26,7 @@
      </table>
 </div>
     <div id="content">
-         <div id="dishList">
-             <div class="dish" id="did">
-                 <div class="dishName">dish name</div>
-                 <div class="dishPrice">10</div>
-                 <div class="dishPhoto"><img src=""></div>
-                 <div class="category">Others</div>
-                 <div class="removeDish"><button type="button" onclick="removeDish('did')">Remove</button></div>
-             </div>     
+         <div id="dishList">    
          </div>
          <div id="newDish">
             <form action="" method="">
@@ -109,7 +102,7 @@
         }).done(function(data){
             if(data!=null && data!="")
                 appendDish($('#dishList'),data);
-            $('#newDish form').reset();
+            $('#newDish form')[0].reset();
         });
     }
     

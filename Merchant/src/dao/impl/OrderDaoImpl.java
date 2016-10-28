@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import po.Order;
+import protocol.OrderStatusProtocol;
 import dao.OrderDao;
 
 @Repository
@@ -44,11 +45,15 @@ public class OrderDaoImpl implements OrderDao {
 		return em.find(Order.class, oid);
 	}
 
-	public Order updateOrder(Order o) {
-		Order newO = em.find(Order.class, o.getOid());
+	public Order updateOrder(String oid) {
+		Order newO = em.find(Order.class, oid);
 		
-		newO.setStatus(o.getStatus());
-		newO.setReply(o.getReply());
+		if (newO.getStatus()==OrderStatusProtocol.PENDING)
+			newO.setStatus(OrderStatusProtocol.ACCEPTED);
+		else if (newO.getStatus()==OrderStatusProtocol.ACCEPTED)
+			newO.setStatus(OrderStatusProtocol.START_DELIVERY);
+		else if (newO.getStatus()==OrderStatusProtocol.START_DELIVERY)
+			newO.setStatus(OrderStatusProtocol.RECEIVED);
 		newO.setLastModDt(new Date());
 		
 		return newO;

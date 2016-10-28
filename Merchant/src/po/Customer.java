@@ -26,7 +26,7 @@ public class Customer {
 	private String cid;
 	private String name;
 	private String psd;
-	@ElementCollection(fetch=FetchType.LAZY)
+	@ElementCollection(fetch=FetchType.EAGER)
 	@JoinColumn(name = "address", referencedColumnName = "cid") 
 	@Column(name="address")
 	private List<String> address;

@@ -1,10 +1,12 @@
 package po;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class ShopInfo {
+public class ShopInfo implements Serializable {
 	@Column(nullable=false)
 	private String sName;
 	

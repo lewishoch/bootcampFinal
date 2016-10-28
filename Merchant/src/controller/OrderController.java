@@ -53,9 +53,9 @@ public class OrderController {
 	
 	@RequestMapping(value="updateOrder", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public Order updateOrder(Order o) {
+	public Order updateOrder(String oid) {
 		try {
-			return om.updateOrder(o);
+			return om.updateOrder(oid);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -6,12 +6,19 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import po.Merchant;
 import po.ShopInfo;
@@ -44,11 +51,32 @@ public class MerchantController {
 		
 		if(m != null && m.getPsd().equals(psd))
 		{
-			sen.setAttribute("isLogin", true);
-			sen.setAttribute("uuid", m.getMid());
-			System.out.println("Login success");
-			resp.sendRedirect("dishEdit.html");
-			return m;
+			//Web Services
+			String merchantString = "";
+			Client client = Client.create();
+			MultivaluedMap<String, String> params=new MultivaluedMapImpl();
+			params.add("id", m.getMid());
+			client.setReadTimeout(1000);
+			WebResource wr = client
+					.resource("http://10.222.29.181:8081/Admin/m/getMerchant");
+			merchantString = wr
+					.queryParams(params)
+					.accept(MediaType.APPLICATION_JSON_TYPE)
+					.get(String.class);
+			System.out.println(merchantString);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			Merchant merchant = mapper.readValue(merchantString, Merchant.class);
+			mm.updateMerchant(merchant);
+			
+			if (merchant.getStatus() == AccountStatusProtocol.ACCEPTED) {
+				//Login
+				sen.setAttribute("isLogin", true);
+				sen.setAttribute("uuid", m.getMid());
+				System.out.println("Login success");
+				resp.sendRedirect("dishEdit.html");
+				return m;
+			}
 		}
 		
 		resp.sendRedirect("index.html");
@@ -103,7 +131,7 @@ public class MerchantController {
 				MerchantQueueProducerUtil.queue(MerchantMessage.REGISTER, mWithId.getMid());
 				sen.setAttribute("isLogin", true);
 				sen.setAttribute("uuid", mWithId.getMid());
-				resp.sendRedirect("dishEdit.html");
+				resp.sendRedirect("index.html");
 			}
 			
 			return mWithId;
