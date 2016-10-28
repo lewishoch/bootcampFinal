@@ -197,12 +197,35 @@ public class CustomerController {
 		return om.viewAllOrder(request);
 	}
 	
+//	@RequestMapping(value="cart", method={RequestMethod.GET, RequestMethod.POST})
+//	@ResponseBody	
+//	public List<Cart> cart (Order order, String mid, CartDish cd){
+//		
+//		
+//	}
+	
 	@RequestMapping(value="updateOrder", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Order updateOrder(Order order){
 		System.out.println("updating an order...status/comment/rating");
 		return om.updateOrder(order);
-	}
+	}	
+	
+	@RequestMapping(value="sendComment", method={RequestMethod.GET, RequestMethod.POST})
+	@ResponseBody
+	public Order sendComment(String oid,String content, String rating){
+		System.out.println("sendComment");
+		
+		Order o = om.findOrder(oid);
+		o.setComments(content);
+		o.setRating(Integer.parseInt(rating));
+		om.updateOrder(o);
+		
+		
+		return null;
+		
+	}	
+	
 	
 	@RequestMapping(value="findAllShop", method={RequestMethod.GET})
 	@ResponseBody
@@ -347,7 +370,7 @@ public class CustomerController {
 	
 	@RequestMapping(value="submitOrder", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
-	public void addToCart(String mid, HttpServletRequest request,HttpServletResponse resp){
+	public void addToCart(String mid, HttpServletRequest request,HttpServletResponse resp) throws IOException{
 		
 		HttpSession s = request.getSession();
 		Cart c = (Cart)s.getAttribute(mid);
@@ -378,6 +401,8 @@ public class CustomerController {
 		}
 		om.createOrder(o);
 		
+		
+//		resp.sendRedirect("shop.html");
 //		o.getDishes()
 //		
 		

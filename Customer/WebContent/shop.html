@@ -36,10 +36,11 @@
         <div id="shops">
            <div class="shopsAction">
                <div class="shopCat">
+                  <span>Category: </span>
                    <select onchange="searchCat()">
                   </select>
                </div>
-               <div class="shopSearch">
+               <div class="shopSearch"><span>Search: </span>
                    <input type="text" placeholder="Search..."/>
                    <button type="button" onchange="searchShop()">Search</button>               </div>
            </div>
@@ -168,10 +169,10 @@
         for(var i=0; i<data.length; ++i){
             d = data[i];
             shop = $('<div class="shop"></div>');
-            shopImage = $('<div class="shopImage"><img src="pic/get?imgName='+d.picPath+'"/></div>');
-            shopName = $('<div clss="shopName">'+d.name+'</div>');
-            shopTel = $('<div class="shopTel">'+d.tel+'</div>');
-            shopAddr = $('<div class="shopAddr">'+d.addr+'</div>');
+            shopImage = $('<div class="shopImage"><img width="100" src="pic/get?imgName='+d.picPath+'"/></div>');
+            shopName = $('<div clss="shopName"><span>Shop Name: </span>'+d.name+'</div>');
+            shopTel = $('<div class="shopTel"><span>Contact: </span>'+d.tel+'</div>');
+            shopAddr = $('<div class="shopAddr"><span>Address: </span>'+d.addr+'</div>');
             shopRating = $('<div class="shopRating"></div>');
             
             var whiteStarString = '<span>'+whiteStar+'</span>';
@@ -203,7 +204,7 @@
         for(var i=0; i<allAds.length; ++i){
             a = allAds[i];
             adsImg = $('<div class="adsImg"></div>');
-            img = $('<img src="pic/get?imgName='+a.shopLogoName+'" onclick="setCookie('+a.mid+')"/>');
+            img = $('<img  width="100" src="pic/get?imgName='+a.shopLogoName+'" onclick="setCookie('+a.mid+')"/>');
             img.appendTo(adsImg);
             adsImg.appendTo(ads);
         }

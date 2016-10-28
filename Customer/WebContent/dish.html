@@ -35,31 +35,11 @@
        </div>
    </div>
     <div id="shop">
-        <div clss="shopName">
+        <div class="shopName">
         sname
         </div>
     </div>
     <div id="dishList">
-       <div id='001'>
-            <div class="dishImage">image</div>
-            <div class="dishInfo">
-                <div class="dishName">
-                    dname
-                </div>
-                <div class="dishCat">
-                    Seafood
-                </div>
-                <div class="dishPrice">
-                    10.00
-                </div>
-                <div class="dishNumber">
-                    <input type="number" value="0"/>
-                </div>
-            </div>
-            <div class="control">
-                <button class="orderBtn" onclick="updateOrder('001')">add</button>
-            </div>
-        </div>
     </div>
     <div class="check">
         <a href="cart.html">Check</a>
@@ -168,17 +148,17 @@
             dish = $('<div id='+d.did+'></div>');
             dishImage = $('<div class="dishImage"><img src="pic/get?imgName='+d.picPath+'"/></div>');
             dishInfo = $('<div class="dishInfo"></div>');
-                dishName = $('<div class="dishName">'+d.name+'</div>');
-                dishCat = $('<div class="dishCat">'+d.cat+'</div>');
-                dishPrice = $('<div class="dishPrice">'+d.price+'</div>');
-                dishNumber = $('<div class="dishNumber"><input type="number" value="'+getDishNumber(d.did)+'"/></div>');
+                dishName = $('<div class="dishName"><span>Dish Name: </span>'+d.name+'</div>');
+                dishCat = $('<div class="dishCat"><span>Category: </span>'+d.cat+'</div>');
+                dishPrice = $('<div class="dishPrice">$'+d.price+'</div>');
+                dishNumber = $('<div class="dishNumber"><span>Quantity: </span><input type="number" value="'+getDishNumber(d.did)+'"/></div>');
             
             control = $('<div class="control"></div>');
             
             if(cart.cartDish.indexOf(d)==-1)
-                btn = $('<button class="orderBtn" onclick="updateOrder('+d.did+')">add</button>');
+                btn = $('<button class="orderBtn" onclick="updateOrder('+d.did+')">Add</button>');
             else
-                btn = $('<button class="cancelBtn" onclick="updateOrder('+d.did+')">remove</button>');
+                btn = $('<button class="cancelBtn" onclick="updateOrder('+d.did+')">Remove</button>');
             
             dishName.appendTo(dishInfo);
             dishCat.appendTo(dishInfo);
@@ -203,8 +183,8 @@
         var c;
         for(var i=0; i<allComment.length; ++i){
             c = allComment[i];
-            uname = $('<div class="commentUname">'+c.uname+'</div>');
-            content = $('<div class="commentContent">'+c.content+'</div>');
+            uname = $('<div class="commentUname"><span>User:  </span>'+c.uname+'</div>');
+            content = $('<div class="commentContent"><span>Comment:  </span>'+c.content+'</div>');
             
             uname.appendTo(comment);
             content.appendTo(comment);
