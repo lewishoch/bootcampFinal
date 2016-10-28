@@ -57,6 +57,8 @@ public class MerchantDaoImpl implements MerchantDao {
 		
 		newM.setLastModDt(m.getLastModDt());
 		
+		em.merge(newM);
+		
 		return newM;
 	}
 

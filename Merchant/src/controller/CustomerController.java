@@ -10,7 +10,6 @@ import po.Customer;
 import service.CustomerManager;
 
 @Controller
-@RequestMapping(value="customer")
 public class CustomerController {
 	
 	@Autowired

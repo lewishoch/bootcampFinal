@@ -49,7 +49,7 @@
 <script>
     
     $(function(){
-        var aUrl = "findAllOwnDishes";
+        var aUrl = "findAllOwnOrders";
 
         $.ajax({
             type:'GET',
@@ -63,7 +63,8 @@
     var setInfo = function(data){    
         var orderList = $('#orderList');
         orderList.empty();
-        
+        console.log(1111)
+        console.log(data)
         for(var i=0; i<data.length; ++i){
             appendOrder(data[i]);
         }
