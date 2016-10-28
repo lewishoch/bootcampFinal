@@ -15,7 +15,7 @@
 <h1>Pending Requests</h1>
 <br>
 <table class="table table-striped">
-	<tr><th>Merchant ID</th><th>Merchant Name</th><th>Merchant Status</th><th>Accept Operation</th><th>Reject Operation</th></tr>
+	<tr><th>Merchant ID</th><th>Merchant Name</th><th>Merchant Status</th><th>Shop Name</th><th>Shop Category</th><th>Shop Tel</th><th>Accept Operation</th><th>Reject Operation</th></tr>
 </table>
 <br>
 <script type="text/javascript">
@@ -23,9 +23,6 @@ $(function(){
   $.get("m/getPendingMerchants", function(data){
 //      console.log(data);
       var table = $("table");
-//      $.each(data, function() {
-//          var tr=$("<tr></tr>");
-//      });
       for(var i=0; i<data.length; i++){
     	  var tr = $("<tr></tr>");
     	  let row = data[i];
@@ -33,6 +30,10 @@ $(function(){
           tr.append("<td>"+row.mid+"</td>");
           tr.append("<td>"+row.mName+"</td>");
           tr.append("<td>"+"Pending"+"</td>");
+          tr.append("<td>"+row.shop.sName+"</td>");
+          tr.append("<td>"+row.shop.sCat+"</td>");
+          tr.append("<td>"+row.shop.sTel+"</td>");
+//          tr.append("<td>"+row.+"</td>");
           var aBtn = $('<button></button>')
             .addClass("btn btn-success")
             .text("Accept")
