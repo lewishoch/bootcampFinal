@@ -21,6 +21,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name="advertisement")
 public class Advertisement {
+	public static final String PENDING = "Pending";
+	public static final String ACCEPTED = "Accepted";
+	public static final String REJECTED = "Rejected";
+	
 	@Id
 //	@GenericGenerator(name="aid",strategy="uuid")
 //	@GeneratedValue(generator="aid")

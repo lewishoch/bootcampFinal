@@ -34,6 +34,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		
 		System.out.println("preHandle");
 		HttpSession sen = req.getSession(false);
+		boolean isLogin = false;
 		
 		if(sen == null)
 		{	
@@ -42,7 +43,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		}
 		else
 		{
-			boolean isLogin = (Boolean)sen.getAttribute("isLogin");
+			isLogin = (Boolean)sen.getAttribute("isLogin");
 			if(!isLogin)
 			{
 				resp.sendRedirect("logout");

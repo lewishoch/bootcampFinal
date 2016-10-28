@@ -24,6 +24,15 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name="orders")
 public class Order {
+	public static final int INVALID = -1;
+	public static final int PENDING = 0;
+	public static final int ACCEPTED = 1;
+	public static final int START_DELIVERY = 2;
+	public static final int RECEIVED = 3;
+	public static final int UNDER_COMPLAIN = 4;
+	public static final int ACCEPT_COMPLAIN = 5;
+	public static final int REJECT_COMPLAIN = 6;
+	
 	@Id
 //	@GenericGenerator(name="oid",strategy="uuid")
 //	@GeneratedValue(generator="oid")
