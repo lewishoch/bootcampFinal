@@ -214,7 +214,13 @@ public class CustomerController {
 	@RequestMapping(value="sendComment", method={RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public Order sendComment(String oid,String content, String rating){
-		System.out.println("updating an order...status/comment/rating");
+		System.out.println("sendComment");
+		
+		Order o = om.findOrder(oid);
+		o.setComments(content);
+		o.setRating(Integer.parseInt(rating));
+		
+		
 		return null;
 		
 	}	
