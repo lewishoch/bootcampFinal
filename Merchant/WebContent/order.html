@@ -100,7 +100,7 @@
         var creDt = $('<div class="creDt">'+(new Date(d.creDt)).toDateString()+'</div>');
         var lastModDt = $('<div class="lastModDt">'+(new Date(d.lastModDt)).toDateString()+'</div>');
         var status = $('<div class="status">'+d.status+'</div>');
-        var updateStatus = $('<div class="updateStatus"><button type="button" onclick="updateS("'+d.oid+'")">Update</button></div>');
+        var updateStatus = $('<div class="updateStatus"><button type="button" onclick="updateS('+d.oid+')">Update</button></div>');
         
         oid.appendTo(order);
         dishes.appendTo(order);
