@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import po.Advertisement;
+import queue.producer.MerchantQueueProducer;
 import service.AdvertisementManager;
 
 @Controller
@@ -33,9 +34,21 @@ public class AdvertisementController {
 		return as;
 	}
 	
+	@RequestMapping("/getPendingAdvertisements")
+	@ResponseBody
+	public List<Advertisement> getPendingAdvertisements(){
+		List<Advertisement> as = am.findAdsByStatus(Advertisement.PENDING);
+		return as;
+	}
+	
 	@RequestMapping(value="/updateAdvertisment", method = {RequestMethod.POST})
 	@ResponseBody
-	public void updateAdvertisement(Advertisement a){
+	public void updateAdvertisement(String aid, String status){
+		Advertisement a = new Advertisement();
+		a.setAid(aid);
+		a.setStatus(status);
 		am.updateAd(a);
+		
+//		MerchantQueueProducer
 	}
 }

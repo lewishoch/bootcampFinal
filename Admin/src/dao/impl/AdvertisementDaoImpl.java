@@ -46,4 +46,14 @@ public class AdvertisementDaoImpl implements AdvertisementDao {
 		em.persist(a);
 	}
 
+	@Override
+	public List<Advertisement> loadAdsByStatus(String status) {
+		String jpql="select a from Advertisement a where a.status=:status";
+		List<Advertisement> as = em
+				.createQuery(jpql)
+				.setParameter("status", status)
+				.getResultList();
+		return as;
+	}
+
 }
