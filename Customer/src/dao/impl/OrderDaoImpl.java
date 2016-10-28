@@ -64,6 +64,11 @@ public class OrderDaoImpl implements OrderDao {
 		return null;
 		}
 	}
+	@Override
+	public void createOrder(Order order) {
+		em.persist(order);
+		
+	}
 
 	
 	
