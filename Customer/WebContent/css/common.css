@@ -96,18 +96,3 @@ input {
     padding: 2px;
     margin: 3px;
 }
-
-div {
-    width: 100%;
-}
-
-/*dish*/
-#content .dishAction {
-    width: 100%;
-}
-
-.shopsAction div{
-    display: inline;
-    margin: 3px 20px;
-    
-}

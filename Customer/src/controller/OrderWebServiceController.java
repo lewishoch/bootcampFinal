@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import dao.OrderDao;
 import po.Order;
+import producer.util.CustomerQueueProducerUtil;
 import service.OrderManager;
 import service.impl.OrderManagerImpl;
 
@@ -38,7 +39,8 @@ public class OrderWebServiceController {
 	private OrderManager om;
 	
 	@ResponseBody
-	public void getOrderFromAdmin(String id){
+	public Order getOrderFromAdmin(String id){
+		Order order = null;
 		Client client = Client.create();
 		MultivaluedMap params=new MultivaluedMapImpl();
 		params.add("id", id);
@@ -50,8 +52,8 @@ public class OrderWebServiceController {
 		System.out.println(orderString);
 		
 		try {
-			Order order = new ObjectMapper().readValue(orderString, Order.class);
-			System.out.println(order.getStatus());
+			order = new ObjectMapper().readValue(orderString, Order.class);
+			System.out.println(order.getStatus());		
 		} catch (JsonParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,6 +64,8 @@ public class OrderWebServiceController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return order;
 	}
 		
 	
@@ -71,6 +75,30 @@ public class OrderWebServiceController {
 	public Order giveComment(String oid, String comment) {
 		Order order = om.findOrder(oid);
 		order.setComments(comment);
+		om.updateOrder(order);
+		
+		return order;
+		
+	}
+	
+	@RequestMapping("/reportOrder")
+	@ResponseBody
+	public Order reportOrder(String oid, int status) {
+		Order order = om.findOrder(oid);
+		order.setStatus(status);
+		om.updateOrder(order);
+		
+		CustomerQueueProducerUtil.queue(oid);
+		return order;
+		
+	}
+	
+	@RequestMapping("/refreshOrder")
+	@ResponseBody
+	public Order refreshOrder(String oid) {
+		Order order = getOrderFromAdmin(oid); 
+		//= om.findOrder(oid);
+//		order.setStatus(status);
 		om.updateOrder(order);
 		
 		return order;
